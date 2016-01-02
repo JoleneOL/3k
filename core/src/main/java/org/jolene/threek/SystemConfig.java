@@ -28,6 +28,11 @@ public class SystemConfig {
      * 网站标题
      */
     private String title = "3k My Love";
+
+    public String getHtmlTitle() {
+        return "<span>[</span> " + title + " <span>]</span>";
+    }
+
     public static final String URL = "org.jolene.3k.url";
     /**
      * 网站地址 必须以/结尾 比如 http://www.3k.com

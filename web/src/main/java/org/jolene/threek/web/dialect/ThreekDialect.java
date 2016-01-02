@@ -6,17 +6,30 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.context.IProcessingContext;
 import org.thymeleaf.dialect.AbstractDialect;
 import org.thymeleaf.dialect.IExpressionEnhancingDialect;
+import org.thymeleaf.processor.IProcessor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Jolene
  */
 @Component
 public class ThreekDialect extends AbstractDialect implements IExpressionEnhancingDialect {
+    private final Set<IProcessor> processors;
     @Autowired
     private AppService appService;
+
+    @Autowired
+    public ThreekDialect(Set<IProcessor> processors) {
+        this.processors = processors;
+    }
+
+    @Override
+    public Set<IProcessor> getProcessors() {
+        return processors;
+    }
 
     @Override
     public Map<String, Object> getAdditionalExpressionObjects(IProcessingContext processingContext) {
@@ -27,6 +40,6 @@ public class ThreekDialect extends AbstractDialect implements IExpressionEnhanci
 
     @Override
     public String getPrefix() {
-        return "3k";
+        return "k3";
     }
 }

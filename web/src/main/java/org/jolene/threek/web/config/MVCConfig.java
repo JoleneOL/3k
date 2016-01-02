@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -32,8 +33,10 @@ import java.util.HashSet;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {
+        "org.jolene.threek.web.dialect",
         "org.jolene.threek.web.controller"
 })
+@Import(ThreekDialect.class)
 public class MVCConfig extends WebMvcConfigurerAdapter {
 
     public static String[] STATIC_RESOURCE_PATHS = new String[]{
@@ -109,16 +112,12 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
         registry.addWebRequestInterceptor(openEntityManagerInViewInterceptor).excludePathPatterns(staticResourcePathPatterns());
         // TODO 允许配置的URI
 
-        registry.addWebRequestInterceptor(appService).excludePathPatterns(ArrayUtils.mixedArray(staticResourceAntPatterns(),new String[]{
+        registry.addWebRequestInterceptor(appService).excludePathPatterns(ArrayUtils.mixedArray(staticResourceAntPatterns(), new String[]{
                 "/config"
         }));
     }
 
     // thymeleaf
-    @Bean
-    public ThreekDialect threekDialect() {
-        return new ThreekDialect();
-    }
 
     @Autowired
     private ThreekDialect threekDialect;
@@ -127,9 +126,11 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
     public ThymeleafViewResolver thymeleafViewResolver() {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         SpringTemplateEngine engine = new SpringTemplateEngine();
-        engine.addDialect(new SpringSecurityDialect());
-        engine.addDialect(new Java8TimeDialect());
-        engine.addDialect(threekDialect);
+        engine.setAdditionalDialects(new HashSet<>(Arrays.asList(
+                new SpringSecurityDialect()
+                , new Java8TimeDialect()
+                , threekDialect
+        )));
 //        engine.addDialect(webDialect);
         ServletContextTemplateResolver rootTemplateResolver = new ServletContextTemplateResolver();
         rootTemplateResolver.setOrder(1);

@@ -23,7 +23,7 @@ public class FlowTest extends WebTest {
         url = mockMvc.perform(
                 get(url)
         )
-                .andDo(print())
+//                .andDo(print())
                 .andExpect(status().isFound())
                 .andReturn().getResponse().getRedirectedUrl();
 
