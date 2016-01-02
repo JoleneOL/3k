@@ -7,6 +7,10 @@ import lombok.Data;
  * <p>
  * 每一个数值都由数据库中保存的{@link org.jolene.threek.entity.SystemValue}保存
  * </p>
+ * <p>
+ *     <strong>重要</strong>
+ *     整个系统只会认可一个SystemConfig,所以如果要对系统配置修改必须要经过确认以后才可以设置到系统任何的SystemConfig实例中
+ * </p>
  *
  * @author Jolene
  */
