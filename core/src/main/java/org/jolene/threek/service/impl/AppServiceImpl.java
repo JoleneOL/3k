@@ -2,10 +2,13 @@ package org.jolene.threek.service.impl;
 
 import org.jolene.threek.SystemConfig;
 import org.jolene.threek.exception.ConfigRequiredException;
+import org.jolene.threek.repository.LoginRepository;
 import org.jolene.threek.service.AppService;
 import org.jolene.threek.service.SystemValueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -14,7 +17,7 @@ import org.springframework.web.context.request.WebRequest;
 /**
  * @author Jolene
  */
-@Service
+@Service("appService")
 public class AppServiceImpl implements AppService {
 
     @Autowired
@@ -22,6 +25,8 @@ public class AppServiceImpl implements AppService {
     private SystemConfig systemConfig;
     @Autowired
     private SystemValueService systemValueService;
+    @Autowired
+    private LoginRepository loginRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -60,5 +65,13 @@ public class AppServiceImpl implements AppService {
     @Override
     public void afterCompletion(WebRequest request, Exception ex) throws Exception {
 
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserDetails userDetails = loginRepository.findByUsername(username);
+        if (userDetails == null)
+            throw new UsernameNotFoundException("没有找到用户:" + username);
+        return userDetails;
     }
 }

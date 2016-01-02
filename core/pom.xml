@@ -18,6 +18,13 @@
     </properties>
 
     <dependencies>
+        <!--upload files-->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+            <scope>runtime</scope>
+        </dependency>
         <!--VFS-->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -62,21 +69,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>${spring.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.32</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge.jtds</groupId>
-            <artifactId>jtds</artifactId>
-            <version>1.3.1</version>
+            <groupId>org.jolene.threek</groupId>
+            <artifactId>test</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
 

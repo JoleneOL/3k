@@ -1,6 +1,7 @@
 package org.jolene.threek.service;
 
 import org.jolene.threek.SystemConfig;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.WebRequestInterceptor;
 
@@ -11,7 +12,7 @@ import org.springframework.web.context.request.WebRequestInterceptor;
  *
  * @author Jolene
  */
-public interface AppService extends WebRequestInterceptor {
+public interface AppService extends WebRequestInterceptor,UserDetailsService {
 
     /**
      * @return 总是返回唯一不变的SystemConfig实例

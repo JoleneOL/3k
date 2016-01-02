@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-@DependsOn("platformUserService")//需要依赖于userDetailsService 强制userDetailsService优先加载。
+@DependsOn("appService")//需要依赖于userDetailsService 强制userDetailsService优先加载。
 public class SecurityConfig {
 
     @Autowired
