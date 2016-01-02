@@ -2,6 +2,7 @@ package org.jolene.threek.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.jolene.threek.entity.support.ResourceType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +21,10 @@ public class SystemValue {
     @Id
     @Column(length = 50)
     private String id;
+    /**
+     * 如果目标资源过于庞大,比如大于255 那么应该转存为资源,具体类型取决于此
+     */
+    private ResourceType resourceType = ResourceType.text;
     private String value;
 
 }

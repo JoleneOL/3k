@@ -41,7 +41,7 @@
                 
                 <div class="signin-info">
                     <div class="logopanel">
-                        <h1 th:text="${title}"><span>[</span> 3k <span>]</span></h1>
+                        <h1 th:utext="${title}"><span>[</span> 3k <span>]</span></h1>
                     </div><!-- logopanel -->
                 
                     <div class="mb20"></div>
@@ -55,7 +55,7 @@
                         <li><i class="fa fa-arrow-circle-o-right mr5"></i> and much more...</li>
                     </ul>
                     <div class="mb20"></div>
-                    <strong>Not a member? <a href="signup.html">Sign Up</a></strong>
+                    <strong>还没有帐号? <a href="signup.html">请注册</a></strong>
                 </div><!-- signin0-info -->
             
             </div><!-- col-sm-7 -->
@@ -63,13 +63,13 @@
             <div class="col-md-5">
                 
                 <form method="post" action="index.html">
-                    <h4 class="nomargin">Sign In</h4>
-                    <p class="mt5 mb20">Login to access your account.</p>
+                    <h4 class="nomargin">登录</h4>
+                    <p class="mt5 mb20">所有操作都需要登录才可以继续.</p>
                 
-                    <input type="text" class="form-control uname" placeholder="Username" />
-                    <input type="password" class="form-control pword" placeholder="Password" />
-                    <a href=""><small>Forgot Your Password?</small></a>
-                    <button class="btn btn-success btn-block">Sign In</button>
+                    <input type="text" class="form-control uname" placeholder="手机号码" />
+                    <input type="password" class="form-control pword" placeholder="登录密码" />
+                    <a href=""><small>忘记密码?</small></a>
+                    <button class="btn btn-success btn-block">登录</button>
                     
                 </form>
             </div><!-- col-sm-5 -->
