@@ -8,6 +8,10 @@ import org.jolene.threek.SystemConfig;
  */
 public interface AppService {
 
+    /**
+     *
+     * @return 总是返回唯一不变的SystemConfig实例
+     */
     SystemConfig currentSystemConfig();
 
 }

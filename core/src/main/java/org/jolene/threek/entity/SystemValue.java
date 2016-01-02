@@ -22,9 +22,10 @@ public class SystemValue {
     @Column(length = 50)
     private String id;
     /**
-     * 如果目标资源过于庞大,比如大于255 那么应该转存为资源,具体类型取决于此
+     * 如果目标资源过于庞大,比如大于500 那么应该转存为资源,具体类型取决于此
      */
     private ResourceType resourceType = ResourceType.text;
+    @Column(length = 500)
     private String value;
 
 }
