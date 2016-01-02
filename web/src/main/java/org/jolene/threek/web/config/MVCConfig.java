@@ -2,8 +2,10 @@ package org.jolene.threek.web.config;
 
 import org.jolene.threek.service.AppService;
 import org.jolene.threek.web.dialect.ThreekDialect;
+import org.luffy.libs.libseext.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor;
@@ -20,6 +22,7 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import javax.persistence.EntityManagerFactory;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -28,6 +31,9 @@ import java.util.HashSet;
  */
 @Configuration
 @EnableWebMvc
+@ComponentScan(basePackages = {
+        "org.jolene.threek.web.controller"
+})
 public class MVCConfig extends WebMvcConfigurerAdapter {
 
     public static String[] STATIC_RESOURCE_PATHS = new String[]{
@@ -38,6 +44,8 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
     private Environment environment;
     @Autowired
     private AppService appService;
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
 
     @SuppressWarnings("Duplicates")
     public String[] staticResourcePathPatterns() {
@@ -96,9 +104,14 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         super.addInterceptors(registry);
         // 开启JPA 当任何一个访问开始
-        registry.addWebRequestInterceptor(new OpenEntityManagerInViewInterceptor()).excludePathPatterns(staticResourcePathPatterns());
+        OpenEntityManagerInViewInterceptor openEntityManagerInViewInterceptor = new OpenEntityManagerInViewInterceptor();
+        openEntityManagerInViewInterceptor.setEntityManagerFactory(entityManagerFactory);
+        registry.addWebRequestInterceptor(openEntityManagerInViewInterceptor).excludePathPatterns(staticResourcePathPatterns());
         // TODO 允许配置的URI
-        registry.addWebRequestInterceptor(appService).excludePathPatterns(staticResourceAntPatterns());
+
+        registry.addWebRequestInterceptor(appService).excludePathPatterns(ArrayUtils.mixedArray(staticResourceAntPatterns(),new String[]{
+                "/config"
+        }));
     }
 
     // thymeleaf

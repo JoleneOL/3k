@@ -67,6 +67,7 @@ public class SecurityConfig {
             http
                     .authorizeRequests()
                     .antMatchers(
+                            "/config"
                             // 这里加入安全系统可见但允许所有操作的uri
 //                            "/_resources/**",
 //                            "/getGoodDetails/**"
@@ -74,7 +75,9 @@ public class SecurityConfig {
                     .anyRequest().authenticated()
                     .and()
                     .csrf().disable()
-                    .formLogin().and()
+                    .formLogin().loginPage("/login")
+                    .permitAll()
+                    .and()
                     .httpBasic();
         }
     }
