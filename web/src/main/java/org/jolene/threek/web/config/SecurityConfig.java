@@ -45,6 +45,8 @@ public class SecurityConfig {
     public static class ClassicWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
         @Autowired
         private Environment environment;
+        @Autowired
+        private MVCConfig mvcConfig;
         // Since we didn't specify an AuthenticationManager for this class,
         // the global instance is used
 
@@ -53,23 +55,10 @@ public class SecurityConfig {
         public void configure(WebSecurity web) throws Exception {
             super.configure(web);
 
-            String[] ignoring;
-            int startIndex = 0;
-            if (environment.acceptsProfiles("development")) {
-                ignoring = new String[MVCConfig.STATIC_RESOURCE_PATHS.length + 2];
-                ignoring[startIndex++] = "/**/*.html";
-                ignoring[startIndex++] = "/mock/**/*";
-            } else {
-                ignoring = new String[MVCConfig.STATIC_RESOURCE_PATHS.length];
-            }
-            for (String path : MVCConfig.STATIC_RESOURCE_PATHS) {
-                ignoring[startIndex++] = path;
-            }
-
             web.ignoring()
                     .antMatchers(
                             // 安全系统无关的uri
-                            ignoring
+                            mvcConfig.staticResourceAntPatterns()
                     );
         }
 

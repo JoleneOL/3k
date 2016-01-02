@@ -1,10 +1,15 @@
 package org.jolene.threek.service.impl;
 
 import org.jolene.threek.SystemConfig;
+import org.jolene.threek.exception.ConfigRequiredException;
 import org.jolene.threek.service.AppService;
 import org.jolene.threek.service.SystemValueService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.context.request.WebRequest;
 
 /**
  * @author Jolene
@@ -12,11 +17,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class AppServiceImpl implements AppService {
 
+    @Autowired
+    private Environment environment;
     private SystemConfig systemConfig;
     @Autowired
     private SystemValueService systemValueService;
 
     @Override
+    @Transactional(readOnly = true)
     public synchronized SystemConfig currentSystemConfig() {
         if (systemConfig == null) {
             systemConfig = new SystemConfig();
@@ -31,5 +39,26 @@ public class AppServiceImpl implements AppService {
             systemValueService.asTexts(systemConfig::setWelcomeFeatures, SystemConfig.WELCOME_FEATURES);
         }
         return systemConfig;
+    }
+
+    @Override
+    public void preHandle(WebRequest request) throws Exception {
+        //开发友好
+        if (environment.acceptsProfiles("development") && !environment.acceptsProfiles("_config_test")) {
+            return;
+        }
+        if (this.currentSystemConfig().isConfigRequired()) {
+            throw new ConfigRequiredException();
+        }
+    }
+
+    @Override
+    public void postHandle(WebRequest request, ModelMap model) throws Exception {
+
+    }
+
+    @Override
+    public void afterCompletion(WebRequest request, Exception ex) throws Exception {
+
     }
 }

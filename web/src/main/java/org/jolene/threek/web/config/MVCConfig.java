@@ -1,12 +1,15 @@
 package org.jolene.threek.web.config;
 
+import org.jolene.threek.service.AppService;
 import org.jolene.threek.web.dialect.ThreekDialect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -33,6 +36,42 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     private Environment environment;
+    @Autowired
+    private AppService appService;
+
+    @SuppressWarnings("Duplicates")
+    public String[] staticResourcePathPatterns() {
+        String[] ignoring;
+        int startIndex = 0;
+        if (environment.acceptsProfiles("development")) {
+            ignoring = new String[MVCConfig.STATIC_RESOURCE_PATHS.length + 2];
+            ignoring[startIndex++] = "/**/*.html";
+            ignoring[startIndex++] = "/mock/**";
+        } else {
+            ignoring = new String[MVCConfig.STATIC_RESOURCE_PATHS.length];
+        }
+        for (String path : MVCConfig.STATIC_RESOURCE_PATHS) {
+            ignoring[startIndex++] = "/" + path + "/**";
+        }
+        return ignoring;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public String[] staticResourceAntPatterns() {
+        String[] ignoring;
+        int startIndex = 0;
+        if (environment.acceptsProfiles("development")) {
+            ignoring = new String[MVCConfig.STATIC_RESOURCE_PATHS.length + 2];
+            ignoring[startIndex++] = "/**/*.html";
+            ignoring[startIndex++] = "/mock/**/*";
+        } else {
+            ignoring = new String[MVCConfig.STATIC_RESOURCE_PATHS.length];
+        }
+        for (String path : MVCConfig.STATIC_RESOURCE_PATHS) {
+            ignoring[startIndex++] = "/" + path + "/**/*";
+        }
+        return ignoring;
+    }
 
     /**
      * for upload
@@ -50,9 +89,21 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
         }
     }
 
+    // 拦截所有操作 如果当前配置未完成
+
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        super.addInterceptors(registry);
+        // 开启JPA 当任何一个访问开始
+        registry.addWebRequestInterceptor(new OpenEntityManagerInViewInterceptor()).excludePathPatterns(staticResourcePathPatterns());
+        // TODO 允许配置的URI
+        registry.addWebRequestInterceptor(appService).excludePathPatterns(staticResourceAntPatterns());
+    }
+
     // thymeleaf
     @Bean
-    public ThreekDialect threekDialect(){
+    public ThreekDialect threekDialect() {
         return new ThreekDialect();
     }
 
