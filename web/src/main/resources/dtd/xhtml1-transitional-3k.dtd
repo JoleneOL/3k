@@ -1219,6 +1219,7 @@ several semantically related columns together.
 
 <!ENTITY % allthymeleafattrs
  "k3:active            CDATA  #IMPLIED
+  k3:activestyle       CDATA  #IMPLIED
   k3:activeparent      CDATA  #IMPLIED"
   >
 

@@ -1,6 +1,7 @@
 package org.jolene.threek.web.dialect.process;
 
 import org.springframework.stereotype.Component;
+import org.thymeleaf.dom.Element;
 
 /**
  * @author Jolene
@@ -14,12 +15,12 @@ public class ActiveProcessor extends ClassesByActiveMenuProcessor {
     }
 
     @Override
-    protected String hitClasses() {
+    protected String hitClasses(Element element) {
         return "active";
     }
 
     @Override
-    protected String noHitClasses() {
+    protected String noHitClasses(Element element) {
         return "";
     }
 }

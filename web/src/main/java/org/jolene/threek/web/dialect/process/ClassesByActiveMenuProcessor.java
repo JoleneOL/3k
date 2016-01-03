@@ -28,12 +28,12 @@ public abstract class ClassesByActiveMenuProcessor extends AbstractStandardSingl
     /**
      * @return 命中的classes 比如nav-active active
      */
-    protected abstract String hitClasses();
+    protected abstract String hitClasses(Element element);
 
     /**
      * @return 没有命中的classes 比如nav-active active
      */
-    protected abstract String noHitClasses();
+    protected abstract String noHitClasses(Element element);
 
     @Override
     protected String getTargetAttributeValue(Arguments arguments, Element element, String attributeName) {
@@ -42,8 +42,8 @@ public abstract class ClassesByActiveMenuProcessor extends AbstractStandardSingl
 
         String[] value = super.getTargetAttributeValue(arguments, element, attributeName).split(",");
         if (Arrays.binarySearch(value, activeMenu) != -1)
-            return hitClasses();
-        return noHitClasses();
+            return hitClasses(element);
+        return noHitClasses(element);
     }
 
     @Override

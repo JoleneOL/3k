@@ -3,7 +3,37 @@
 <!--/*@thymesVar id="#config" type="org.jolene.threek.SystemConfig"*/-->
 <head>
     <meta charset="UTF-8"/>
-    <link rel="stylesheet" href="../css/style.default.css"/>
+    <link rel="stylesheet" href="../css/style.default.css" th:href="@{/css/style.default.css}"/>
+    <link rel="stylesheet" href="../css/bootstrap-fileupload.min.css" th:href="@{/css/bootstrap-fileupload.min.css}"/>
+    <link rel="stylesheet" href="../css/bootstrap-timepicker.min.css" th:href="@{/css/bootstrap-timepicker.min.css}"/>
+    <link rel="stylesheet" href="../css/jquery.tagsinput.css" th:href="@{/css/jquery.tagsinput.css}"/>
+    <link rel="stylesheet" href="../css/colorpicker.css" th:href="@{/css/colorpicker.css}"/>
+    <link rel="stylesheet" href="../css/dropzone.css" th:href="@{/css/dropzone.css}"/>
+
+
+    <script src="../js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+    <script src="../js/jquery-migrate-1.2.1.min.js" th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
+    <script src="../js/jquery-ui-1.10.3.min.js" th:src="@{/js/jquery-ui-1.10.3.min.js}"></script>
+    <script src="../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="../js/modernizr.min.js" th:src="@{/js/modernizr.min.js}"></script>
+    <script src="../js/jquery.sparkline.min.js" th:src="@{/js/jquery.sparkline.min.js}"></script>
+    <script src="../js/toggles.min.js" th:src="@{/js/toggles.min.js}"></script>
+    <script src="../js/retina.min.js" th:src="@{/js/retina.min.js}"></script>
+    <script src="../js/jquery.cookies.js" th:src="@{/js/jquery.cookies.js}"></script>
+
+    <script src="../js/jquery.autogrow-textarea.js" th:src="@{/js/jquery.autogrow-textarea.js}"></script>
+    <script src="../js/bootstrap-fileupload.min.js" th:src="@{/js/bootstrap-fileupload.min.js}"></script>
+    <script src="../js/bootstrap-timepicker.min.js" th:src="@{/js/bootstrap-timepicker.min.js}"></script>
+    <script src="../js/jquery.maskedinput.min.js" th:src="@{/js/jquery.maskedinput.min.js}"></script>
+    <script src="../js/jquery.tagsinput.min.js" th:src="@{/js/jquery.tagsinput.min.js}"></script>
+    <script src="../js/jquery.mousewheel.js" th:src="@{/js/jquery.mousewheel.js}"></script>
+    <script src="../js/chosen.jquery.min.js" th:src="@{/js/chosen.jquery.min.js}"></script>
+    <script src="../js/dropzone.min.js" th:src="@{/js/dropzone.min.js}"></script>
+    <script src="../js/colorpicker.js" th:src="@{/js/colorpicker.js}"></script>
+
+
+    <script src="../js/custom.js" th:src="@{/js/custom.js}"></script>
+
     <title>这里是显示左侧--可以理解为导航栏的模板</title>
     <meta name="description" content="left模板 支持输入参数activeMenu 标识当前所在的菜单"/>
 </head>
@@ -43,26 +73,33 @@
             <li k3:active="index"><a href="../index.html"><i class="fa fa-home"></i> <span>主页</span></a></li>
             <li k3:active="email"><a href="../email.html"><span class="pull-right badge badge-success">2</span><i
                     class="fa fa-envelope-o"></i> <span>收件箱</span></a></li>
-            <li k3:activeparent="'config,config2'" class="nav-parent">
+            <li k3:activeparent="'config,ticket,steady,users,orders,trend'" class="nav-parent">
                 <a href=""><i class="fa fa-edit"></i> <span>管理</span></a>
-                <ul class="children" style="display: block;">
-                    <li k3:active="config"><a href="../general-forms.html"><i class="fa fa-caret-right"></i>配置</a></li>
+                <ul class="children" k3:activestyle="">
+                    <li k3:active="config"><a href="../admin/config.html"><i class="fa fa-caret-right"></i>配置</a></li>
+                    <li k3:active="steady"><a href="../admin/steady.html"><i class="fa fa-caret-right"></i>安全账户</a></li>
+                    <li k3:active="ticket"><a href="../admin/ticket.html"><i class="fa fa-caret-right"></i>入场券</a></li>
+                    <li k3:active="users"><a href="../admin/users.html"><i class="fa fa-caret-right"></i>用户管理</a></li>
+                    <li k3:active="orders"><a href="../admin/orders.html"><i class="fa fa-caret-right"></i>订单管理</a></li>
+                    <li k3:active="trend"><a href="../admin/trend.html"><i class="fa fa-caret-right"></i>趋势报表</a></li>
                 </ul>
             </li>
-            <li class="nav-parent nav-active active"><a href=""><i class="fa fa-edit"></i> <span>Forms</span></a>
-                <ul class="children" style="display: block;">
-                    <li class="active"><a href="../general-forms.html"><i class="fa fa-caret-right"></i> General
-                        Forms</a></li>
-                    <li><a href="../form-layouts.html"><i class="fa fa-caret-right"></i> Form Layouts</a></li>
-                    <li><a href="../form-validation.html"><i class="fa fa-caret-right"></i> Form Validation</a></li>
-                    <li><a href="../form-wizards.html"><i class="fa fa-caret-right"></i> Form Wizards</a></li>
-                    <li><a href="../wysiwyg.html"><span class="pull-right badge badge-danger">updated</span><i
-                            class="fa fa-caret-right"></i> Text Editor</a></li>
-                    <li><a href="../code-editor.html"><span class="pull-right badge badge-info">new</span><i
-                            class="fa fa-caret-right"></i> Code Editor</a></li>
-                </ul>
-            </li>
-            <li class="nav-parent"><a href=""><i class="fa fa-suitcase"></i> <span>UI Elements</span></a>
+            <!--<li class="nav-parent nav-active active">-->
+                <!--<a href=""><i class="fa fa-edit"></i> <span>Forms</span></a>-->
+                <!--<ul class="children" style="display: block;">-->
+                    <!--<li class="active"><a href="../general-forms.html"><i class="fa fa-caret-right"></i> General-->
+                        <!--Forms</a></li>-->
+                    <!--<li><a href="../form-layouts.html"><i class="fa fa-caret-right"></i> Form Layouts</a></li>-->
+                    <!--<li><a href="../form-validation.html"><i class="fa fa-caret-right"></i> Form Validation</a></li>-->
+                    <!--<li><a href="../form-wizards.html"><i class="fa fa-caret-right"></i> Form Wizards</a></li>-->
+                    <!--<li><a href="../wysiwyg.html"><span class="pull-right badge badge-danger">updated</span><i-->
+                            <!--class="fa fa-caret-right"></i> Text Editor</a></li>-->
+                    <!--<li><a href="../code-editor.html"><span class="pull-right badge badge-info">new</span><i-->
+                            <!--class="fa fa-caret-right"></i> Code Editor</a></li>-->
+                <!--</ul>-->
+            <!--</li>-->
+            <li class="nav-parent">
+                <a href=""><i class="fa fa-suitcase"></i> <span>UI Elements</span></a>
                 <ul class="children">
                     <li><a href="../buttons.html"><i class="fa fa-caret-right"></i> Buttons</a></li>
                     <li><a href="../icons.html"><i class="fa fa-caret-right"></i> Icons</a></li>
