@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="#config" type="org.jolene.threek.SystemConfig"*/-->
+<head>
+    <meta charset="UTF-8" content="text/html"/>
+    <title>配置页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="shortcut icon" href="../images/favicon.png" th:href="@{/images/favicon.png}" type="image/png"/>
+
+    <link rel="stylesheet" href="../css/style.default.css" th:href="@{/css/style.default.css}"/>
+
+    <link rel="stylesheet" href="../css/bootstrap-fileupload.min.css" th:href="@{/css/bootstrap-fileupload.min.css}"/>
+    <link rel="stylesheet" href="../css/bootstrap-timepicker.min.css" th:href="@{/css/bootstrap-timepicker.min.css}"/>
+    <link rel="stylesheet" href="../css/jquery.tagsinput.css" th:href="@{/css/jquery.tagsinput.css}"/>
+    <link rel="stylesheet" href="../css/colorpicker.css" th:href="@{/css/colorpicker.css}"/>
+    <link rel="stylesheet" href="../css/dropzone.css" th:href="@{/css/dropzone.css}"/>
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js" th:src="@{/js/html5shiv.js}"></script>
+    <script src="../js/respond.min.js" th:src="@{/js/respond.min.js}"></script>
+    <![endif]-->
+</head>
+<body>
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+
+
+<section>
+
+
+    <!--<div class="mainpanel">-->
+
+    <!--<div class="contentpanel">-->
+
+    <!--<div class="panel panel-default">-->
+    <!--<div class="panel-heading">-->
+    <!--<div class="panel-btns">-->
+    <!--<a href="" class="panel-close">&times;</a>-->
+    <!--<a href="" class="minimize">&minus;</a>-->
+    <!--</div>-->
+    <!--<h4 class="panel-title">基本设置</h4>-->
+
+    <!--<p>基本都是必填的.</p>-->
+    <!--</div>-->
+    <!--<div class="panel-body panel-body-nopadding">-->
+
+    <!--<div class="form-horizontal form-bordered">-->
+
+    <!--<div class="form-group">-->
+    <!--<label class="col-sm-3 control-label">标题</label>-->
+
+    <!--<div class="col-sm-6">-->
+    <!--<input type="text" th:value="${#config.title}" value="3K"-->
+    <!--class="form-control"/>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<label class="col-sm-3 control-label">网址</label>-->
+
+    <!--<div class="col-sm-6">-->
+    <!--<input type="text" th:value="${#config.url}" value="http://www.baidu.com" class="form-control"/>-->
+    <!--<span class="help-block">运营的地址</span>-->
+    <!--</div>-->
+    <!--</div>-->
+
+
+    <!--<div class="form-group">-->
+    <!--<label class="col-sm-3 control-label">欢迎文字</label>-->
+
+    <!--<div class="col-sm-7">-->
+    <!--<textarea class="form-control" placeholder="填写文字" th:value="${#config.welcomeMessage}" rows="5"></textarea>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="form-group">-->
+    <!--<label class="col-sm-3 control-label">功能特点</label>-->
+
+    <!--<div class="col-sm-7">-->
+    <!--<input name="tags" id="tags" class="form-control" value="安全,稳定,利益丰富"/>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="form-group">-->
+    <!--<label class="col-sm-3 control-label">单笔金额</label>-->
+
+    <!--<div class="col-sm-6">-->
+    <!--<input type="text" th:value="${#config.stock}" value="5000"-->
+    <!--class="form-control"/>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="form-group">-->
+    <!--<label class="col-sm-3 control-label">最大手数</label>-->
+
+    <!--<div class="col-sm-6">-->
+    <!--<input name="maxLots" type="text" th:value="${#config.maxLots}" value="5"-->
+    <!--class="form-control"/>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="form-group">-->
+    <!--<label class="col-sm-3 control-label">排队时间(天)</label>-->
+
+    <!--<div class="col-sm-6">-->
+    <!--<input name="queueDays" type="text" th:value="${#config.queueDays}" value="5"-->
+    <!--class="form-control"/>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<label class="col-sm-3 control-label">日利率</label>-->
+
+    <!--<div class="col-sm-6">-->
+    <!--<input type="text" th:value="${#config.rate}" value="0.015"-->
+    <!--class="form-control"/>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="form-group">-->
+    <!--<label class="col-sm-3 control-label">Spinner</label>-->
+
+    <!--<div class="col-sm-9">-->
+    <!--<input type="text" id="spinner"/>-->
+    <!--<span class="help-block">Enhance a text input for entering numeric values, with up/down buttons and arrow key handling.</span>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--</div>-->
+
+    <!--</div>&lt;!&ndash; panel-body &ndash;&gt;-->
+
+    <!--<div class="panel-footer">-->
+    <!--<div class="row">-->
+    <!--<div class="col-sm-6 col-sm-offset-3">-->
+    <!--<button class="btn btn-primary">Submit</button>-->
+    <!--&nbsp;-->
+    <!--<button class="btn btn-default">Cancel</button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>&lt;!&ndash; panel-footer &ndash;&gt;-->
+
+    <!--</div>&lt;!&ndash; panel &ndash;&gt;-->
+
+    <!--</div>&lt;!&ndash; contentpanel &ndash;&gt;-->
+    <!--</div>&lt;!&ndash; mainpanel &ndash;&gt;-->
+    <div class="contentpanel">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-btns">
+                    <a href="" class="panel-close">&times;</a>
+                    <a href="" class="minimize">&minus;</a>
+                </div>
+                <h4 class="panel-title">基本设置</h4>
+
+                <p>基本都是必填的.</p>
+            </div>
+            <div class="panel-body panel-body-nopadding">
+
+                <div class="form-horizontal form-bordered">
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">标题</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" th:value="${#config.title}" value="3K"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">网址</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" th:value="${#config.url}" value="http://www.baidu.com" class="form-control"/>
+                            <span class="help-block">运营的地址</span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">欢迎文字</label>
+
+                        <div class="col-sm-7">
+                            <textarea class="form-control" placeholder="填写文字" th:value="${#config.welcomeMessage}" rows="5"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">功能特点</label>
+
+                        <div class="col-sm-7">
+                            <input name="tags" id="tags" class="form-control" value="安全,稳定,利益丰富"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">单笔金额</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" th:value="${#config.stock}" value="5000"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">最大手数</label>
+
+                        <div class="col-sm-6">
+                            <input name="maxLots" type="text" th:value="${#config.maxLots}" value="5"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">排队时间(天)</label>
+
+                        <div class="col-sm-6">
+                            <input name="queueDays" type="text" th:value="${#config.queueDays}" value="5"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">日利率</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" th:value="${#config.rate}" value="0.015"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Spinner</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" id="spinner"/>
+                            <span class="help-block">Enhance a text input for entering numeric values, with up/down buttons and arrow key handling.</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div><!-- panel-body -->
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <button class="btn btn-primary">Submit</button>
+                        &nbsp;
+                        <button class="btn btn-default">Cancel</button>
+                    </div>
+                </div>
+            </div><!-- panel-footer -->
+
+        </div><!-- panel -->
+
+    </div><!-- contentpanel -->
+
+</section>
+
+</body>
+</html>
+
+<script src="../js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script src="../js/jquery-migrate-1.2.1.min.js" th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
+<script src="../js/jquery-ui-1.10.3.min.js" th:src="@{/js/jquery-ui-1.10.3.min.js}"></script>
+<script src="../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../js/modernizr.min.js" th:src="@{/js/modernizr.min.js}"></script>
+<script src="../js/jquery.sparkline.min.js" th:src="@{/js/jquery.sparkline.min.js}"></script>
+<script src="../js/toggles.min.js" th:src="@{/js/toggles.min.js}"></script>
+<script src="../js/retina.min.js" th:src="@{/js/retina.min.js}"></script>
+<script src="../js/jquery.cookies.js" th:src="@{/js/jquery.cookies.js}"></script>
+
+<script src="../js/jquery.autogrow-textarea.js" th:src="@{/js/jquery.autogrow-textarea.js}"></script>
+<script src="../js/bootstrap-fileupload.min.js" th:src="@{/js/bootstrap-fileupload.min.js}"></script>
+<script src="../js/bootstrap-timepicker.min.js" th:src="@{/js/bootstrap-timepicker.min.js}"></script>
+<script src="../js/jquery.maskedinput.min.js" th:src="@{/js/jquery.maskedinput.min.js}"></script>
+<script src="../js/jquery.tagsinput.min.js" th:src="@{/js/jquery.tagsinput.min.js}"></script>
+<script src="../js/jquery.mousewheel.js" th:src="@{/js/jquery.mousewheel.js}"></script>
+<script src="../js/chosen.jquery.min.js" th:src="@{/js/chosen.jquery.min.js}"></script>
+<script src="../js/dropzone.min.js" th:src="@{/js/dropzone.min.js}"></script>
+<script src="../js/colorpicker.js" th:src="@{/js/colorpicker.js}"></script>
+
+
+<script src="../js/custom.js"></script>
+
+<script>
+    jQuery(document).ready(function () {
+
+        // Chosen Select
+        jQuery(".chosen-select").chosen({'width': '100%', 'white-space': 'nowrap'});
+
+        // Tags Input
+        jQuery('#tags').tagsInput({width: 'auto'});
+
+        // Textarea Autogrow
+        jQuery('#autoResizeTA').autogrow();
+
+        // Color Picker
+        if (jQuery('#colorpicker').length > 0) {
+            jQuery('#colorSelector').ColorPicker({
+                onShow: function (colpkr) {
+                    jQuery(colpkr).fadeIn(500);
+                    return false;
+                },
+                onHide: function (colpkr) {
+                    jQuery(colpkr).fadeOut(500);
+                    return false;
+                },
+                onChange: function (hsb, hex, rgb) {
+                    jQuery('#colorSelector span').css('backgroundColor', '#' + hex);
+                    jQuery('#colorpicker').val('#' + hex);
+                }
+            });
+        }
+
+        // Color Picker Flat Mode
+        jQuery('#colorpickerholder').ColorPicker({
+            flat: true,
+            onChange: function (hsb, hex, rgb) {
+                jQuery('#colorpicker3').val('#' + hex);
+            }
+        });
+
+        // Date Picker
+        jQuery('#datepicker').datepicker();
+
+        jQuery('#datepicker-inline').datepicker();
+
+        jQuery('#datepicker-multiple').datepicker({
+            numberOfMonths: 3,
+            showButtonPanel: true
+        });
+
+        // Spinner
+        var spinner = jQuery('#spinner').spinner();
+        spinner.spinner('value', 0);
+        $('input[name=queueDays]').spinner();
+        $('input[name=maxLots]').spinner();
+
+        // Input Masks
+        jQuery("#date").mask("99/99/9999");
+        jQuery("#phone").mask("(999) 999-9999");
+        jQuery("#ssn").mask("999-99-9999");
+
+        // Time Picker
+        jQuery('#timepicker').timepicker({defaultTIme: false});
+        jQuery('#timepicker2').timepicker({showMeridian: false});
+        jQuery('#timepicker3').timepicker({minuteStep: 15});
+
+
+    });
+</script>

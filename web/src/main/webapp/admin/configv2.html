@@ -299,120 +299,119 @@
             <!--</ol>-->
             <!--</div>-->
         </div>
+        <iframe style="width: 100%; height: 1000px;border: 0;" scrolling="false" src="configtest.html"></iframe>
+        <!--<div class="contentpanel">-->
 
-        <div class="contentpanel">
+        <!--<div class="panel panel-default">-->
+        <!--<div class="panel-heading">-->
+        <!--<div class="panel-btns">-->
+        <!--<a href="" class="panel-close">&times;</a>-->
+        <!--<a href="" class="minimize">&minus;</a>-->
+        <!--</div>-->
+        <!--<h4 class="panel-title">基本设置</h4>-->
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-btns">
-                        <a href="" class="panel-close">&times;</a>
-                        <a href="" class="minimize">&minus;</a>
-                    </div>
-                    <h4 class="panel-title">基本设置</h4>
+        <!--<p>基本都是必填的.</p>-->
+        <!--</div>-->
+        <!--<div class="panel-body panel-body-nopadding">-->
 
-                    <p>基本都是必填的.</p>
-                </div>
-                <div class="panel-body panel-body-nopadding">
+        <!--<div class="form-horizontal form-bordered">-->
 
-                    <div class="form-horizontal form-bordered">
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-3 control-label">标题</label>-->
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">标题</label>
+        <!--<div class="col-sm-6">-->
+        <!--<input type="text" th:value="${#config.title}" value="3K"-->
+        <!--class="form-control"/>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-3 control-label">网址</label>-->
 
-                            <div class="col-sm-6">
-                                <input type="text" th:value="${#config.title}" value="3K"
-                                       class="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">网址</label>
-
-                            <div class="col-sm-6">
-                                <input type="text" th:value="${#config.url}" value="http://www.baidu.com" class="form-control"/>
-                                <span class="help-block">运营的地址</span>
-                            </div>
-                        </div>
+        <!--<div class="col-sm-6">-->
+        <!--<input type="text" th:value="${#config.url}" value="http://www.baidu.com" class="form-control"/>-->
+        <!--<span class="help-block">运营的地址</span>-->
+        <!--</div>-->
+        <!--</div>-->
 
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">欢迎文字</label>
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-3 control-label">欢迎文字</label>-->
 
-                            <div class="col-sm-7">
-                                <textarea class="form-control" placeholder="填写文字" th:value="${#config.welcomeMessage}" rows="5"></textarea>
-                            </div>
-                        </div>
+        <!--<div class="col-sm-7">-->
+        <!--<textarea class="form-control" placeholder="填写文字" th:value="${#config.welcomeMessage}" rows="5"></textarea>-->
+        <!--</div>-->
+        <!--</div>-->
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">功能特点</label>
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-3 control-label">功能特点</label>-->
 
-                            <div class="col-sm-7">
-                                <input name="tags" id="tags" class="form-control" value="安全,稳定,利益丰富"/>
-                            </div>
-                        </div>
+        <!--<div class="col-sm-7">-->
+        <!--<input name="tags" id="tags" class="form-control" value="安全,稳定,利益丰富"/>-->
+        <!--</div>-->
+        <!--</div>-->
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">单笔金额</label>
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-3 control-label">单笔金额</label>-->
 
-                            <div class="col-sm-6">
-                                <input type="text" th:value="${#config.stock}" value="5000"
-                                       class="form-control"/>
-                            </div>
-                        </div>
+        <!--<div class="col-sm-6">-->
+        <!--<input type="text" th:value="${#config.stock}" value="5000"-->
+        <!--class="form-control"/>-->
+        <!--</div>-->
+        <!--</div>-->
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">最大手数</label>
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-3 control-label">最大手数</label>-->
 
-                            <div class="col-sm-6">
-                                <input name="maxLots" type="text" th:value="${#config.maxLots}" value="5"
-                                       class="form-control"/>
-                            </div>
-                        </div>
+        <!--<div class="col-sm-6">-->
+        <!--<input name="maxLots" type="text" th:value="${#config.maxLots}" value="5"-->
+        <!--class="form-control"/>-->
+        <!--</div>-->
+        <!--</div>-->
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">排队时间(天)</label>
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-3 control-label">排队时间(天)</label>-->
 
-                            <div class="col-sm-6">
-                                <input name="queueDays" type="text" th:value="${#config.queueDays}" value="5"
-                                       class="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">日利率</label>
+        <!--<div class="col-sm-6">-->
+        <!--<input name="queueDays" type="text" th:value="${#config.queueDays}" value="5"-->
+        <!--class="form-control"/>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-3 control-label">日利率</label>-->
 
-                            <div class="col-sm-6">
-                                <input type="text" th:value="${#config.rate}" value="0.015"
-                                       class="form-control"/>
-                            </div>
-                        </div>
+        <!--<div class="col-sm-6">-->
+        <!--<input type="text" th:value="${#config.rate}" value="0.015"-->
+        <!--class="form-control"/>-->
+        <!--</div>-->
+        <!--</div>-->
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Spinner</label>
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-3 control-label">Spinner</label>-->
 
-                            <div class="col-sm-9">
-                                <input type="text" id="spinner"/>
-                                <span class="help-block">Enhance a text input for entering numeric values, with up/down buttons and arrow key handling.</span>
-                            </div>
-                        </div>
+        <!--<div class="col-sm-9">-->
+        <!--<input type="text" id="spinner"/>-->
+        <!--<span class="help-block">Enhance a text input for entering numeric values, with up/down buttons and arrow key handling.</span>-->
+        <!--</div>-->
+        <!--</div>-->
 
-                    </div>
+        <!--</div>-->
 
-                </div><!-- panel-body -->
+        <!--</div>&lt;!&ndash; panel-body &ndash;&gt;-->
 
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3">
-                            <button class="btn btn-primary">Submit</button>
-                            &nbsp;
-                            <button class="btn btn-default">Cancel</button>
-                        </div>
-                    </div>
-                </div><!-- panel-footer -->
+        <!--<div class="panel-footer">-->
+        <!--<div class="row">-->
+        <!--<div class="col-sm-6 col-sm-offset-3">-->
+        <!--<button class="btn btn-primary">Submit</button>-->
+        <!--&nbsp;-->
+        <!--<button class="btn btn-default">Cancel</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>&lt;!&ndash; panel-footer &ndash;&gt;-->
 
-            </div><!-- panel -->
+        <!--</div>&lt;!&ndash; panel &ndash;&gt;-->
 
-        </div><!-- contentpanel -->
+        <!--</div>&lt;!&ndash; contentpanel &ndash;&gt;-->
     </div><!-- mainpanel -->
-
 
     <div class="rightpanel" th:replace="fragments/right::right">
         <!-- Nav tabs -->
