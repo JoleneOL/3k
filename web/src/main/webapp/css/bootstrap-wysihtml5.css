@@ -30,9 +30,8 @@ ul.wysihtml5-toolbar a[data-wysihtml5-command=underline] {
 }
 
 ul.wysihtml5-toolbar a.btn.wysihtml5-command-active {
-	background-image: none;
-	background-color: #fff;
-	outline: 0;
+  background: #fff none;
+  outline: 0;
 }
 
 ul.wysihtml5-commands-disabled .dropdown-menu {

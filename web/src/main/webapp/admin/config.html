@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <!--/*@thymesVar id="#config" type="org.jolene.threek.SystemConfig"*/-->
 <head>
     <meta charset="UTF-8" content="text/html"/>
@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="../css/jquery.tagsinput.css" th:href="@{/css/jquery.tagsinput.css}"/>
     <link rel="stylesheet" href="../css/colorpicker.css" th:href="@{/css/colorpicker.css}"/>
     <link rel="stylesheet" href="../css/dropzone.css" th:href="@{/css/dropzone.css}"/>
+
+    <link rel="stylesheet" href="../css/bootstrap-wysihtml5.css" th:href="@{/css/bootstrap-wysihtml5.css}"/>
 
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -302,101 +304,284 @@
 
         <div class="contentpanel">
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-btns">
-                        <a href="" class="panel-close">&times;</a>
-                        <a href="" class="minimize">&minus;</a>
+            <form action="config.html" method="POST" th:action="@{/config}">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-btns">
+                            <a href="" class="panel-close">&times;</a>
+                            <a href="" class="minimize">&minus;</a>
+                        </div>
+                        <h4 class="panel-title">基本设置</h4>
+
+                        <p>基本都是必填的.</p>
                     </div>
-                    <h4 class="panel-title">基本设置</h4>
+                    <div class="panel-body panel-body-nopadding">
 
-                    <p>基本都是必填的.</p>
-                </div>
-                <div class="panel-body panel-body-nopadding">
+                        <div class="form-horizontal form-bordered">
 
-                    <div class="form-horizontal form-bordered">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">标题</label>
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">标题</label>
-
-                            <div class="col-sm-6">
-                                <input type="text" th:value="${#config.title}" value="3K"
-                                       class="form-control"/>
+                                <div class="col-sm-6">
+                                    <input type="text" th:value="${#config.title}" value="3K"
+                                           class="form-control"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">网址</label>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">网址</label>
 
-                            <div class="col-sm-6">
-                                <input type="text" th:value="${#config.url}" value="http://www.baidu.com" class="form-control"/>
-                                <span class="help-block">运营的地址</span>
+                                <div class="col-sm-6">
+                                    <input type="text" th:value="${#config.url}" value="http://www.baidu.com"
+                                           class="form-control"/>
+                                    <span class="help-block">运营的地址</span>
+                                </div>
                             </div>
-                        </div>
 
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">欢迎文字</label>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">欢迎文字</label>
 
-                            <div class="col-sm-7">
-                                <textarea class="form-control" placeholder="填写文字" th:value="${#config.welcomeMessage}" rows="5"></textarea>
+                                <div class="col-sm-7">
+                                <textarea class="form-control" placeholder="填写文字" th:value="${#config.welcomeMessage}"
+                                          rows="5"></textarea>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">功能特点</label>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">功能特点</label>
 
-                            <div class="col-sm-7">
-                                <input name="tags" id="tags" class="form-control" value="安全,稳定,利益丰富"/>
+                                <div class="col-sm-7">
+                                    <input name="tags" id="tags" class="form-control" value="安全,稳定,利益丰富"/>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">单笔金额</label>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">首页头部内容 </label>
 
-                            <div class="col-sm-6">
-                                <input type="text" th:value="${#config.stock}" value="5000"
-                                       class="form-control"/>
+                                <div class="col-sm-7">
+                                <textarea name="indexTopNotice" th:value="${#config.indexTopNotice}"
+                                          placeholder="首页头部富文本" class="form-control" rows="5"></textarea>
+                                </div>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">首页底部内容 </label>
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">最大手数</label>
-
-                            <div class="col-sm-6">
-                                <input name="maxLots" type="text" th:value="${#config.maxLots}" value="5"
-                                       class="form-control"/>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">排队时间(天)</label>
-
-                            <div class="col-sm-6">
-                                <input name="queueDays" type="text" th:value="${#config.queueDays}" value="5"
-                                       class="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">日利率</label>
-
-                            <div class="col-sm-6">
-                                <input type="text" th:value="${#config.rate}" value="0.015"
-                                       class="form-control"/>
+                                <div class="col-sm-7">
+                                <textarea name="indexBottomNotice" th:value="${#config.indexBottomNotice}"
+                                          placeholder="首页底部富文本" class="form-control" rows="5"></textarea>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Spinner</label>
+                    </div><!-- panel-body -->
 
-                            <div class="col-sm-9">
-                                <input type="text" id="spinner"/>
-                                <span class="help-block">Enhance a text input for entering numeric values, with up/down buttons and arrow key handling.</span>
-                            </div>
+
+                </div><!-- panel -->
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-btns">
+                            <a href="" class="panel-close">&times;</a>
+                            <a href="" class="minimize">&minus;</a>
                         </div>
+                        <h4 class="panel-title">投资设置</h4>
 
+                        <p>基本都是必填的.</p>
                     </div>
+                    <div class="panel-body panel-body-nopadding">
 
-                </div><!-- panel-body -->
+                        <div class="form-horizontal form-bordered">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">单笔金额</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" th:value="${#config.stock}" value="5000"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">最多允许未完成订单数</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" th:value="${#config.maxOrders}" value="5"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">最大手数</label>
+
+                                <div class="col-sm-6">
+                                    <input name="maxLots" type="text" th:value="${#config.maxLots}" value="5"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">排队时间(天)</label>
+
+                                <div class="col-sm-6">
+                                    <input name="queueDays" type="text" th:value="${#config.queueDays}" value="5"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">日利率</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" th:value="${#config.rate}" value="0.015"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">最长允许操作时间(小时)</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" th:value="${#config.maxOperateHours}" value="24"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">月考核期</label>
+
+                                <div class="col-sm-3">
+                                    <input type="text" th:value="${#config.inspectStartDayOfMonth}" value="1"
+                                           class="form-control"/>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" th:value="${#config.inspectEndDayOfMonth}" value="15"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div><!-- panel-body -->
+
+
+                </div><!-- panel -->
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-btns">
+                            <a href="" class="panel-close">&times;</a>
+                            <a href="" class="minimize">&minus;</a>
+                        </div>
+                        <h4 class="panel-title">推广设置</h4>
+
+                        <p>用以鼓励推广平台</p>
+                    </div>
+                    <div class="panel-body panel-body-nopadding">
+
+                        <div class="form-horizontal form-bordered">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">直推提成比例</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" th:value="${#config.directRewardRate}" value="0.1"
+                                           class="form-control"/>
+                                    <span class="help-block">该提成比例与本金挂钩,设置为0可以禁止提成</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">二代推荐提成比例</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" th:value="${#config.directRewardRate2}" value="0.05"
+                                           class="form-control"/>
+                                    <span class="help-block">该提成比例与本金挂钩,设置为0可以禁止提成</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group" th:each="interest,status:${#config.interestRewards}">
+                                <label class="col-sm-2 control-label"
+                                       th:text="${#numbers.formatInteger(interest.key,1)}+'代利息分成'">一代利息分成</label>
+
+                                <div class="col-sm-2">
+                                    <input type="text" th:name="${'interestRate'+interest.key}"
+                                           th:value="${interest.value.rate}" value="0" class="form-control" title="比例"/>
+                                </div>
+                                <label class="col-sm-1 control-label">门槛</label>
+
+                                <div class="col-sm-2">
+                                    <input type="text" th:name="${'interestReach'+interest.key}"
+                                           th:value="${interest.value.reach}" value="0" class="form-control"
+                                           title="推荐人数抵达该门槛可获得"/>
+                                </div>
+                                <label class="col-sm-1 control-label">最大</label>
+
+                                <div class="col-sm-2">
+                                    <input type="text" th:name="${'interestMax'+interest.key}"
+                                           th:value="${interest.value.max}" value="0" class="form-control"
+                                           title="最多可以获得该级别分成的人数限制,0为不限制"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div><!-- panel-body -->
+
+
+                </div><!-- panel -->
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-btns">
+                            <a href="" class="panel-close">&times;</a>
+                            <a href="" class="minimize">&minus;</a>
+                        </div>
+                        <h4 class="panel-title">分红设置</h4>
+
+                        <p>每个月终都将进行分红结算,符合条件的人将获得区域经理资格,该资格将为他获取所在区域所有利息的分红提成.</p>
+                    </div>
+                    <div class="panel-body panel-body-nopadding">
+
+                        <div class="form-horizontal form-bordered">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">当月直接推荐会员</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" th:value="${#config.leaderStopRecommends}" value="10"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">当月区域会员增量</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" th:value="${#config.leaderStopMembers}" value="80"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">当月区域总投资额</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" th:value="${#config.leaderStopInvests}" value="800000"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">获得分红比例</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" th:value="${#config.leaderRate}" value="0.006"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div><!-- panel-body -->
+
+
+                </div><!-- panel -->
 
                 <div class="panel-footer">
                     <div class="row">
@@ -408,8 +593,7 @@
                     </div>
                 </div><!-- panel-footer -->
 
-            </div><!-- panel -->
-
+            </form>
         </div><!-- contentpanel -->
     </div><!-- mainpanel -->
 
@@ -752,6 +936,8 @@
 <script src="../js/dropzone.min.js" th:src="@{/js/dropzone.min.js}"></script>
 <script src="../js/colorpicker.js" th:src="@{/js/colorpicker.js}"></script>
 
+<script src="../js/wysihtml5-0.3.0.min.js" th:src="@{/js/wysihtml5-0.3.0.min.js}"></script>
+<script src="../js/bootstrap-wysihtml5.js" th:src="@{/js/bootstrap-wysihtml5.js}"></script>
 
 <script src="../js/custom.js" th:src="@{/js/custom.js}"></script>
 
@@ -763,6 +949,9 @@
 
         // Tags Input
         jQuery('#tags').tagsInput({width: 'auto'});
+
+        jQuery('textarea[name=indexTopNotice]').wysihtml5({color: true, html: true});
+        jQuery('textarea[name=indexBottomNotice]').wysihtml5({color: true, html: true});
 
         // Textarea Autogrow
         jQuery('#autoResizeTA').autogrow();
@@ -804,8 +993,6 @@
         });
 
         // Spinner
-        var spinner = jQuery('#spinner').spinner();
-        spinner.spinner('value', 0);
         $('input[name=queueDays]').spinner();
         $('input[name=maxLots]').spinner();
 

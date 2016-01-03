@@ -66,6 +66,14 @@ public class SystemConfig {
             "人多利高"
     };
     /**
+     * 首页头部富文本
+     */
+    private String indexTopNotice = "&nbsp;";
+    /**
+     * 首页尾部富文本
+     */
+    private String indexBottomNotice = "&nbsp;";
+    /**
      * 单笔金额
      */
     private int stock = 5000;
