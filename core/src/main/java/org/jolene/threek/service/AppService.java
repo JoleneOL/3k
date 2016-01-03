@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.WebRequestInterceptor;
 
+import javax.annotation.PostConstruct;
+
 /**
  * 很多跟app相关的服务
  *
@@ -13,6 +15,10 @@ import org.springframework.web.context.request.WebRequestInterceptor;
  * @author Jolene
  */
 public interface AppService extends WebRequestInterceptor,UserDetailsService {
+
+    @PostConstruct
+    @Transactional
+    void init();
 
     /**
      * @return 总是返回唯一不变的SystemConfig实例

@@ -1,10 +1,13 @@
 package org.jolene.threek.service.impl;
 
+import org.jolene.threek.K3Version;
 import org.jolene.threek.SystemConfig;
 import org.jolene.threek.exception.ConfigRequiredException;
 import org.jolene.threek.repository.LoginRepository;
 import org.jolene.threek.service.AppService;
 import org.jolene.threek.service.SystemValueService;
+import org.jolene.threek.service.VersionService;
+import org.jolene.threek.support.InterestReward;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author Jolene
@@ -27,6 +32,18 @@ public class AppServiceImpl implements AppService {
     private SystemValueService systemValueService;
     @Autowired
     private LoginRepository loginRepository;
+    @Autowired
+    private VersionService versionService;
+
+    @Override
+    @PostConstruct
+    @Transactional
+    public void init() {
+        versionService.systemUpgrade("org.jolene.3k.database.version", K3Version.class, K3Version.init, version -> {
+
+            // do something while upgrade.
+        });
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -42,6 +59,22 @@ public class AppServiceImpl implements AppService {
             systemValueService.asInt(systemConfig::setStock, SystemConfig.STOCK);
             systemValueService.asDouble(systemConfig::setRate, SystemConfig.RATE);
             systemValueService.asTexts(systemConfig::setWelcomeFeatures, SystemConfig.WELCOME_FEATURES);
+
+            systemValueService.asInt(systemConfig::setMaxOperateHours, SystemConfig.MAX_OPERATE_HOURS);
+            systemValueService.asInt(systemConfig::setMaxOrders, SystemConfig.MAX_ORDERS);
+            systemValueService.asInt(systemConfig::setInspectStartDayOfMonth, SystemConfig.INSPECT_START);
+            systemValueService.asInt(systemConfig::setInspectEndDayOfMonth, SystemConfig.INSPECT_END);
+
+            systemValueService.asDouble(systemConfig::setDirectRewardRate, SystemConfig.DIRECT_REWARD_RATE);
+            systemValueService.asDouble(systemConfig::setDirectRewardRate2, SystemConfig.DIRECT_REWARD_RATE2);
+
+            systemValueService.asTexts(strings -> {
+                for (int i = 0; i < strings.length; i++) {
+                    String[] values = strings[i].split(",");
+                    systemConfig.getInterestRewards().put(i + 1, new InterestReward(Double.parseDouble(values[0])
+                            , Integer.parseInt(values[1]), Integer.parseInt(values[2])));
+                }
+            }, SystemConfig.INTEREST_REWARDS);
         }
         return systemConfig;
     }
