@@ -1,6 +1,7 @@
 package org.jolene.threek.service.impl;
 
 import org.jolene.threek.entity.SystemValue;
+import org.jolene.threek.entity.support.ResourceType;
 import org.jolene.threek.repository.SystemValueRepository;
 import org.jolene.threek.service.SystemValueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,23 @@ public class SystemValueServiceImpl implements SystemValueService {
             return;
         // TODO 如果是资源的话 应该从资源中获取
         consumer.accept(Double.parseDouble(systemValue.getValue()));
+    }
+
+    @Override
+    public void asText(String text, String id) {
+        SystemValue systemValue = systemValueRepository.findOne(id);
+        if (systemValue == null) {
+            systemValue = new SystemValue();
+            systemValue.setId(id);
+        }
+        asText(text, systemValue);
+    }
+
+    private void asText(String text, SystemValue systemValue) {
+        if (text.length() < 400)
+            systemValue.setResourceType(ResourceType.text);
+        systemValue.setValue(text);
+        systemValueRepository.save(systemValue);
     }
 
     @Override

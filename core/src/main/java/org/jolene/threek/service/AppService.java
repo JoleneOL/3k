@@ -26,4 +26,15 @@ public interface AppService extends WebRequestInterceptor,UserDetailsService {
     @Transactional(readOnly = true)
     SystemConfig currentSystemConfig();
 
+    /**
+     * @return 重新获得一份配置
+     */
+    @Transactional(readOnly = true)
+    SystemConfig readSystemConfig();
+
+    /**
+     * 保存当前配置到系统中
+     */
+    @Transactional
+    void saveCurrentSystemConfig();
 }

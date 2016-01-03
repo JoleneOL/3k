@@ -49,34 +49,48 @@ public class AppServiceImpl implements AppService {
     @Transactional(readOnly = true)
     public synchronized SystemConfig currentSystemConfig() {
         if (systemConfig == null) {
-            systemConfig = new SystemConfig();
-            systemValueService.asText(systemConfig::setTitle, SystemConfig.TITLE);
-            systemValueService.asText(systemConfig::setWelcomeMessage, SystemConfig.WELCOME_MESSAGE);
-            systemValueService.asText(systemConfig::setUrl, SystemConfig.URL);
-            systemValueService.asBoolean(systemConfig::setConfigRequired, SystemConfig.CONFIG_REQUIRED);
-            systemValueService.asInt(systemConfig::setMaxLots, SystemConfig.MAX_LOTS);
-            systemValueService.asInt(systemConfig::setQueueDays, SystemConfig.QUEUE_DAYS);
-            systemValueService.asInt(systemConfig::setStock, SystemConfig.STOCK);
-            systemValueService.asDouble(systemConfig::setRate, SystemConfig.RATE);
-            systemValueService.asTexts(systemConfig::setWelcomeFeatures, SystemConfig.WELCOME_FEATURES);
-
-            systemValueService.asInt(systemConfig::setMaxOperateHours, SystemConfig.MAX_OPERATE_HOURS);
-            systemValueService.asInt(systemConfig::setMaxOrders, SystemConfig.MAX_ORDERS);
-            systemValueService.asInt(systemConfig::setInspectStartDayOfMonth, SystemConfig.INSPECT_START);
-            systemValueService.asInt(systemConfig::setInspectEndDayOfMonth, SystemConfig.INSPECT_END);
-
-            systemValueService.asDouble(systemConfig::setDirectRewardRate, SystemConfig.DIRECT_REWARD_RATE);
-            systemValueService.asDouble(systemConfig::setDirectRewardRate2, SystemConfig.DIRECT_REWARD_RATE2);
-
-            systemValueService.asTexts(strings -> {
-                for (int i = 0; i < strings.length; i++) {
-                    String[] values = strings[i].split(",");
-                    systemConfig.getInterestRewards().put(i + 1, new InterestReward(Double.parseDouble(values[0])
-                            , Integer.parseInt(values[1]), Integer.parseInt(values[2])));
-                }
-            }, SystemConfig.INTEREST_REWARDS);
+            systemConfig = readSystemConfig();
         }
         return systemConfig;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public SystemConfig readSystemConfig() {
+        SystemConfig systemConfig = new SystemConfig();
+        systemValueService.asText(systemConfig::setTitle, SystemConfig.TITLE);
+        systemValueService.asText(systemConfig::setWelcomeMessage, SystemConfig.WELCOME_MESSAGE);
+        systemValueService.asText(systemConfig::setUrl, SystemConfig.URL);
+        systemValueService.asBoolean(systemConfig::setConfigRequired, SystemConfig.CONFIG_REQUIRED);
+        systemValueService.asInt(systemConfig::setMaxLots, SystemConfig.MAX_LOTS);
+        systemValueService.asInt(systemConfig::setQueueDays, SystemConfig.QUEUE_DAYS);
+        systemValueService.asInt(systemConfig::setStock, SystemConfig.STOCK);
+        systemValueService.asDouble(systemConfig::setRate, SystemConfig.RATE);
+        systemValueService.asTexts(systemConfig::setWelcomeFeatures, SystemConfig.WELCOME_FEATURES);
+
+        systemValueService.asInt(systemConfig::setMaxOperateHours, SystemConfig.MAX_OPERATE_HOURS);
+        systemValueService.asInt(systemConfig::setMaxOrders, SystemConfig.MAX_ORDERS);
+        systemValueService.asInt(systemConfig::setInspectStartDayOfMonth, SystemConfig.INSPECT_START);
+        systemValueService.asInt(systemConfig::setInspectEndDayOfMonth, SystemConfig.INSPECT_END);
+
+        systemValueService.asDouble(systemConfig::setDirectRewardRate, SystemConfig.DIRECT_REWARD_RATE);
+        systemValueService.asDouble(systemConfig::setDirectRewardRate2, SystemConfig.DIRECT_REWARD_RATE2);
+
+        systemValueService.asTexts(strings -> {
+            for (int i = 0; i < strings.length; i++) {
+                String[] values = strings[i].split(",");
+                systemConfig.getInterestRewards().put(i + 1, new InterestReward(Double.parseDouble(values[0])
+                        , Integer.parseInt(values[1]), Integer.parseInt(values[2])));
+            }
+        }, SystemConfig.INTEREST_REWARDS);
+        return systemConfig;
+    }
+
+    @Override
+    @Transactional
+    public void saveCurrentSystemConfig() {
+
+        systemValueService.asText(systemConfig.getTitle(), SystemConfig.TITLE);
     }
 
     @Override

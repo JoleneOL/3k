@@ -10,6 +10,9 @@ import java.util.function.Consumer;
  * @author Jolene
  */
 public interface SystemValueService {
+
+    @Transactional
+    void asText(String text, String id);
     /**
      * 获取属性以文本格式
      *
