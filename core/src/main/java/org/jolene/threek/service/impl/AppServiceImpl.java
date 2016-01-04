@@ -89,8 +89,8 @@ public class AppServiceImpl implements AppService {
     @Override
     @Transactional
     public void saveCurrentSystemConfig() {
-
         systemValueService.asText(systemConfig.getTitle(), SystemConfig.TITLE);
+        systemValueService.asBoolean(systemConfig.isConfigRequired(), SystemConfig.CONFIG_REQUIRED);
     }
 
     @Override

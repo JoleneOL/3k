@@ -67,6 +67,12 @@ public class SystemValueServiceImpl implements SystemValueService {
         asText(text, systemValue);
     }
 
+    @Override
+    @Transactional
+    public void asBoolean(boolean value, String id) {
+        asText(String.valueOf(value), id);
+    }
+
     private void asText(String text, SystemValue systemValue) {
         if (text.length() < 400)
             systemValue.setResourceType(ResourceType.text);

@@ -1,5 +1,6 @@
 package org.jolene.threek.web.controller.admin.pages;
 
+import org.jolene.threek.SystemConfig;
 import org.jolene.threek.web.pages.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -29,10 +30,11 @@ public class ConfigPage extends AbstractPage {
         return PageFactory.initElements(driver, ConfigPage.class);
     }
 
-    public ConfigPage changeTitle(String title) {
-        this.title.clear();
-        this.title.sendKeys(title);
+    public void submit(SystemConfig systemConfig) {
+        title.clear();
+        title.sendKeys(systemConfig.getTitle());
+
         submitButton.click();
-        return PageFactory.initElements(webDriver, ConfigPage.class);
+//        return PageFactory.initElements(webDriver, ConfigPage.class);
     }
 }

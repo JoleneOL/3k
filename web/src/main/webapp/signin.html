@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <!--/*@thymesVar id="#config" type="org.jolene.threek.SystemConfig"*/-->
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="shortcut icon" href="images/favicon.png" type="image/png"/>
 
   <title th:text="${'登录 '+#config.title}">登录 3k</title>
 
-  <link href="css/style.default.css" rel="stylesheet">
+    <link href="css/style.default.css" rel="stylesheet"/>
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
@@ -44,8 +44,8 @@
                     </div><!-- logopanel -->
                 
                     <div class="mb20"></div>
-                
-                    <h5><strong th:text="${#config.welcomeMessage}">欢迎来到3K!</strong></h5>
+
+                    <h5><strong th:utext="${#config.welcomeMessage}">欢迎来到3K!</strong></h5>
                     <ul th:remove="all-but-first">
                         <li th:each="message:${#config.welcomeFeatures}" th:text="${message}">
                             <i class="fa fa-arrow-circle-o-right mr5"></i> Fully Responsive Layout

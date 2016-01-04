@@ -13,6 +13,9 @@ public interface SystemValueService {
 
     @Transactional
     void asText(String text, String id);
+
+    @Transactional
+    void asBoolean(boolean value, String id);
     /**
      * 获取属性以文本格式
      *

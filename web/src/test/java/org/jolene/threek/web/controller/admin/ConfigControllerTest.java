@@ -36,10 +36,18 @@ public class ConfigControllerTest extends WebTest {
      * @param configPage 配置页面
      */
     private void doRandomConfig(ConfigPage configPage) {
-        String title = UUID.randomUUID().toString();
-        configPage = configPage.changeTitle(title);
+        SystemConfig model = new SystemConfig();
+        model.setConfigRequired(false);
+        model.setTitle(UUID.randomUUID().toString());
+
+
+        configPage.submit(model);
         SystemConfig systemConfig = appService.readSystemConfig();
         assertThat(systemConfig)
+                .as("与数据库保存比较")
+                .isEqualTo(model);
+        assertThat(systemConfig)
+                .as("与系统当前比较")
                 .isEqualTo(appService.currentSystemConfig());
     }
 }
