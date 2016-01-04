@@ -106,6 +106,7 @@
 <div th:if="${#httpServletRequest.getRequestURI().endsWith('error')}"
      th:replace="fragments/common::alert ('登录错误','您输入了错误的用户名或者密码','growl-danger',null,null,false)">
     <script src="js/jquery.gritter.min.js"></script>
+    <!--SPRING_SECURITY_LAST_EXCEPTION.message 如何国际化呢?-->
     <link href="css/jquery.gritter.css" rel="stylesheet"/>
     <script>
         jQuery(function () {
@@ -113,6 +114,24 @@
                 title: '登录错误!',
                 text: '您输入了错误的用户名或者密码',
                 class_name: 'growl-danger',
+//            image: 'images/screen.png',
+                sticky: false,
+                time: ''
+            });
+        });
+    </script>
+</div>
+
+<div th:if="${#httpServletRequest.getRequestURI().endsWith('logout')}"
+     th:replace="fragments/common::alert ('成功登出','欢迎下次再来','growl-info',null,null,false)">
+    <script src="js/jquery.gritter.min.js"></script>
+    <link href="css/jquery.gritter.css" rel="stylesheet"/>
+    <script>
+        jQuery(function () {
+            jQuery.gritter.add({
+                title: '成功登出!',
+                text: '欢迎下次再来',
+                class_name: 'growl-info',
 //            image: 'images/screen.png',
                 sticky: false,
                 time: ''

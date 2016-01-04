@@ -18,8 +18,14 @@ import java.util.Collections;
 @Setter
 @Getter
 public class User extends Login {
+    /**
+     * 余额
+     */
+    private double balance;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
     }
+
 }
