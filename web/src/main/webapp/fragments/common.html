@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>常用的组件,比如模板弹窗,信息框</title>
+</head>
+<body>
+
+<div th:fragment="alert (title,text,clazz,image,time,sticky)">
+    <script src="../js/jquery.gritter.min.js" th:src="@{/js/jquery.gritter.min.js}"></script>
+    <link href="../css/jquery.gritter.css" rel="stylesheet" th:href="@{/css/jquery.gritter.css}"/>
+    <script th:inline="javascript">
+        jQuery(function () {
+            var title = /*[[${title}]]*/ 'This is a regular notice!';
+            var text = /*[[${text}]]*/ 'This is a regular notice!';
+            var clazz = /*[[${clazz}]]*/ 'growl-danger';
+            var image = /*[[${image}]]*/ null;
+            var time = /*[[${time}]]*/ '';
+            var sticky = /*[[${sticky}]]*/ false;
+            jQuery.gritter.add({
+                title: title,
+                text: text,
+                class_name: clazz,
+                image: image,
+                sticky: sticky,
+                time: time
+            });
+        });
+    </script>
+</div>
+
+</body>
+</html>
