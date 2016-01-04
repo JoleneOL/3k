@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -26,6 +27,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import javax.persistence.EntityManagerFactory;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Locale;
 
 /**
  * @author Jolene
@@ -49,6 +51,10 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
     private AppService appService;
     @Autowired
     private EntityManagerFactory entityManagerFactory;
+    @Autowired
+    private ThreekDialect threekDialect;
+    @Autowired
+    private ThymeleafViewResolver thymeleafViewResolver;
 
     @SuppressWarnings("Duplicates")
     public String[] staticResourcePathPatterns() {
@@ -84,6 +90,8 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
         return ignoring;
     }
 
+    // 拦截所有操作 如果当前配置未完成
+
     /**
      * for upload
      */
@@ -100,8 +108,7 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
         }
     }
 
-    // 拦截所有操作 如果当前配置未完成
-
+    // thymeleaf
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -117,10 +124,13 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
         }));
     }
 
-    // thymeleaf
-
-    @Autowired
-    private ThreekDialect threekDialect;
+    // locale
+    @Bean(name = "localeResolver")
+    public SessionLocaleResolver localeResolver() {
+        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+        localeResolver.setDefaultLocale(Locale.CHINA);
+        return localeResolver;
+    }
 
     @Bean
     public ThymeleafViewResolver thymeleafViewResolver() {
@@ -166,9 +176,6 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
 //      resolver.setSuffix(".jsp");
         return resolver;
     }
-
-    @Autowired
-    private ThymeleafViewResolver thymeleafViewResolver;
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
