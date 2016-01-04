@@ -75,7 +75,10 @@ public class SecurityConfig {
                     .anyRequest().authenticated()
                     .and()
                     .csrf().disable()
-                    .formLogin().loginPage("/login")
+                    .formLogin()
+//                    .failureHandler(new K3AuthenticationFailureHandler())
+                    .loginPage("/login")
+
                     .permitAll()
                     .and()
                     .httpBasic();

@@ -48,6 +48,9 @@ public class LoginPage extends AbstractPage {
 //                .as("登录前没有错误警告")
 //                .isTrue();
         doLogin(username, password);
+        System.out.println(webDriver.getCurrentUrl());
+        System.out.println(webDriver.getPageSource());
+        // 应该要预期到具体是什么样的错误 比如是被锁定 是密码错误还是用户根本不存在
         LoginPage loginPage = LoginPage.at(webDriver);
         assertThat(loginPage.dangerAlert.isDisplayed())
                 .as("错误警告已经打开")
