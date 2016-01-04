@@ -119,7 +119,7 @@ public class AppServiceImpl implements AppService {
     @Override
     public void preHandle(WebRequest request) throws Exception {
         //开发友好
-        if (environment.acceptsProfiles("development") && !environment.acceptsProfiles("_config_test")) {
+        if (environment.acceptsProfiles("test") && !environment.acceptsProfiles("_config_test")) {
             return;
         }
         if (this.currentSystemConfig().isConfigRequired()) {

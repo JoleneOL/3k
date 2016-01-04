@@ -40,7 +40,7 @@
                 
                 <div class="signin-info">
                     <div class="logopanel">
-                        <h1 th:utext="${#config.title}"><span>[</span> 3k <span>]</span></h1>
+                        <h1 th:utext="${#config.htmlTitle}"><span>[</span> 3K welcome <span>]</span></h1>
                     </div><!-- logopanel -->
                 
                     <div class="mb20"></div>
@@ -63,8 +63,8 @@
             </div><!-- col-sm-7 -->
             
             <div class="col-md-5">
-                
-                <form method="post" action="index.html">
+
+                <form method="post" action="index.html" th:action="@{/login}">
                     <h4 class="nomargin">登录</h4>
                     <p class="mt5 mb20">所有操作都需要登录才可以继续.</p>
                 

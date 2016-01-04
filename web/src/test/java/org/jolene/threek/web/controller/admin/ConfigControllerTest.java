@@ -6,6 +6,7 @@ import org.jolene.threek.web.WebTest;
 import org.jolene.threek.web.controller.admin.pages.ConfigPage;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jolene
  */
+@ActiveProfiles("_config_test")
 public class ConfigControllerTest extends WebTest {
 
     @Autowired
