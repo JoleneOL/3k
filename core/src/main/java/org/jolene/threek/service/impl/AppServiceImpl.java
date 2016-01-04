@@ -90,7 +90,30 @@ public class AppServiceImpl implements AppService {
     @Transactional
     public void saveCurrentSystemConfig() {
         systemValueService.asText(systemConfig.getTitle(), SystemConfig.TITLE);
+        systemValueService.asText(systemConfig.getWelcomeMessage(), SystemConfig.WELCOME_MESSAGE);
+        systemValueService.asText(systemConfig.getUrl(), SystemConfig.URL);
         systemValueService.asBoolean(systemConfig.isConfigRequired(), SystemConfig.CONFIG_REQUIRED);
+        systemValueService.asInt(systemConfig.getMaxLots(), SystemConfig.MAX_LOTS);
+        systemValueService.asInt(systemConfig.getQueueDays(), SystemConfig.QUEUE_DAYS);
+        systemValueService.asInt(systemConfig.getStock(), SystemConfig.STOCK);
+        systemValueService.asDouble(systemConfig.getRate(), SystemConfig.RATE);
+        systemValueService.asTexts(systemConfig.getWelcomeFeatures(), SystemConfig.WELCOME_FEATURES);
+
+        systemValueService.asInt(systemConfig.getMaxOperateHours(), SystemConfig.MAX_OPERATE_HOURS);
+        systemValueService.asInt(systemConfig.getMaxOrders(), SystemConfig.MAX_ORDERS);
+        systemValueService.asInt(systemConfig.getInspectStartDayOfMonth(), SystemConfig.INSPECT_START);
+        systemValueService.asInt(systemConfig.getInspectEndDayOfMonth(), SystemConfig.INSPECT_END);
+
+        systemValueService.asDouble(systemConfig.getDirectRewardRate(), SystemConfig.DIRECT_REWARD_RATE);
+        systemValueService.asDouble(systemConfig.getDirectRewardRate2(), SystemConfig.DIRECT_REWARD_RATE2);
+
+        // 1-10
+        String[] interestRewardStrings = new String[10];
+        for (int i = 1; i <= 10; i++) {
+            InterestReward reward = systemConfig.getInterestRewards().get(i);
+            interestRewardStrings[i - 1] = String.format("%s,%d,%d", reward.getRate(), reward.getReach(), reward.getMax());
+        }
+        systemValueService.asTexts(interestRewardStrings, SystemConfig.INTEREST_REWARDS);
     }
 
     @Override

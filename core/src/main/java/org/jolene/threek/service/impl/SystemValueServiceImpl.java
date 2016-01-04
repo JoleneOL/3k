@@ -58,6 +58,11 @@ public class SystemValueServiceImpl implements SystemValueService {
     }
 
     @Override
+    public void asTexts(String[] texts, String id) {
+        asText(String.join("|", texts), id);
+    }
+
+    @Override
     public void asText(String text, String id) {
         SystemValue systemValue = systemValueRepository.findOne(id);
         if (systemValue == null) {
@@ -68,14 +73,28 @@ public class SystemValueServiceImpl implements SystemValueService {
     }
 
     @Override
+    public void asInt(int value, String id) {
+        asText(String.valueOf(value), id);
+    }
+
+    @Override
+    public void asDouble(double value, String id) {
+        asText(String.valueOf(value), id);
+    }
+
+    @Override
     @Transactional
     public void asBoolean(boolean value, String id) {
         asText(String.valueOf(value), id);
     }
 
     private void asText(String text, SystemValue systemValue) {
+        if (text == null)
+            return;
         if (text.length() < 400)
             systemValue.setResourceType(ResourceType.text);
+        else
+            throw new IllegalArgumentException("too big resource.");
         systemValue.setValue(text);
         systemValueRepository.save(systemValue);
     }
