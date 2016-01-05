@@ -61,7 +61,7 @@
 
             <div class="col-md-5">
 
-                <form method="post" action="index.html" th:action="@{/login}">
+                <form method="post" action="index.html" th:action="@{/auth}">
                     <h4 class="nomargin">登录</h4>
 
                     <p class="mt5 mb20">所有操作都需要登录才可以继续.</p>
@@ -103,7 +103,7 @@
 
 <script src="js/custom.js"></script>
 
-<div th:if="${#httpServletRequest.getRequestURI().endsWith('error')}">
+<div th:if="${'error'==#httpServletRequest.getParameter('type')}">
     <div
             th:replace="fragments/common::alert ('登录错误',${#httpSession.getAttribute('AUTHENTICATION_MESSAGE')},'growl-danger',null,null,false)">
         <script src="js/jquery.gritter.min.js"></script>

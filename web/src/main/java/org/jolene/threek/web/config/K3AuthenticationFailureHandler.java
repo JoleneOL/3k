@@ -48,7 +48,7 @@ public class K3AuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
             message = "其他错误:" + exception.getLocalizedMessage();
         }
         session.setAttribute(AUTHENTICATION_MESSAGE, message);
-        setDefaultFailureUrl("/login?error");
+        setDefaultFailureUrl("/login?type=error");
 
         super.onAuthenticationFailure(request, response, exception);
     }

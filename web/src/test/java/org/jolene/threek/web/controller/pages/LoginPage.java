@@ -42,19 +42,13 @@ public class LoginPage extends AbstractPage {
         submitButton.click();
     }
 
-    public LoginPage assertLoginFailed(String username, String password) {
-        // 看看在此之前状态
-//        assertThat(dangerAlert.isDisplayed())
-//                .as("登录前没有错误警告")
-//                .isTrue();
+    public LoginPage assertLoginWithBadUsername(String username, String password) {
         doLogin(username, password);
-        System.out.println(webDriver.getCurrentUrl());
-        System.out.println(webDriver.getPageSource());
-        // 应该要预期到具体是什么样的错误 比如是被锁定 是密码错误还是用户根本不存在
         LoginPage loginPage = LoginPage.at(webDriver);
-        assertThat(loginPage.dangerAlert.isDisplayed())
-                .as("错误警告已经打开")
-                .isTrue();
+
+        assertThat(loginPage.getDangerAlertMessage("错误警告"))
+                .contains("用户名");
+
         return loginPage;
     }
 }

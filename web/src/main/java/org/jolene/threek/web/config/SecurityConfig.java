@@ -67,7 +67,8 @@ public class SecurityConfig {
             http
                     .authorizeRequests()
                     .antMatchers(
-                            "/config"
+                            "/config",
+                            "/login"
                             // 这里加入安全系统可见但允许所有操作的uri
 //                            "/_resources/**",
 //                            "/getGoodDetails/**"
@@ -76,9 +77,9 @@ public class SecurityConfig {
                     .and()
                     .csrf().disable()
                     .formLogin()
-//                    .failureHandler(new K3AuthenticationFailureHandler())
+                    .failureHandler(new K3AuthenticationFailureHandler())
+                    .loginProcessingUrl("/auth")
                     .loginPage("/login")
-
                     .permitAll()
                     .and()
                     .httpBasic();
