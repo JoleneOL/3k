@@ -13,7 +13,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * 配置测试,按照2种情况,1是当前已配置,2是当前未配置,则需要管理员身份进行配置
+ * 配置测试,按照2种情况,1是当前未配置,2是当前已配置,则需要管理员身份进行配置
  *
  * @author Jolene
  */
@@ -42,8 +42,9 @@ public class ConfigControllerTest extends WebTest {
         model.setConfigRequired(false);
         model.setTitle(UUID.randomUUID().toString());
 
-
+        // 提交配置
         configPage.submit(model);
+
         SystemConfig systemConfig = appService.readSystemConfig();
         assertThat(systemConfig)
                 .as("与数据库保存比较")
