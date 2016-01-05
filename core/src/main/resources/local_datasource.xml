@@ -9,8 +9,8 @@
   -->
 
 <!--suppress SpringModelInspection -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -58,7 +58,7 @@
         <property name="jpaPropertyMap">
             <map>
                 <entry key="exclude-unlisted-classes" value="false"/>
-                <entry key="javax.persistence.schema-generation.database.action" value="create"/>
+                <entry key="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
                 <entry key="eclipselink.logging.logger"
                        value="org.eclipse.persistence.logging.CommonsLoggingLog"/>
                 <entry key="eclipselink.weaving" value="false"/>

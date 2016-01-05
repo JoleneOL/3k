@@ -47,7 +47,38 @@ public class LoginPage extends AbstractPage {
         LoginPage loginPage = LoginPage.at(webDriver);
 
         assertThat(loginPage.getDangerAlertMessage("错误警告"))
-                .contains("用户名");
+                .contains("未找到");
+
+        return loginPage;
+    }
+
+    public LoginPage assertLoginWithBadPassword(String username, String password) {
+        doLogin(username, password);
+        LoginPage loginPage = LoginPage.at(webDriver);
+
+        assertThat(loginPage.getDangerAlertMessage("错误警告"))
+                .contains("密码错误");
+
+        return loginPage;
+    }
+
+    public LoginPage assertLoginWithDisabled(String username, String password) {
+        doLogin(username, password);
+        LoginPage loginPage = LoginPage.at(webDriver);
+
+        assertThat(loginPage.getDangerAlertMessage("错误警告"))
+                .contains("禁用");
+
+        return loginPage;
+    }
+
+    public LoginPage assertLoginWithLocked(String username, String password) {
+        // TODO 被锁定的账户需求可能会发生变化
+        doLogin(username, password);
+        LoginPage loginPage = LoginPage.at(webDriver);
+
+        assertThat(loginPage.getDangerAlertMessage("错误警告"))
+                .contains("锁定");
 
         return loginPage;
     }
