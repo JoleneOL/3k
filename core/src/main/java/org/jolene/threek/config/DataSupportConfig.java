@@ -3,7 +3,6 @@ package org.jolene.threek.config;
 import org.luffy.lib.libspring.data.ClassicsRepositoryFactoryBean;
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -25,7 +24,7 @@ import java.lang.reflect.Method;
  * <p>
  * ok 现在加入一套自身实现的实体监听
  *
- * @author CJ
+ * @author Jolene
  * @see TransactionAspectSupport#invokeWithinTransaction(Method, Class, TransactionAspectSupport.InvocationCallback)
  */
 @Configuration

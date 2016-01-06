@@ -9,16 +9,14 @@ import org.thymeleaf.dom.NestableNode;
 import org.thymeleaf.standard.processor.attr.AbstractStandardSingleAttributeModifierAttrProcessor;
 
 /**
- * @author CJ
+ * @author Jolene
  */
 @Component
 public class ActiveStyleProcessor extends AbstractStandardSingleAttributeModifierAttrProcessor {
 
-    private static final Log log = LogFactory.getLog(ActiveStyleProcessor.class);
-
     public static final int ATTR_PRECEDENCE = 21100;
-
     public static final String TARGET_ATTR_NAME = "style";
+    private static final Log log = LogFactory.getLog(ActiveStyleProcessor.class);
 
     protected ActiveStyleProcessor() {
         super("activestyle");

@@ -1,5 +1,6 @@
 package org.jolene.threek.web.controller.pages;
 
+import org.jolene.threek.web.model.ProvideInfo;
 import org.jolene.threek.web.pages.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -83,5 +84,23 @@ public class IndexPage extends AbstractPage {
         assertThat(acceptModal.isDisplayed())
                 .as("接受帮助弹出框不可见")
                 .isFalse();
+    }
+
+    /**
+     * TODO 提交一个手数过多的订单
+     *
+     * @param info
+     */
+    public void provideTooManyLots(ProvideInfo info) {
+
+    }
+
+    /**
+     * TODO 提交一个合法的订单
+     *
+     * @param info
+     */
+    public void provideSuccess(ProvideInfo info) {
+
     }
 }

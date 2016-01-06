@@ -16,7 +16,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * @author CJ
+ * @author Jolene
  */
 @Aspect
 public class AutoFlush {

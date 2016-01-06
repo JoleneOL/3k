@@ -41,7 +41,7 @@ public class SystemConfig {
     public static final String DIRECT_REWARD_RATE = "org.jolene.3k.directRewardRate";
     public static final String DIRECT_REWARD_RATE2 = "org.jolene.3k.directRewardRate2";
     /**
-     * 储存时按照 0.1,1.0[|0.1,1.0]保存为文本
+     * 储存时按照 0.1,1.0[|0.1,1.0]*保存为文本
      */
     public static final String INTEREST_REWARDS = "org.jolene.3k.interestRewards";
     /**
