@@ -34,6 +34,8 @@ public class ConfigPage extends AbstractPage {
         title.clear();
         title.sendKeys(systemConfig.getTitle());
 
+        // TODO 更多的输入操作
+
         submitButton.click();
 //        return PageFactory.initElements(webDriver, ConfigPage.class);
     }
