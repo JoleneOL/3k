@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:k3="http://3k.io" lang="en">
 <head>
     <meta charset="UTF-8"/>
     <title>常用的组件,比如模板弹窗,信息框</title>
@@ -28,6 +28,18 @@
         });
     </script>
 </div>
+
+<p th:fragment="paymentMethods (disableUnusedable)" th:remove="all-but-first">
+    <label class="checkbox block" k3:paymentMethods="payment">
+        <!--/*@thymesVar id="payment" type="org.jolene.threek.common.PaymentMethod"*/-->
+        <input name="paymentMethod" type="checkbox" th:value="${payment.name()}"
+               th:text="${payment.humanReadableName}"/>银行支付
+    </label>
+
+    <label class="checkbox block"><input type="checkbox"/>银行支付</label>
+    <label class="checkbox block"><input type="checkbox"/>支付宝</label>
+    <label class="checkbox block"><input type="checkbox"/>微信支付</label>
+</p>
 
 </body>
 </html>
