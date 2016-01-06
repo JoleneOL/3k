@@ -2,6 +2,7 @@ package org.jolene.threek.web.controller.admin;
 
 import org.jolene.threek.SystemConfig;
 import org.jolene.threek.service.AppService;
+import org.jolene.threek.support.InterestReward;
 import org.jolene.threek.web.WebTest;
 import org.jolene.threek.web.controller.admin.pages.ConfigPage;
 import org.junit.Test;
@@ -41,6 +42,37 @@ public class ConfigControllerTest extends WebTest {
         SystemConfig model = new SystemConfig();
         model.setConfigRequired(false);
         model.setTitle(UUID.randomUUID().toString());
+        model.setDirectRewardRate(randomDouble(0.1, 0.9, 2));
+        model.setDirectRewardRate2(randomDouble(0.1, 0.9, 2));
+        model.setIndexBottomNotice(UUID.randomUUID().toString());
+        model.setIndexTopNotice(UUID.randomUUID().toString());
+        model.setInspectEndDayOfMonth(random.nextInt(10) + 1);
+        model.setInspectStartDayOfMonth(random.nextInt(10) + 1);
+        model.setUrl(UUID.randomUUID().toString());
+        model.setWelcomeMessage(UUID.randomUUID().toString());
+        String[] strings = new String[random.nextInt(10) + 1];
+        for (int i = 0; i < strings.length; i++) {
+            strings[i] = UUID.randomUUID().toString();
+        }
+        model.setWelcomeFeatures(strings);
+
+        model.setStock(random.nextInt(1000) + 1);
+        model.setRate(randomDouble(0.1, 0.9, 2));
+        model.setMaxLots(random.nextInt(88) + 1);
+        model.setQueueDays(random.nextInt(9) + 1);
+        model.setMaxOperateHours(random.nextInt(24) + 1);
+        model.setMaxOrders(random.nextInt(88) + 1);
+        model.setLeaderRate(randomDouble(0.001, 0.009, 6));
+        model.setLeaderStopInvests(random.nextInt(8888) + 1);
+        model.setLeaderStopMembers(random.nextInt(99) + 1);
+        model.setLeaderStopRecommends(random.nextInt(99) + 1);
+
+        for (int i = 1; i <= 10; i++) {
+            InterestReward interestReward = model.getInterestRewards().get(i);
+            interestReward.setMax(random.nextInt(9));
+            interestReward.setReach(random.nextInt(10));
+            interestReward.setRate(randomDouble(0.1, 0.9, 2));
+        }
 
         // 提交配置
         configPage.submit(model);

@@ -29,6 +29,6 @@ public class IndexControllerTest extends AuthenticatedWebTest {
         // 测试点击 接受帮助
         indexPage.clickAccepterForModal();
 
-
+        // TODO 首页还应该看到账户的明细 巴拉巴拉
     }
 }
