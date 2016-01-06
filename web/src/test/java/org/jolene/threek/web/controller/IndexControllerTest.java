@@ -9,10 +9,21 @@ import org.junit.Test;
  */
 public class IndexControllerTest extends AuthenticatedWebTest {
 
+    /**
+     * 普通用户
+     *
+     * @throws Exception
+     */
     @Test
     @LoginAs("USER")
-    public void testIndex() throws Exception {
+    public void normal() throws Exception {
         System.out.println(driver.getPageSource());
         System.out.println(indexPage);
+
+        indexPage.noModals();
+
+        indexPage.clickProviderForModal();
+
+        indexPage.clickAccepterForModal();
     }
 }
