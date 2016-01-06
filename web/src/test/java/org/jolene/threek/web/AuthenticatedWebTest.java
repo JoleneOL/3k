@@ -1,5 +1,6 @@
 package org.jolene.threek.web;
 
+import org.jolene.threek.entity.Login;
 import org.jolene.threek.entity.User;
 import org.jolene.threek.service.LoginService;
 import org.jolene.threek.web.controller.pages.IndexPage;
@@ -10,12 +11,14 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.UUID;
 
 /**
  * 已认证（登录）的一个web测试,需要使用{@link LoginAs}标注配合
+ * <p>测试方法内可以使用{@link #currentUser 当前用户},{@link #indexPage 首页},{@link #session session}</p>
  *
  * @author Jolene
  */
@@ -24,8 +27,18 @@ public abstract class AuthenticatedWebTest extends WebTest {
 
     /**
      * 既然登录了 必然会有首页.
+     * driver版本
      */
     protected IndexPage indexPage;
+    /**
+     * net版本
+     * TODO 尚未实现
+     */
+    protected MockHttpSession session;
+    /**
+     * 当前用户
+     */
+    protected Login currentUser;
     private LoginAs currentLogin;
 
     @Autowired

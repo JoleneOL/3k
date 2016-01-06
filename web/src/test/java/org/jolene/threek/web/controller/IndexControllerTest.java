@@ -20,10 +20,15 @@ public class IndexControllerTest extends AuthenticatedWebTest {
         System.out.println(driver.getPageSource());
         System.out.println(indexPage);
 
+        // 当前无弹窗
         indexPage.noModals();
 
+        // 测试点击 提供帮助
         indexPage.clickProviderForModal();
 
+        // 测试点击 接受帮助
         indexPage.clickAccepterForModal();
+
+
     }
 }
