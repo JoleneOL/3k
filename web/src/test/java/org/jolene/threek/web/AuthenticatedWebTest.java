@@ -36,6 +36,7 @@ public abstract class AuthenticatedWebTest extends WebTest {
         if (currentLogin == null) {
             throw new IllegalStateException("使用AuthenticatedWebTest作为测试基类那么需要使用@LoginAs标注声明所登录的角色.");
         }
+        driver.manage().deleteAllCookies();
 
         User user = new User();
 
