@@ -51,16 +51,16 @@ public abstract class AuthenticatedWebTest extends WebTest {
         }
         driver.manage().deleteAllCookies();
 
-        User user = new User();
+        currentUser = new User();
 
-        user.setUsername(UUID.randomUUID().toString());
+        currentUser.setUsername(UUID.randomUUID().toString());
         String rawPassword = UUID.randomUUID().toString();
-        user = loginService.changeLoginWithRawPassword(user, rawPassword);
+        currentUser = loginService.changeLoginWithRawPassword(currentUser, rawPassword);
 
         driver.get("http://localhost");
         LoginPage loginPage = LoginPage.at(driver);
 
-        indexPage = loginPage.assertLoginSuccess(user.getUsername(), rawPassword);
+        indexPage = loginPage.assertLoginSuccess(currentUser.getUsername(), rawPassword);
     }
 
     public static class AuthenticatedRunner extends SpringJUnit4ClassRunner {
