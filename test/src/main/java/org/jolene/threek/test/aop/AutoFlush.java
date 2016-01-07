@@ -30,6 +30,9 @@ public class AutoFlush {
     @Around("savePoint()")
     public Object aroundSave(ProceedingJoinPoint pjp) throws Throwable {
         // start stopwatch
+        if (pjp.getArgs()[0] != null && pjp.getArgs()[0] instanceof Iterable) {
+            return pjp.proceed();
+        }
         JpaRepository repository = (JpaRepository) pjp.getTarget();
         return repository.saveAndFlush(pjp.getArgs()[0]);
         // stop stopwatch

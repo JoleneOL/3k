@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:k3="http://3k.io" lang="en">
 <!--/*@thymesVar id="#config" type="org.jolene.threek.SystemConfig"*/-->
+<!--/*@thymesVar id="#isEndUser" type="java.lang.Boolean"*/-->
 <head>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" href="../css/style.default.css" th:href="@{/css/style.default.css}"/>
@@ -91,43 +92,25 @@
 
         </ul>
 
-        <div class="infosummary">
+        <div class="infosummary" th:if="${#isEndUser}">
+            <!--/*@thymesVar id="#user" type="org.jolene.threek.entity.User"*/-->
+            <!--/*@thymesVar id="#ticketCount" type="java.lang.Integer"*/-->
+
             <h5 class="sidebartitle">帐号简报</h5>
             <ul>
                 <li>
                     <div class="datainfo">
-                        <span class="text-muted">Daily Traffic</span>
-                        <h4>630, 201</h4>
+                        <span class="text-muted">账户余额</span>
+                        <h4 about="balance" th:text="${#numbers.formatDecimal(#user.balance,1,2)}">630, 201</h4>
                     </div>
-                    <div id="sidebar-chart" class="chart"></div>
+                    <div id="balance-chart" class="chart"></div>
                 </li>
                 <li>
                     <div class="datainfo">
-                        <span class="text-muted">Average Users</span>
-                        <h4>1, 332, 801</h4>
+                        <span class="text-muted">可用入场券</span>
+                        <h4 about="ticketCount" th:text="${#ticketCount}">100</h4>
                     </div>
-                    <div id="sidebar-chart2" class="chart"></div>
-                </li>
-                <li>
-                    <div class="datainfo">
-                        <span class="text-muted">Disk Usage</span>
-                        <h4>82.2%</h4>
-                    </div>
-                    <div id="sidebar-chart3" class="chart"></div>
-                </li>
-                <li>
-                    <div class="datainfo">
-                        <span class="text-muted">CPU Usage</span>
-                        <h4>140.05 - 32</h4>
-                    </div>
-                    <div id="sidebar-chart4" class="chart"></div>
-                </li>
-                <li>
-                    <div class="datainfo">
-                        <span class="text-muted">Memory Usage</span>
-                        <h4>32.2%</h4>
-                    </div>
-                    <div id="sidebar-chart5" class="chart"></div>
+                    <div id="ticketCount-chart" class="chart"></div>
                 </li>
             </ul>
         </div><!-- infosummary -->

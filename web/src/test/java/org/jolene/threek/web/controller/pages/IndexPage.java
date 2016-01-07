@@ -1,7 +1,7 @@
 package org.jolene.threek.web.controller.pages;
 
 import org.jolene.threek.web.model.ProvideInfo;
-import org.jolene.threek.web.pages.AbstractPage;
+import org.jolene.threek.web.pages.AbstractFramePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,10 +9,11 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * @author Jolene
  */
-public class IndexPage extends AbstractPage {
+public class IndexPage extends AbstractFramePage {
 
 
     @FindBy(css = "button[name=provider]")
