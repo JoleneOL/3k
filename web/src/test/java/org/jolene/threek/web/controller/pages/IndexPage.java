@@ -113,4 +113,12 @@ public class IndexPage extends AbstractFramePage {
     public void provideWithoutTicket(ProvideInfo info) {
 
     }
+
+    /**
+     * TODO 提交了订单 但是不可以排入更多订单了
+     */
+    public void provideTooManyOrders(ProvideInfo info) {
+
+
+    }
 }
