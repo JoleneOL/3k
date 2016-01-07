@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.validation.MessageCodesResolver;
@@ -30,6 +31,7 @@ import java.util.List;
  * @author Jolene
  */
 @Configuration
+@PropertySource("classpath:/config.properties")
 @Profile("test")
 @Import(LoggingConfig.class)
 public class LocalTestConfig implements WebMvcConfigurer {
