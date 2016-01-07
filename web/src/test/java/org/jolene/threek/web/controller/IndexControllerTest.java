@@ -44,7 +44,7 @@ public class IndexControllerTest extends AuthenticatedWebTest {
         indexPage.seeExceptTicketCount(0);
 
         User user = (User) currentUser;
-        user.setBalance(randomDouble(10, 99999, 1));
+        user.setBalance(randomDouble(10, 999999999, 1));
         //弄几个入场券给他
         Collection<Ticket> tickets = Ticket.newTickets(random.nextInt(30) + 1);
         tickets.forEach(ticket -> ticket.setClaimant(user));
