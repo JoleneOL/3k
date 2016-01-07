@@ -29,7 +29,10 @@ public abstract class AbstractFramePage extends AbstractPage {
         super(driver);
     }
 
-    private void makeLeftPanelVisible() {
+    /**
+     * 保证左侧界面处于可见范围
+     */
+    protected void makeLeftPanelVisible() {
         if (!leftPanel.isDisplayed())
             menuToggle.click();
         assertThat(leftPanel.isDisplayed())
