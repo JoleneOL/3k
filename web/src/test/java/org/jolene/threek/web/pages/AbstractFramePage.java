@@ -33,6 +33,7 @@ public abstract class AbstractFramePage extends AbstractPage {
         if (!leftPanel.isDisplayed())
             menuToggle.click();
         assertThat(leftPanel.isDisplayed())
+                .as("点击菜单之后应该可以看到左侧界面")
                 .isTrue();
     }
 
@@ -44,8 +45,10 @@ public abstract class AbstractFramePage extends AbstractPage {
     public void seeExceptBalance(double balance) {
         makeLeftPanelVisible();
         assertThat(labelForBalance.isDisplayed())
+                .as("账户余额应该可见")
                 .isTrue();
         assertThat(labelForBalance.getText())
+                .as("账户余额数据应该正确")
                 .isEqualTo(NumberUtils.format(balance, 1, 2, Locale.CHINA));
     }
 
@@ -57,8 +60,10 @@ public abstract class AbstractFramePage extends AbstractPage {
     public void seeExceptTicketCount(int count) {
         makeLeftPanelVisible();
         assertThat(labelForTicketCount.isDisplayed())
+                .as("剩余入场券应该可见")
                 .isTrue();
         assertThat(labelForTicketCount.getText())
+                .as("剩余入场券数据应该正确")
                 .isEqualTo(String.valueOf(count));
     }
 }
