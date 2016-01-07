@@ -1,7 +1,9 @@
 package org.jolene.threek.web;
 
 import org.jolene.threek.entity.Login;
+import org.jolene.threek.entity.Ticket;
 import org.jolene.threek.entity.User;
+import org.jolene.threek.repository.TicketRepository;
 import org.jolene.threek.service.LoginService;
 import org.jolene.threek.web.controller.pages.IndexPage;
 import org.jolene.threek.web.controller.pages.LoginPage;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Collection;
 import java.util.UUID;
 
 /**
@@ -43,6 +46,8 @@ public abstract class AuthenticatedWebTest extends WebTest {
 
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private TicketRepository ticketRepository;
 
     @Before
     public void authenticate() {
@@ -61,6 +66,31 @@ public abstract class AuthenticatedWebTest extends WebTest {
         LoginPage loginPage = LoginPage.at(driver);
 
         indexPage = loginPage.assertLoginSuccess(currentUser.getUsername(), rawPassword);
+    }
+
+    /**
+     * 给{@link #currentUser 当前用户}随机几个入场券
+     * <p>当然如果当前用户不是一个最终用户会报错</p>
+     *
+     * @return 生成的入场券
+     */
+    protected Collection<Ticket> giveCurrentSomeTicket() {
+        return giveCurrentSomeTicket(random.nextInt(22) + 1);
+    }
+
+    /**
+     * 给{@link #currentUser 当前用户}几个入场券
+     * <p>当然如果当前用户不是一个最终用户会报错</p>
+     *
+     * @param number 数量
+     * @return 生成的入场券
+     */
+    protected Collection<Ticket> giveCurrentSomeTicket(int number) {
+        User user = (User) currentUser;
+        //弄几个入场券给他
+        Collection<Ticket> tickets = Ticket.newTickets(number);
+        tickets.forEach(ticket -> ticket.setClaimant(user));
+        return ticketRepository.save(tickets);
     }
 
     public static class AuthenticatedRunner extends SpringJUnit4ClassRunner {

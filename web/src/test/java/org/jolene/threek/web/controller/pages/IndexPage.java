@@ -104,4 +104,13 @@ public class IndexPage extends AbstractFramePage {
     public void provideSuccess(ProvideInfo info) {
 
     }
+
+    /**
+     * TODO 提交了订单 但是没有入场券
+     *
+     * @param info
+     */
+    public void provideWithoutTicket(ProvideInfo info) {
+
+    }
 }

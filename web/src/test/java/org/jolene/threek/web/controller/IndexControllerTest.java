@@ -2,12 +2,10 @@ package org.jolene.threek.web.controller;
 
 import org.jolene.threek.entity.Ticket;
 import org.jolene.threek.entity.User;
-import org.jolene.threek.repository.TicketRepository;
 import org.jolene.threek.web.AuthenticatedWebTest;
 import org.jolene.threek.web.LoginAs;
 import org.junit.Test;
 import org.openqa.selenium.support.PageFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
 
@@ -15,9 +13,6 @@ import java.util.Collection;
  * @author Jolene
  */
 public class IndexControllerTest extends AuthenticatedWebTest {
-
-    @Autowired
-    private TicketRepository ticketRepository;
 
     /**
      * 普通用户
@@ -45,17 +40,14 @@ public class IndexControllerTest extends AuthenticatedWebTest {
 
         User user = (User) currentUser;
         user.setBalance(randomDouble(10, 999999999, 1));
-        //弄几个入场券给他
-        Collection<Ticket> tickets = Ticket.newTickets(random.nextInt(30) + 1);
-        tickets.forEach(ticket -> ticket.setClaimant(user));
-        ticketRepository.save(tickets);
+
+        Collection<Ticket> tickets = giveCurrentSomeTicket();
 
         driver.navigate().refresh();
         PageFactory.initElements(driver, indexPage);
 
         indexPage.seeExceptBalance(user.getBalance());
         indexPage.seeExceptTicketCount(tickets.size());
-
 
 
         // TODO 首页还应该看到账户的明细 巴拉巴拉

@@ -34,6 +34,10 @@ public class InvestmentControllerTest extends AuthenticatedWebTest {
 
         info.setLot(random.nextInt(appService.currentSystemConfig().getMaxLots()) + 1);
 
+        indexPage.provideWithoutTicket(info);
+
+        giveCurrentSomeTicket(1);
+
         indexPage.provideSuccess(info);
 
         // 校验数据结果
