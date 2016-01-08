@@ -58,7 +58,6 @@ public class IndexControllerTest extends AuthenticatedWebTest {
         PageFactory.initElements(driver, indexPage);
 
         indexPage.seeExceptNewUsers(newUsers.size());
-        // TODO 首页还应该看到账户的明细 巴拉巴拉
     }
 
 }

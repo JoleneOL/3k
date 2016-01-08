@@ -40,6 +40,8 @@ public class ResourceHrefProcessor extends AbstractStandardSingleAttributeModifi
         final IStandardExpression rightExpr = assignation.getRight();
         final Object rightValue = rightExpr.execute(configuration, arguments);
 
+        if (rightValue == null)
+            return "";
         try {
             return resourceService.getResource(rightValue.toString()).getURI().toString();
         } catch (IOException e) {

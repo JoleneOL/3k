@@ -38,7 +38,7 @@
                         <ul class="dropdown-list user-list">
                             <li class="new" th:each="newUser:${#newUsers}">
                                 <div class="thumb"><a href=""><img src="../images/photos/user1.png"
-                                                                   k3:resourceHref="src:${newUser.logoPath}"
+                                                                   k3:resourceHref="src=${newUser.logoPath}"
                                                                    alt=""/></a>
                                 </div>
                                 <div class="desc">
