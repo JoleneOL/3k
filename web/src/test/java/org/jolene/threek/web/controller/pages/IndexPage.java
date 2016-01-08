@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,10 +28,9 @@ public class IndexPage extends AbstractFramePage {
         super(driver);
     }
 
-    public static IndexPage at(WebDriver driver) {
-//        assertThat(driver.getCurrentUrl())
-//                .contains("/login");
-        return PageFactory.initElements(driver, IndexPage.class);
+    @Override
+    public void validatePage() {
+        // TODO
     }
 
 

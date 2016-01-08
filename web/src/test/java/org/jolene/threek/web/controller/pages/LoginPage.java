@@ -4,7 +4,6 @@ import org.jolene.threek.web.pages.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,15 +22,15 @@ public class LoginPage extends AbstractPage {
         super(driver);
     }
 
-    public static LoginPage at(WebDriver driver) {
-        assertThat(driver.getCurrentUrl())
+    @Override
+    public void validatePage() {
+        assertThat(webDriver.getCurrentUrl())
                 .contains("/login");
-        return PageFactory.initElements(driver, LoginPage.class);
     }
 
     public IndexPage assertLoginSuccess(String username, String password) {
         doLogin(username, password);
-        return IndexPage.at(webDriver);
+        return testInstance.initPage(IndexPage.class);
     }
 
     private void doLogin(String username, String password) {
@@ -44,7 +43,7 @@ public class LoginPage extends AbstractPage {
 
     public LoginPage assertLoginWithBadUsername(String username, String password) {
         doLogin(username, password);
-        LoginPage loginPage = LoginPage.at(webDriver);
+        LoginPage loginPage = testInstance.initPage(LoginPage.class);
 
         assertThat(loginPage.getDangerAlertMessage("错误警告"))
                 .contains("未找到");
@@ -54,7 +53,7 @@ public class LoginPage extends AbstractPage {
 
     public LoginPage assertLoginWithBadPassword(String username, String password) {
         doLogin(username, password);
-        LoginPage loginPage = LoginPage.at(webDriver);
+        LoginPage loginPage = testInstance.initPage(LoginPage.class);
 
         assertThat(loginPage.getDangerAlertMessage("错误警告"))
                 .contains("密码错误");
@@ -64,7 +63,7 @@ public class LoginPage extends AbstractPage {
 
     public LoginPage assertLoginWithDisabled(String username, String password) {
         doLogin(username, password);
-        LoginPage loginPage = LoginPage.at(webDriver);
+        LoginPage loginPage = testInstance.initPage(LoginPage.class);
 
         assertThat(loginPage.getDangerAlertMessage("错误警告"))
                 .contains("禁用");
@@ -75,7 +74,7 @@ public class LoginPage extends AbstractPage {
     public LoginPage assertLoginWithLocked(String username, String password) {
         // TODO 被锁定的账户需求可能会发生变化
         doLogin(username, password);
-        LoginPage loginPage = LoginPage.at(webDriver);
+        LoginPage loginPage = testInstance.initPage(LoginPage.class);
 
         assertThat(loginPage.getDangerAlertMessage("错误警告"))
                 .contains("锁定");

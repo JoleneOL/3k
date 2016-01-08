@@ -2,18 +2,23 @@ package org.jolene.threek.web.controller;
 
 import org.jolene.threek.entity.Ticket;
 import org.jolene.threek.entity.User;
+import org.jolene.threek.service.AppService;
 import org.jolene.threek.web.AuthenticatedWebTest;
 import org.jolene.threek.web.LoginAs;
 import org.junit.Test;
 import org.openqa.selenium.support.PageFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author Jolene
  */
 public class IndexControllerTest extends AuthenticatedWebTest {
 
+    @Autowired
+    private AppService appService;
     /**
      * 普通用户
      *
@@ -22,6 +27,7 @@ public class IndexControllerTest extends AuthenticatedWebTest {
     @Test
     @LoginAs("USER")
     public void normal() throws Exception {
+        appService.currentSystemConfig().setTitle("中文");
         System.out.println(driver.getPageSource());
         System.out.println(indexPage);
 
@@ -49,15 +55,17 @@ public class IndexControllerTest extends AuthenticatedWebTest {
         indexPage.seeExceptBalance(user.getBalance());
         indexPage.seeExceptTicketCount(tickets.size());
 
-        indexPage.seeExceptNewUsers(0);
+        System.out.println(driver.getTitle());
 
+
+        indexPage.seeExceptNewUsers(Collections.emptySet());
 
         // 增加一个它的下线
         Collection<User> newUsers = addNewUserUnder(user, random.nextInt(3) + 1);
         driver.navigate().refresh();
         PageFactory.initElements(driver, indexPage);
 
-        indexPage.seeExceptNewUsers(newUsers.size());
+        indexPage.seeExceptNewUsers(newUsers);
     }
 
 }

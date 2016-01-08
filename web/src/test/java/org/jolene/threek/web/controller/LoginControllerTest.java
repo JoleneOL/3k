@@ -56,7 +56,7 @@ public class LoginControllerTest extends WebTest {
     public void testLogin() throws Exception {
 
         driver.get("http://localhost");
-        LoginPage page = LoginPage.at(driver);
+        LoginPage page = initPage(LoginPage.class);
 
         System.out.println(driver.getPageSource());
         // 页面应该没有弹出的信息或者错误

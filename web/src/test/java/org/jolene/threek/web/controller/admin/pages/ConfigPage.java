@@ -5,7 +5,6 @@ import org.jolene.threek.web.pages.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,10 +23,10 @@ public class ConfigPage extends AbstractPage {
         super(driver);
     }
 
-    public static ConfigPage at(WebDriver driver) {
-        assertThat(driver.getCurrentUrl())
+    @Override
+    public void validatePage() {
+        assertThat(webDriver.getCurrentUrl())
                 .contains("/config");
-        return PageFactory.initElements(driver, ConfigPage.class);
     }
 
     public void submit(SystemConfig systemConfig) {

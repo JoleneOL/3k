@@ -7,8 +7,11 @@ import org.jolene.threek.common.PaymentMethod;
 import org.jolene.threek.entity.User;
 import org.jolene.threek.feature.MutableTransferable;
 import org.jolene.threek.service.LoginService;
+import org.jolene.threek.service.ResourceService;
 import org.jolene.threek.test.LocalTestConfig;
+import org.jolene.threek.web.pages.AbstractPage;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.support.PageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,7 +38,28 @@ public abstract class WebTest extends SpringWebTest {
 
     @Autowired
     protected LoginService loginService;
+    @Autowired
+    protected ResourceService resourceService;
 
+    /**
+     * 初始化逻辑页面
+     * <p>会首先{@link AbstractPage#validatePage() 验证}该页面</p>
+     *
+     * @param clazz 该页面相对应的逻辑页面的类
+     * @param <T>   该页面相对应的逻辑页面
+     * @return 页面实例
+     */
+    public <T extends AbstractPage> T initPage(Class<T> clazz) {
+        T page = PageFactory.initElements(driver, clazz);
+        page.setResourceService(resourceService);
+        page.setTestInstance(this);
+        page.validatePage();
+        return page;
+    }
+
+    /**
+     * @return 随机email 地址
+     */
     protected String randomEmailAddress() {
         return RandomStringUtils.randomAscii(random.nextInt(5) + 3)
                 + "@"

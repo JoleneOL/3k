@@ -60,7 +60,7 @@ public abstract class AuthenticatedWebTest extends WebTest {
         currentUser = loginService.changeLoginWithRawPassword(currentUser, rawPassword);
 
         driver.get("http://localhost");
-        LoginPage loginPage = LoginPage.at(driver);
+        LoginPage loginPage = initPage(LoginPage.class);
 
         indexPage = loginPage.assertLoginSuccess(currentUser.getUsername(), rawPassword);
     }
