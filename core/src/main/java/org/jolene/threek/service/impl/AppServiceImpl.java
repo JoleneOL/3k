@@ -2,9 +2,11 @@ package org.jolene.threek.service.impl;
 
 import org.jolene.threek.K3Version;
 import org.jolene.threek.SystemConfig;
+import org.jolene.threek.entity.User;
 import org.jolene.threek.exception.ConfigRequiredException;
 import org.jolene.threek.repository.LoginRepository;
 import org.jolene.threek.service.AppService;
+import org.jolene.threek.service.ResourceService;
 import org.jolene.threek.service.SystemValueService;
 import org.jolene.threek.service.VersionService;
 import org.jolene.threek.support.InterestReward;
@@ -18,6 +20,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 
 /**
  * @author Jolene
@@ -34,11 +37,16 @@ public class AppServiceImpl implements AppService {
     private LoginRepository loginRepository;
     @Autowired
     private VersionService versionService;
+    @Autowired
+    private ResourceService resourceService;
 
     @Override
     @PostConstruct
     @Transactional
-    public void init() {
+    public void init() throws IOException {
+        if (!resourceService.getResource(User.DEFAULT_LOGO_PATH).exists()) {
+            resourceService.uploadResource(User.DEFAULT_LOGO_PATH, AppService.class.getResourceAsStream("/images/defaultUser.png"));
+        }
         versionService.systemUpgrade("org.jolene.3k.database.version", K3Version.class, K3Version.init, version -> {
 
             // do something while upgrade.

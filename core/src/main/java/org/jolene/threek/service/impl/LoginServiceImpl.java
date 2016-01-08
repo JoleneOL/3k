@@ -29,6 +29,8 @@ public class LoginServiceImpl implements LoginService {
             if (((User) login).getCode() == null)
                 ((User) login).setCode(Utils.randomString());
         }
+        if (login.getLogoPath() == null)
+            login.setLogoPath(User.DEFAULT_LOGO_PATH);
         return loginRepository.save(login);
     }
 }
