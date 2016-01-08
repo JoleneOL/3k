@@ -24,7 +24,7 @@ public class PlatformAccount implements MutableTransferable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private TransferableData transferableData;
+    private TransferableData transferableData = new TransferableData();
 
     @Override
     public String getContactNumber() {

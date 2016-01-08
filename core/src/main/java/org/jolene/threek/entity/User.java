@@ -25,7 +25,7 @@ public class User extends Login implements MutableTransferable {
      * 余额
      */
     private double balance;
-    private TransferableData transferableData;
+    private TransferableData transferableData = new TransferableData();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
