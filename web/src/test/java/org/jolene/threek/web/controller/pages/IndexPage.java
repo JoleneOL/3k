@@ -1,6 +1,7 @@
 package org.jolene.threek.web.controller.pages;
 
 import org.jolene.threek.web.model.ProvideInfo;
+import org.jolene.threek.web.model.RequirementInfo;
 import org.jolene.threek.web.pages.AbstractFramePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -119,6 +120,42 @@ public class IndexPage extends AbstractFramePage {
      */
     public void provideTooManyOrders(ProvideInfo info) {
 
+
+    }
+
+    /**
+     * TODO 提交了订单 但是选择的支付方式未曾设置过收款方式,界面来说 应该是无法选择的
+     *
+     * @param info
+     */
+    public void acceptWithInvisiblePaymentMethod(RequirementInfo info) {
+
+    }
+
+    /**
+     * TODO 输入了并非以100整除的金额
+     *
+     * @param info
+     */
+    public void acceptWithBadAmount(RequirementInfo info) {
+
+    }
+
+    /**
+     * TODO 输入了超过余额的金额
+     *
+     * @param info
+     */
+    public void acceptWithNotEnoughBalance(RequirementInfo info) {
+
+    }
+
+    /**
+     * TODO 成功提交了订单
+     *
+     * @param info
+     */
+    public void acceptSuccess(RequirementInfo info) {
 
     }
 }

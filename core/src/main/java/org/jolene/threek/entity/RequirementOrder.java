@@ -2,7 +2,7 @@ package org.jolene.threek.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.jolene.threek.entity.support.ProvideStatus;
+import org.jolene.threek.entity.support.RequirementStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,31 +16,23 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * 提供帮助订单
+ * 接受帮助订单
+ *
  * @author Jolene
  */
 @Entity
 @Setter
 @Getter
-public class ProvideOrder {
+public class RequirementOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    /**
-     * 本金
-     */
-    private int invest;
-    /**
-     * 下单时的利率,就是从机制上说 是允许随时改变利率 而用户享受到的是下单时的利率
-     */
-    private double rate;
+    private int amount;
     /**
      * 下单时间
      */
     @Column(columnDefinition = "datetime")
     private LocalDateTime orderTime;
-
-    private ProvideStatus orderStatus;
     /**
      * 拥有者
      */
@@ -48,7 +40,8 @@ public class ProvideOrder {
     @JoinColumn(nullable = false)
     private User owner;
 
-    @OneToMany(mappedBy = "provideOrder")
-    private Set<MatchingOrder> matchingOrders;
+    private RequirementStatus requirementStatus;
 
+    @OneToMany(mappedBy = "requirementOrder")
+    private Set<MatchingOrder> matchingOrders;
 }

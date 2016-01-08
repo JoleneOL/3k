@@ -2,12 +2,15 @@ package org.jolene.threek.web.controller;
 
 import org.jolene.threek.common.PaymentMethod;
 import org.jolene.threek.entity.User;
+import org.jolene.threek.feature.MutableTransferable;
 import org.jolene.threek.repository.ProvideOrderRepository;
 import org.jolene.threek.service.AppService;
 import org.jolene.threek.web.AuthenticatedWebTest;
 import org.jolene.threek.web.LoginAs;
 import org.jolene.threek.web.model.ProvideInfo;
+import org.jolene.threek.web.model.RequirementInfo;
 import org.junit.Test;
+import org.openqa.selenium.support.PageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -70,5 +73,34 @@ public class InvestmentControllerTest extends AuthenticatedWebTest {
     @Test
     public void testDoAccept() throws Exception {
 
+        RequirementInfo info = new RequirementInfo();
+
+        info.setPaymentMethods(randomArray(PaymentMethod.values(), 1));
+        info.setAmount(100);
+        indexPage.acceptWithInvisiblePaymentMethod(info);
+
+        updatePaymentDetails((MutableTransferable) currentUser, info.getPaymentMethods());
+
+        info.setAmount(101);
+        indexPage.acceptWithBadAmount(info);
+
+        info.setAmount(100);
+        indexPage.acceptWithNotEnoughBalance(info);
+
+        User user = (User) currentUser;
+        user.setBalance(randomDouble(200, 9000, 2));
+
+        info.setAmount(((int) (user.getBalance() / 100)) * 100);
+        driver.navigate().refresh();
+        PageFactory.initElements(driver, indexPage);
+
+        indexPage.acceptSuccess(info);
+        //刷新这个页面 检查余额
+        PageFactory.initElements(driver, indexPage);
+        indexPage.seeExceptBalance(user.getBalance() - (double) info.getAmount());
+
+        // TODO 数据校验
+
     }
+
 }
