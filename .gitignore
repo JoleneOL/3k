@@ -1,4 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
+### Mine
+_resources/
+
 ### Eclipse template
 *.pydevproject
 .metadata
