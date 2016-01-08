@@ -14,11 +14,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://120.24.243.104:3307/3k?useUnicode=true&amp;characterEncoding=UTF8"/>
-        <property name="username" value="dbuser"/>
-        <property name="password" value="ddbbuusseerr"/>
+        <property name="driverClassName" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:k3"/>
     </bean>
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+    <!--<property name="driverClassName" value="com.mysql.jdbc.Driver"/>-->
+    <!--<property name="url" value="jdbc:mysql://120.24.243.104:3307/3k?useUnicode=true&amp;characterEncoding=UTF8"/>-->
+    <!--<property name="username" value="dbuser"/>-->
+    <!--<property name="password" value="ddbbuusseerr"/>-->
+    <!--</bean>-->
 
     <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
     <!--<property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver"/>-->

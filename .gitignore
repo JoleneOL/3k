@@ -2,6 +2,9 @@
 ### Mine
 _resources/
 
+*.h2.db
+*.trace.db
+
 ### Eclipse template
 *.pydevproject
 .metadata
