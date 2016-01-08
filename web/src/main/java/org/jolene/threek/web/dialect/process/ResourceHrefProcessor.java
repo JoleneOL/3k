@@ -79,7 +79,7 @@ public class ResourceHrefProcessor extends AbstractStandardSingleAttributeModifi
 
     @Override
     protected ModificationType getModificationType(Arguments arguments, Element element, String attributeName, String newAttributeName) {
-        return ModificationType.PREPEND;
+        return ModificationType.SUBSTITUTION;
     }
 
     @Override
