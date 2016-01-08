@@ -2,15 +2,12 @@ package org.jolene.threek.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.jolene.threek.Utils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * 入场券
@@ -48,20 +45,4 @@ public class Ticket {
     @Column(columnDefinition = "datetime")
     private LocalDateTime useTime;
 
-    /**
-     * 创建好多入场券
-     *
-     * @param number 数量
-     * @return 集合
-     */
-    public static Collection<Ticket> newTickets(int number) {
-        ArrayList<Ticket> arrayList = new ArrayList<>();
-        while (number-- > 0) {
-            Ticket ticket = new Ticket();
-            ticket.setId(Utils.randomString());
-            ticket.setCreatedTime(LocalDateTime.now());
-            arrayList.add(ticket);
-        }
-        return arrayList;
-    }
 }

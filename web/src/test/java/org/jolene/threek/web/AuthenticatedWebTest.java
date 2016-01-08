@@ -3,8 +3,8 @@ package org.jolene.threek.web;
 import org.jolene.threek.entity.Login;
 import org.jolene.threek.entity.Ticket;
 import org.jolene.threek.entity.User;
-import org.jolene.threek.repository.TicketRepository;
 import org.jolene.threek.service.LoginService;
+import org.jolene.threek.service.TicketService;
 import org.jolene.threek.web.controller.pages.IndexPage;
 import org.jolene.threek.web.controller.pages.LoginPage;
 import org.junit.Before;
@@ -47,7 +47,7 @@ public abstract class AuthenticatedWebTest extends WebTest {
     @Autowired
     private LoginService loginService;
     @Autowired
-    private TicketRepository ticketRepository;
+    private TicketService ticketService;
 
     @Before
     public void authenticate() {
@@ -88,9 +88,7 @@ public abstract class AuthenticatedWebTest extends WebTest {
     protected Collection<Ticket> giveCurrentSomeTicket(int number) {
         User user = (User) currentUser;
         //弄几个入场券给他
-        Collection<Ticket> tickets = Ticket.newTickets(number);
-        tickets.forEach(ticket -> ticket.setClaimant(user));
-        return ticketRepository.save(tickets);
+        return ticketService.newTickets(number, ticket -> ticket.setClaimant(user));
     }
 
     public static class AuthenticatedRunner extends SpringJUnit4ClassRunner {
