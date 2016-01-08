@@ -167,6 +167,7 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
         resolver.setTemplateEngine(engine);
         resolver.setOrder(1);
 //        resolver.setViewNames(new String[]{"*.html"});
+        resolver.setContentType("text/html; charset=UTF-8");
         resolver.setCharacterEncoding("UTF-8");
 
         //在初始化Thymeleaf的时候 应该增加它的方言,spring添加方言
