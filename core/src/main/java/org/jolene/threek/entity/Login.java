@@ -42,4 +42,23 @@ public abstract class Login implements UserDetails {
     private boolean credentialsNonExpired = true;
     private boolean enabled = true;
 
+    /**
+     * 头像路径,该值对应资源系统
+     *
+     * @see org.jolene.threek.service.ResourceService
+     */
+    @Column(length = 60)
+    private String logoPath;
+    @Column(length = 100)
+    private String nickName;
+
+    /**
+     * @return 可阅读名字
+     */
+    public String getHumanReadName() {
+        if (nickName != null)
+            return nickName;
+        return username;
+    }
+
 }

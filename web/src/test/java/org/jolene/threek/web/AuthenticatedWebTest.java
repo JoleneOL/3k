@@ -3,7 +3,6 @@ package org.jolene.threek.web;
 import org.jolene.threek.entity.Login;
 import org.jolene.threek.entity.Ticket;
 import org.jolene.threek.entity.User;
-import org.jolene.threek.service.LoginService;
 import org.jolene.threek.service.TicketService;
 import org.jolene.threek.web.controller.pages.IndexPage;
 import org.jolene.threek.web.controller.pages.LoginPage;
@@ -44,8 +43,6 @@ public abstract class AuthenticatedWebTest extends WebTest {
     protected Login currentUser;
     private LoginAs currentLogin;
 
-    @Autowired
-    private LoginService loginService;
     @Autowired
     private TicketService ticketService;
 

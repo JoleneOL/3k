@@ -4,17 +4,23 @@ import libspringtest.SpringWebTest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.jolene.threek.CoreConfig;
 import org.jolene.threek.common.PaymentMethod;
+import org.jolene.threek.entity.User;
 import org.jolene.threek.feature.MutableTransferable;
+import org.jolene.threek.service.LoginService;
 import org.jolene.threek.test.LocalTestConfig;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * @author Jolene
@@ -25,6 +31,10 @@ import java.util.HashMap;
 @ContextConfiguration(classes = {CoreConfig.class, ServletConfig.class, LocalTestConfig.class})
 @Transactional
 public abstract class WebTest extends SpringWebTest {
+
+
+    @Autowired
+    protected LoginService loginService;
 
     protected String randomEmailAddress() {
         return RandomStringUtils.randomAscii(random.nextInt(5) + 3)
@@ -60,5 +70,22 @@ public abstract class WebTest extends SpringWebTest {
                     transferable.updatePaymentDetails(PaymentMethod.bank, data);
             }
         }
+    }
+
+    /**
+     * 增加一个用户,他是由user引导而来的
+     *
+     * @param user
+     */
+    protected Collection<User> addNewUserUnder(User user, int number) {
+        ArrayList<User> userArrayList = new ArrayList<>();
+        while (number-- > 0) {
+            User user1 = new User();
+            user1.setGuide(user);
+            user1.setUsername(UUID.randomUUID().toString());
+            loginService.changeLoginWithRawPassword(user1, UUID.randomUUID().toString());
+            userArrayList.add(user1);
+        }
+        return userArrayList;
     }
 }

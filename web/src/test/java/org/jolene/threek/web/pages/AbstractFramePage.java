@@ -1,5 +1,7 @@
 package org.jolene.threek.web.pages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -68,5 +70,43 @@ public abstract class AbstractFramePage extends AbstractPage {
         assertThat(labelForTicketCount.getText())
                 .as("剩余入场券数据应该正确")
                 .isEqualTo(String.valueOf(count));
+    }
+
+    /**
+     * 看到新的直接下线用户
+     *
+     * @param count 0
+     */
+    public void seeExceptNewUsers(int count) {
+        WebElement newUserGroup = findGroup("glyphicon-user");
+        assertThat(newUserGroup)
+                .isNotNull();
+
+        assert newUserGroup != null;
+        assertThat(newUserGroup.isDisplayed())
+                .as("看到新下线用户logo")
+                .isTrue();
+
+        assertThat(newUserGroup.findElement(By.className("badge")).getText())
+                .isEqualTo(NumberUtils.format(count, 0, Locale.CHINA));
+
+    }
+
+    /**
+     * 从所有的&lt;div class="btn-group"/&gt>中寻找含有指定class的div
+     *
+     * @param className
+     * @return
+     */
+    private WebElement findGroup(String className) {
+        for (WebElement group : webDriver.findElements(By.cssSelector("div[class=btn-group]"))) {
+            try {
+                group.findElement(By.className(className));
+                return group;
+            } catch (NotFoundException ignored) {
+
+            }
+        }
+        return null;
     }
 }

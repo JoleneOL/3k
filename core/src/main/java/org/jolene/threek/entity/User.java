@@ -7,7 +7,9 @@ import org.jolene.threek.feature.MutableTransferable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -26,6 +28,21 @@ public class User extends Login implements MutableTransferable {
      */
     private double balance;
     private TransferableData transferableData = new TransferableData();
+    /**
+     * 邀请码
+     */
+    @Column(length = 25, nullable = false)
+    private String code;
+    /**
+     * 引导注册者,也就是直接上级
+     */
+    @ManyToOne
+    private User guide;
+
+    /**
+     * 上级领导点击过详情,则改为true
+     */
+    private boolean guideKnowMe;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

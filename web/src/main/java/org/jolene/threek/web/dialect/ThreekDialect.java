@@ -2,7 +2,9 @@ package org.jolene.threek.web.dialect;
 
 import org.jolene.threek.entity.User;
 import org.jolene.threek.repository.TicketRepository;
+import org.jolene.threek.repository.UserRepository;
 import org.jolene.threek.service.AppService;
+import org.jolene.threek.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -27,7 +29,11 @@ public class ThreekDialect extends AbstractDialect implements IExpressionEnhanci
     @Autowired
     private TicketRepository ticketRepository;
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private AppService appService;
+    @Autowired
+    private ResourceService resourceService;
 
     @Autowired
     public ThreekDialect(Set<IProcessor> processors) {
@@ -43,6 +49,7 @@ public class ThreekDialect extends AbstractDialect implements IExpressionEnhanci
     public Map<String, Object> getAdditionalExpressionObjects(IProcessingContext processingContext) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("config", appService.currentSystemConfig());
+        map.put("resourceService", resourceService);
         if (processingContext.getContext() != null && processingContext.getContext() instanceof WebContext) {
             // 另外声明几个静态变量 以标识当前登录的身份
             Authentication authentication = AuthUtils.getAuthenticationObject();
@@ -51,6 +58,7 @@ public class ThreekDialect extends AbstractDialect implements IExpressionEnhanci
 
                 map.put("user", authentication.getPrincipal());
                 map.put("ticketCount", ticketRepository.countByUsedFalseAndClaimant((User) authentication.getPrincipal()));
+                map.put("newUsers", userRepository.findByGuideAndGuideKnowMeFalse((User) authentication.getPrincipal()));
             } else {
                 map.put("isEndUser", false);
             }

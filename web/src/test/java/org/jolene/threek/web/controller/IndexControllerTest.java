@@ -49,7 +49,16 @@ public class IndexControllerTest extends AuthenticatedWebTest {
         indexPage.seeExceptBalance(user.getBalance());
         indexPage.seeExceptTicketCount(tickets.size());
 
+        indexPage.seeExceptNewUsers(0);
 
+
+        // 增加一个它的下线
+        Collection<User> newUsers = addNewUserUnder(user, random.nextInt(3) + 1);
+        driver.navigate().refresh();
+        PageFactory.initElements(driver, indexPage);
+
+        indexPage.seeExceptNewUsers(newUsers.size());
         // TODO 首页还应该看到账户的明细 巴拉巴拉
     }
+
 }
