@@ -1,6 +1,8 @@
 package org.jolene.threek.web.dialect;
 
+import org.jolene.threek.entity.Login;
 import org.jolene.threek.entity.User;
+import org.jolene.threek.repository.EmailRepository;
 import org.jolene.threek.repository.TicketRepository;
 import org.jolene.threek.repository.UserRepository;
 import org.jolene.threek.service.AppService;
@@ -31,6 +33,8 @@ public class ThreekDialect extends AbstractDialect implements IExpressionEnhanci
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private EmailRepository emailRepository;
+    @Autowired
     private AppService appService;
     @Autowired
     private ResourceService resourceService;
@@ -53,15 +57,27 @@ public class ThreekDialect extends AbstractDialect implements IExpressionEnhanci
         if (processingContext.getContext() != null && processingContext.getContext() instanceof WebContext) {
             // 另外声明几个静态变量 以标识当前登录的身份
             Authentication authentication = AuthUtils.getAuthenticationObject();
-            if (authentication.getPrincipal() instanceof User) {
-                map.put("isEndUser", true);
+            if (authentication.getPrincipal() instanceof Login) {
+                Login login = (Login) authentication.getPrincipal();
+                map.put("newEmails", emailRepository.findByBelongAndReadFalse(login));
 
-                map.put("user", authentication.getPrincipal());
-                map.put("ticketCount", ticketRepository.countByUsedFalseAndClaimant((User) authentication.getPrincipal()));
-                map.put("newUsers", userRepository.findByGuideAndGuideKnowMeFalse((User) authentication.getPrincipal()));
+                map.put("isLogin", true);
+                if (authentication.getPrincipal() instanceof User) {
+                    User user = (User) authentication.getPrincipal();
+                    map.put("isEndUser", true);
+
+                    map.put("user", user);
+                    map.put("ticketCount", ticketRepository.countByUsedFalseAndClaimant(user));
+                    map.put("newUsers", userRepository.findByGuideAndGuideKnowMeFalse(user));
+
+                } else {
+                    map.put("isEndUser", false);
+                }
             } else {
                 map.put("isEndUser", false);
+                map.put("isLogin", false);
             }
+
         }
         return map;
     }

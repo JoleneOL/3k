@@ -3,6 +3,7 @@
 <!--/*@thymesVar id="#resourceService" type="org.jolene.threek.service.ResourceService"*/-->
 <!--/*@thymesVar id="#config" type="org.jolene.threek.SystemConfig"*/-->
 <!--/*@thymesVar id="#isEndUser" type="java.lang.Boolean"*/-->
+<!--/*@thymesVar id="#isLogin" type="java.lang.Boolean"*/-->
 <head>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" href="../css/style.default.css" th:href="@{/css/style.default.css}"/>
@@ -67,25 +68,29 @@
                     </div>
                 </div>
             </li>
-            <li>
+            <li th:if="${#isLogin}">
+                <!--/*@thymesVar id="#newEmails" type="java.util.List<org.jolene.threek.entity.Email>"*/-->
                 <div class="btn-group">
                     <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
                         <i class="glyphicon glyphicon-envelope"></i>
-                        <span class="badge">1</span>
+                        <span class="badge" th:text="${#numbers.formatInteger(#newEmails.size(),0)}">1</span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-head pull-right">
-                        <h5 class="title">收件箱</h5>
+                        <h5 class="title" th:text="${#newEmails.size()}+'个新邮件'">1个新邮件</h5>
                         <ul class="dropdown-list gen-list">
-                            <li class="new">
+                            <li class="new" th:each="email:${#newEmails}">
                                 <a href="">
-                                    <span class="thumb"><img src="../images/photos/user1.png" alt=""/></span>
+                                    <span class="thumb"><img src="../images/photos/user1.png"
+                                                             k3:resourceHref="src=${email.content.belong.logoPath}"
+                                                             alt=""/></span>
                     <span class="desc">
-                      <span class="name">Draniem Daamul <span class="badge badge-success">new</span></span>
-                      <span class="msg">Lorem ipsum dolor sit amet...</span>
+                      <span class="name" th:text="${email.content.belong.humanReadName}">Draniem Daamul
+                          <span class="badge badge-success">new</span></span>
+                      <span class="msg" th:text="${#strings.abbreviate(email.content.title,26)}">Lorem ipsum dolor sit amet...</span>
                     </span>
                                 </a>
                             </li>
-                            <li>
+                            <li th:remove="all">
                                 <a href="">
                                     <span class="thumb"><img src="../images/photos/user2.png" alt=""/></span>
                     <span class="desc">

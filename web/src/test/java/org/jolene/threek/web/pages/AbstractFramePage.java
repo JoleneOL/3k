@@ -1,5 +1,6 @@
 package org.jolene.threek.web.pages;
 
+import org.jolene.threek.entity.Email;
 import org.jolene.threek.entity.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NotFoundException;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -154,5 +156,14 @@ public abstract class AbstractFramePage extends AbstractPage {
         assertThat(cloneUsers.isEmpty())
                 .as("所有用户都已经找到了")
                 .isTrue();
+    }
+
+    /**
+     * 看到新的未读邮件
+     *
+     * @param newEmails 未读邮件组
+     */
+    public void seeExceptNewEmails(Set<Email> newEmails) {
+
     }
 }

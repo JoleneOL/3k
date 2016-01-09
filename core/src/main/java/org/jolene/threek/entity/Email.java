@@ -26,6 +26,7 @@ public class Email {
      */
     @ManyToOne(optional = false)
     private Login belong;
+    private boolean read;
     private boolean flagged;
     private boolean trashed;
     @ManyToOne(optional = false)

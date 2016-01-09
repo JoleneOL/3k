@@ -57,6 +57,7 @@ public class IndexControllerTest extends AuthenticatedWebTest {
 
         System.out.println(driver.getTitle());
 
+        // 新注册用户通知
 
         indexPage.seeExceptNewUsers(Collections.emptySet());
 
@@ -66,6 +67,10 @@ public class IndexControllerTest extends AuthenticatedWebTest {
         PageFactory.initElements(driver, indexPage);
 
         indexPage.seeExceptNewUsers(newUsers);
+
+        // 新邮件通知
+
+        indexPage.seeExceptNewEmails(Collections.emptySet());
     }
 
 }
