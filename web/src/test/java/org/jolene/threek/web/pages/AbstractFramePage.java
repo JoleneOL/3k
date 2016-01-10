@@ -4,12 +4,14 @@ import org.assertj.core.api.AbstractBooleanAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.jolene.threek.entity.Email;
 import org.jolene.threek.entity.User;
+import org.jolene.threek.web.dialect.process.EmailHrefProcessor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.thymeleaf.util.NumberUtils;
+import org.thymeleaf.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +22,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 /**
  * 展示整个框架的页面
  * <p>指的是那些还引入了left right header 之类的页面</p>
@@ -194,7 +195,31 @@ public abstract class AbstractFramePage extends AbstractPage {
     public void seeExceptNewEmails(Collection<Email> newEmails) {
         seeDropdownGroupInHeader(newEmails, "glyphicon-envelope", assertion -> assertion.as("看到未读邮件logo")
                 , assertion -> assertion.isEqualTo("" + newEmails.size() + "个新邮件"), null, li -> {
-                    return null;
+                    WebElement logo = li.findElement(By.tagName("img"));
+                    WebElement link = li.findElement(By.tagName("a"));
+                    WebElement name = li.findElement(By.className("name"));
+                    WebElement msg = li.findElement(By.className("msg"));
+
+                    // 通过连接获取邮件实体
+                    Long id = EmailHrefProcessor.emailIdFromHref(link.getAttribute("href"));
+                    Email email = newEmails.stream().filter(email1 -> id.equals(email1.getId()))
+                            .findAny().get();
+                    try {
+                        assertThat(logo.getAttribute("src"))
+                                .as("发件人头像")
+                                .isEqualTo(resourceService.getResource(email.getContent().getBelong().getLogoPath()).getURI().toString());
+                    } catch (IOException ignored) {
+
+                    }
+                    assertThat(name.getText())
+                            .as("发件人名称")
+                            .isEqualTo(StringUtils.abbreviate(email.getContent().getBelong().getHumanReadName(), 16));
+
+                    assertThat(msg.getText())
+                            .as("")
+                            .isEqualTo(StringUtils.abbreviate(email.getContent().getTitle(), 22));
+
+                    return email;
                 });
     }
 }

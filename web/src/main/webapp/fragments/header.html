@@ -79,14 +79,14 @@
                         <h5 class="title" th:text="${#newEmails.size()}+'个新邮件'">1个新邮件</h5>
                         <ul class="dropdown-list gen-list">
                             <li class="new" th:each="email:${#newEmails}">
-                                <a href="">
+                                <a href="" k3:emailHref="href=${email}">
                                     <span class="thumb"><img src="../images/photos/user1.png"
                                                              k3:resourceHref="src=${email.content.belong.logoPath}"
                                                              alt=""/></span>
                     <span class="desc">
-                      <span class="name" th:text="${email.content.belong.humanReadName}">Draniem Daamul
+                      <span class="name" th:text="${#strings.abbreviate(email.content.belong.humanReadName,16)}">Draniem Daamul
                           <span class="badge badge-success">new</span></span>
-                      <span class="msg" th:text="${#strings.abbreviate(email.content.title,26)}">Lorem ipsum dolor sit amet...</span>
+                      <span class="msg" th:text="${#strings.abbreviate(email.content.title,22)}">Lorem ipsum dolor sit amet...</span>
                     </span>
                                 </a>
                             </li>
