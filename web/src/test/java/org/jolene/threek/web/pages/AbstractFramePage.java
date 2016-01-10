@@ -1,5 +1,7 @@
 package org.jolene.threek.web.pages;
 
+import org.assertj.core.api.AbstractBooleanAssert;
+import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.jolene.threek.entity.Email;
 import org.jolene.threek.entity.User;
 import org.openqa.selenium.By;
@@ -14,7 +16,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -98,34 +101,43 @@ public abstract class AbstractFramePage extends AbstractPage {
     }
 
     /**
-     * 看到新的直接下线用户
+     * 页面header中出现的展开式信息通知栏测试
      *
-     * @param newUsers 新的下线用户
+     * @param newNotices            需要看到的通知集合
+     * @param className             该通知所出现按钮的class
+     * @param groupDisplayAssertion 校验该div是否存在的校验器消耗者
+     * @param h5TextAssertion       校验该div包括的h5元素的校验器消耗者
+     * @param showAllLinkAssertion  最终总是会有一个显示所有的a 这个就是它的校验者
+     * @param eachLiAssertion       每一个li元素最终都可以解释为一个通知 兼任校验的工作
+     * @param <T>                   通知类型 比如用户,邮件,订单
      */
-    public void seeExceptNewUsers(Collection<User> newUsers) throws IOException {
-        WebElement newUserGroup = findGroup("glyphicon-user");
-        assertThat(newUserGroup)
+    protected <T> void seeDropdownGroupInHeader(Collection<T> newNotices, String className
+            , Consumer<AbstractBooleanAssert> groupDisplayAssertion
+            , Consumer<AbstractCharSequenceAssert<?, String>> h5TextAssertion, Consumer<WebElement> showAllLinkAssertion
+            , Function<WebElement, T> eachLiAssertion) {
+
+        WebElement newNoticeGroup = findGroup(className);
+        assertThat(newNoticeGroup)
                 .isNotNull();
 
-        assert newUserGroup != null;
-        assertThat(newUserGroup.isDisplayed())
-                .as("看到新下线用户logo")
-                .isTrue();
+        assert newNoticeGroup != null;
 
-        assertThat(newUserGroup.findElement(By.className("badge")).getText())
-                .isEqualTo(NumberUtils.format(newUsers.size(), 0, Locale.CHINA));
+        AbstractBooleanAssert booleanAssert = assertThat(newNoticeGroup.isDisplayed());
+        groupDisplayAssertion.accept(booleanAssert);
+        booleanAssert.isTrue();
 
-        WebElement h5 = newUserGroup.findElement(By.tagName("h5"));
-        WebElement toggle = newUserGroup.findElement(By.tagName("button"));
+        assertThat(newNoticeGroup.findElement(By.className("badge")).getText())
+                .isEqualTo(NumberUtils.format(newNotices.size(), 0, Locale.CHINA));
+
+        WebElement h5 = newNoticeGroup.findElement(By.tagName("h5"));
+        WebElement toggle = newNoticeGroup.findElement(By.tagName("button"));
 
         if (!h5.isDisplayed()) {
             toggle.click();
         }
         assertThat(h5.isDisplayed())
                 .isTrue();
-        assertThat(h5.getText())
-                .isEqualTo("" + newUsers.size() + "个新的直接下线");
-
+        h5TextAssertion.accept(assertThat(h5.getText()));
         //element element	div p	Selects all <p> elements inside <div> elements
         // 获取 div 里面所有的p
         //element>element	div > p	Selects all <p> elements where the parent is a <div> element
@@ -134,28 +146,44 @@ public abstract class AbstractFramePage extends AbstractPage {
         // 获取 div 贴着的p
         //element1~element2	p ~ ul	Selects every <ul> element that are preceded by a <p> element
         // 获取 p  以后所有的ul
-        List<WebElement> userUIs = newUserGroup.findElements(By.cssSelector("ul > li"));
+        List<WebElement> userUIs = newNoticeGroup.findElements(By.cssSelector("ul > li"));
 
         // 最后一个是所有用户的连接
         WebElement allUsersLinkLI = userUIs.remove(userUIs.size() - 1);
         // 验证链接
+        // showAllLinkAssertion 暂时不用~
 
-        Collection<User> cloneUsers = new ArrayList<>(newUsers);
+        Collection<T> cloneNotices = new ArrayList<>(newNotices);
         for (WebElement userUI : userUIs) {
             // div a img
-            WebElement logo = userUI.findElement(By.tagName("img"));
-            WebElement link = userUI.findElement(By.cssSelector("h5 > a"));
-            User nowUser = cloneUsers.stream().filter(user -> user.getHumanReadName().equals(link.getText())).findAny().get();
-            cloneUsers.remove(nowUser);
-
-            assertThat(logo.getAttribute("src"))
-                    .isEqualTo(resourceService.getResource(nowUser.getLogoPath()).getURI().toString());
-
-            // 验证所有链接
+            T notice = eachLiAssertion.apply(userUI);
+            cloneNotices.remove(notice);
         }
-        assertThat(cloneUsers.isEmpty())
-                .as("所有用户都已经找到了")
+        assertThat(cloneNotices.isEmpty())
+                .as("所有通知都已经找到了")
                 .isTrue();
+
+    }
+
+    /**
+     * 看到新的直接下线用户
+     *
+     * @param newUsers 新的下线用户
+     */
+    public void seeExceptNewUsers(Collection<User> newUsers) throws IOException {
+        seeDropdownGroupInHeader(newUsers, "glyphicon-user", assertion -> assertion.as("看到新下线用户logo")
+                , assertion -> assertion.isEqualTo("" + newUsers.size() + "个新的直接下线"), null, li -> {
+                    WebElement logo = li.findElement(By.tagName("img"));
+                    WebElement link = li.findElement(By.cssSelector("h5 > a"));
+                    User nowUser = newUsers.stream().filter(user -> user.getHumanReadName().equals(link.getText())).findAny().get();
+                    try {
+                        assertThat(logo.getAttribute("src"))
+                                .isEqualTo(resourceService.getResource(nowUser.getLogoPath()).getURI().toString());
+                    } catch (IOException ignored) {
+
+                    }
+                    return nowUser;
+                });
     }
 
     /**
@@ -163,7 +191,10 @@ public abstract class AbstractFramePage extends AbstractPage {
      *
      * @param newEmails 未读邮件组
      */
-    public void seeExceptNewEmails(Set<Email> newEmails) {
-
+    public void seeExceptNewEmails(Collection<Email> newEmails) {
+        seeDropdownGroupInHeader(newEmails, "glyphicon-envelope", assertion -> assertion.as("看到未读邮件logo")
+                , assertion -> assertion.isEqualTo("" + newEmails.size() + "个新邮件"), null, li -> {
+                    return null;
+                });
     }
 }

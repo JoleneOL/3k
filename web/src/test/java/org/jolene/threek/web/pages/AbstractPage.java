@@ -8,6 +8,7 @@ import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -61,6 +62,15 @@ public abstract class AbstractPage {
 
     public void setResourceService(ResourceService resourceService) {
         this.resourceService = resourceService;
+    }
+
+    /**
+     * 刷新当前页面,跟浏览器刷新是一致的,并在完成之后调用验证
+     */
+    public void refresh() {
+        webDriver.navigate().refresh();
+        PageFactory.initElements(webDriver, this);
+        validatePage();
     }
 
     /**

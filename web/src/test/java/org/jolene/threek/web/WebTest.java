@@ -4,8 +4,13 @@ import libspringtest.SpringWebTest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.jolene.threek.CoreConfig;
 import org.jolene.threek.common.PaymentMethod;
+import org.jolene.threek.entity.Email;
+import org.jolene.threek.entity.EmailContent;
+import org.jolene.threek.entity.Login;
 import org.jolene.threek.entity.User;
 import org.jolene.threek.feature.MutableTransferable;
+import org.jolene.threek.repository.EmailContentRepository;
+import org.jolene.threek.repository.EmailRepository;
 import org.jolene.threek.service.LoginService;
 import org.jolene.threek.service.ResourceService;
 import org.jolene.threek.test.LocalTestConfig;
@@ -19,10 +24,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.UUID;
 
 /**
@@ -40,6 +47,10 @@ public abstract class WebTest extends SpringWebTest {
     protected LoginService loginService;
     @Autowired
     protected ResourceService resourceService;
+    @Autowired
+    protected EmailRepository emailRepository;
+    @Autowired
+    protected EmailContentRepository emailContentRepository;
 
     /**
      * 初始化逻辑页面
@@ -111,5 +122,32 @@ public abstract class WebTest extends SpringWebTest {
             userArrayList.add(user1);
         }
         return userArrayList;
+    }
+
+    /**
+     * 发送邮件
+     *
+     * @param sender   发送者
+     * @param receiver 接受者
+     * @param count    数量
+     * @return 新邮件集合
+     */
+    protected Collection<Email> sendMail(@NotNull Login sender, @NotNull Login receiver, int count) {
+        ArrayList<Email> emails = new ArrayList<>();
+        while (count-- > 0) {
+            EmailContent content = new EmailContent();
+            content.setBelong(sender);
+            content.setTitle(UUID.randomUUID().toString());
+            content.setSent(true);
+            HashSet<String> stringHashSet = new HashSet<>();
+            stringHashSet.add(receiver.getUsername());
+            content.setRecipients(stringHashSet);
+            content = emailContentRepository.save(content);
+            Email email = new Email();
+            email.setBelong(receiver);
+            email.setContent(content);
+            emails.add(emailRepository.save(email));
+        }
+        return emails;
     }
 }

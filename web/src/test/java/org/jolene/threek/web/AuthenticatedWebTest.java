@@ -1,5 +1,6 @@
 package org.jolene.threek.web;
 
+import org.jolene.threek.entity.Email;
 import org.jolene.threek.entity.Login;
 import org.jolene.threek.entity.Ticket;
 import org.jolene.threek.entity.User;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -86,6 +88,25 @@ public abstract class AuthenticatedWebTest extends WebTest {
         User user = (User) currentUser;
         //弄几个入场券给他
         return ticketService.newTickets(number, ticket -> ticket.setClaimant(user));
+    }
+
+    /**
+     * 当前用户接收随机邮件
+     *
+     * @param sender 发送者,如果是null则会创建一个用户
+     * @param count  接受邮件数量
+     * @return 新邮件集合
+     */
+    protected Collection<Email> receiveMailFrom(Login sender, int count) {
+        ArrayList<Email> emails = new ArrayList<>();
+        while (count-- > 0) {
+            Login theSender = sender;
+            if (theSender == null) {
+                theSender = addNewUserUnder(null, 1).stream().findAny().get();
+            }
+            emails.addAll(sendMail(theSender, currentUser, 1));
+        }
+        return emails;
     }
 
     public static class AuthenticatedRunner extends SpringJUnit4ClassRunner {

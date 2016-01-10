@@ -1,5 +1,6 @@
 package org.jolene.threek.web.controller;
 
+import org.jolene.threek.entity.Email;
 import org.jolene.threek.entity.Ticket;
 import org.jolene.threek.entity.User;
 import org.jolene.threek.service.AppService;
@@ -71,6 +72,10 @@ public class IndexControllerTest extends AuthenticatedWebTest {
         // 新邮件通知
 
         indexPage.seeExceptNewEmails(Collections.emptySet());
+        Collection<Email> newEmails = receiveMailFrom(null, random.nextInt(3) + 1);
+        indexPage.refresh();
+        indexPage.seeExceptNewEmails(newEmails);
+
     }
 
 }
