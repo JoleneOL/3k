@@ -24,6 +24,11 @@ public class PlatformAccount implements MutableTransferable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * 为了让管理方更好的选择安全帐号.
+     */
+    private boolean forbidden;
+
     private TransferableData transferableData = new TransferableData();
 
     @Override
