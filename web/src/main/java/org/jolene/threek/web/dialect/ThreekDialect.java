@@ -59,6 +59,7 @@ public class ThreekDialect extends AbstractDialect implements IExpressionEnhanci
             Authentication authentication = AuthUtils.getAuthenticationObject();
             if (authentication.getPrincipal() instanceof Login) {
                 Login login = (Login) authentication.getPrincipal();
+                map.put("login", login);
                 map.put("newEmails", emailRepository.findByBelongAndReadFalse(login));
 
                 map.put("isLogin", true);

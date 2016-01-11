@@ -88,6 +88,17 @@ public class LoginControllerTest extends WebTest {
             loginRepository.save(user);
             IndexPage indexPage = page.assertLoginSuccess(user.getUsername(), rawPassword);
 
+            // 看到自己的logo和名字 以及登出的link
+            indexPage.seeLoginAs(user);
+
+            page = indexPage.logout();
+
+            assertThat(page.getInfoAlertMessage("登出消息")).contains("欢迎");
+
+            //再次访问首页
+            driver.get("http://localhost");
+            page = initPage(LoginPage.class);
+
         } finally {
             loginRepository.delete(user);
         }

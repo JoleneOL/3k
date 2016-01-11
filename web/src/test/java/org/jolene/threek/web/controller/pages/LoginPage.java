@@ -24,8 +24,10 @@ public class LoginPage extends AbstractPage {
 
     @Override
     public void validatePage() {
-        assertThat(webDriver.getCurrentUrl())
-                .contains("/login");
+//        assertThat(webDriver.getCurrentUrl())
+//                .contains("/login");
+        assertThat(webDriver.getTitle())
+                .contains("登录 ");
     }
 
     public IndexPage assertLoginSuccess(String username, String password) {

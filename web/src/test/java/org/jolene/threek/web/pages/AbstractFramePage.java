@@ -3,7 +3,9 @@ package org.jolene.threek.web.pages;
 import org.assertj.core.api.AbstractBooleanAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.jolene.threek.entity.Email;
+import org.jolene.threek.entity.Login;
 import org.jolene.threek.entity.User;
+import org.jolene.threek.web.controller.pages.LoginPage;
 import org.jolene.threek.web.dialect.process.EmailHrefProcessor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NotFoundException;
@@ -22,6 +24,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * 展示整个框架的页面
  * <p>指的是那些还引入了left right header 之类的页面</p>
@@ -37,6 +40,12 @@ public abstract class AbstractFramePage extends AbstractPage {
     private WebElement labelForBalance;
     @FindBy(css = "h4[about=ticketCount]")
     private WebElement labelForTicketCount;
+//    /**
+//     * 左侧用户信息栏 小屏幕专用
+//     *
+//     */
+//    @FindBy(css = "visible-xs")
+//    private WebElement leftUserInfoPanel;
 
     public AbstractFramePage(WebDriver driver) {
         super(driver);
@@ -221,5 +230,80 @@ public abstract class AbstractFramePage extends AbstractPage {
 
                     return email;
                 });
+    }
+
+    /**
+     * 查看当前页面,确认登录者是否为参数
+     *
+     * @param login login
+     */
+    public void seeLoginAs(Login login) {
+        WebElement userInfoGroup = findGroup("dropdown-menu-usermenu");
+        assertThat(userInfoGroup)
+                .isNotNull();
+
+        assert userInfoGroup != null;
+
+
+        WebElement logo = userInfoGroup.findElement(By.tagName("img"));
+        WebElement name = userInfoGroup.findElement(By.className("username"));
+
+        try {
+            assertThat(logo.getAttribute("src"))
+                    .isEqualTo(resourceService.getResource(login.getLogoPath()).getURI().toString());
+        } catch (IOException ignored) {
+
+        }
+
+        WebElement toggle = userInfoGroup.findElement(By.tagName("button"));
+
+        if (name.isDisplayed())
+            assertThat(name.getText())
+                    .isEqualTo(login.getHumanReadName());
+
+
+        List<WebElement> liList = userInfoGroup.findElements(By.cssSelector("ul > li"));
+        for (WebElement li : liList) {
+//            if (!li.isDisplayed()) {
+//                toggle.click();
+//            }
+//            assertThat(li.isDisplayed())
+//                    .isTrue();
+
+            List<WebElement> logoutElements = li.findElements(By.className("glyphicon-log-out"));
+
+            // todo check all menus under userInfo.
+
+        }
+
+    }
+
+    public LoginPage logout() {
+        WebElement userInfoGroup = findGroup("dropdown-menu-usermenu");
+        assertThat(userInfoGroup)
+                .isNotNull();
+
+        assert userInfoGroup != null;
+
+        List<WebElement> liList = userInfoGroup.findElements(By.cssSelector("ul > li"));
+        for (WebElement li : liList) {
+//            if (!li.isDisplayed()) {
+//                toggle.click();
+//            }
+//            assertThat(li.isDisplayed())
+//                    .isTrue();
+
+            List<WebElement> logoutElements = li.findElements(By.className("glyphicon-log-out"));
+
+            if (logoutElements.size() > 0) {
+                WebElement link = li.findElement(By.tagName("a"));
+//                System.out.println(link.getAttribute("href"));
+                webDriver.get(link.getAttribute("href"));
+//                System.out.println(webDriver.getPageSource());
+                return testInstance.initPage(LoginPage.class);
+            }
+
+        }
+        throw new AssertionError("Did not find logout link.");
     }
 }

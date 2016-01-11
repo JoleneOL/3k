@@ -123,7 +123,7 @@
     </div>
 </div>
 
-<div th:if="${#httpServletRequest.getRequestURI().endsWith('logout')}">
+<div th:if="${#httpServletRequest.getParameter('logout')!=null}">
     <div
             th:replace="fragments/common::alert ('成功登出','欢迎下次再来','growl-info',null,null,false)">
         <script src="js/jquery.gritter.min.js"></script>

@@ -84,17 +84,31 @@ public abstract class AbstractPage {
      * @see #dangerAlert
      */
     public String getDangerAlertMessage(String message) {
-        assertThat(dangerAlert.isDisplayed())
+        return getAlertMessage(dangerAlert, message);
+
+    }
+
+    /**
+     * @param message 如果没有显示使用的错误信息
+     * @return 获取危险提示框显示的文字
+     * @see #dangerAlert
+     */
+    public String getInfoAlertMessage(String message) {
+        return getAlertMessage(infoAlert, message);
+
+    }
+
+    private String getAlertMessage(WebElement alert, String message) {
+        assertThat(alert.isDisplayed())
                 .as(message)
                 .isTrue();
 
         try {
-            WebElement p = dangerAlert.findElement(By.cssSelector("p"));
+            WebElement p = alert.findElement(By.cssSelector("p"));
             return p.getText();
         } catch (NotFoundException ex) {
             throw new AssertionError(message);
         }
-
     }
 
     // class="gritter-item-wrapper growl-danger" role="alert"
