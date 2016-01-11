@@ -111,6 +111,8 @@ public class LoginControllerTest extends WebTest {
             //再次访问首页
             driver.get("http://localhost");
             page = initPage(LoginPage.class);
+            assertThat(page)
+                    .matches(AbstractPage::isClean, "页面应该清爽");
 
         } finally {
             loginRepository.delete(user);
