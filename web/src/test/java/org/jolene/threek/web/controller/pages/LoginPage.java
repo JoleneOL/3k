@@ -1,9 +1,14 @@
 package org.jolene.threek.web.controller.pages;
 
 import org.jolene.threek.web.pages.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,6 +22,8 @@ public class LoginPage extends AbstractPage {
     private WebElement password;
     @FindBy(css = "button[class~=btn-success]")
     private WebElement submitButton;
+    @FindBy(className = "logopanel")
+    private WebElement logoPanel;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -82,5 +89,32 @@ public class LoginPage extends AbstractPage {
                 .contains("锁定");
 
         return loginPage;
+    }
+
+    /**
+     * 页面包含标题
+     *
+     * @param title 标题内容
+     */
+    public void logoContains(String title) {
+        assertThat(logoPanel.getText()).contains(title);
+    }
+
+    /**
+     * 页面包含功能
+     *
+     * @param messages 功能
+     */
+    public void assertFeatures(String[] messages) {
+        List<WebElement> liList = webDriver.findElements(By.cssSelector("ul > li"));
+        List<String> strings = new ArrayList<>(Arrays.asList(messages));
+        for (WebElement li : liList) {
+            WebElement span = li.findElement(By.tagName("span"));
+            String text = strings.stream().filter(msg -> msg.equals(span.getText())).findAny().get();
+            assertThat(text).isNotNull();
+            strings.remove(text);
+        }
+        assertThat(strings.isEmpty())
+                .isTrue();
     }
 }

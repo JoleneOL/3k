@@ -58,10 +58,23 @@ public class LoginControllerTest extends WebTest {
         driver.get("http://localhost");
         LoginPage page = initPage(LoginPage.class);
 
-        System.out.println(driver.getPageSource());
         // 页面应该没有弹出的信息或者错误
         assertThat(page)
                 .matches(AbstractPage::isClean, "页面应该清爽");
+
+        appService.currentSystemConfig().setTitle(UUID.randomUUID().toString());
+        page.refresh();
+        assertThat(driver.getTitle()).contains(appService.currentSystemConfig().getTitle());
+        page.logoContains(appService.currentSystemConfig().getTitle());
+
+        String[] strings = new String[random.nextInt(5) + 1];
+        for (int i = 0; i < strings.length; i++) {
+            strings[i] = UUID.randomUUID().toString();
+        }
+        appService.currentSystemConfig().setWelcomeFeatures(strings);
+        page.refresh();
+        page.assertFeatures(strings);
+
 
         User user = new User();
         user.setUsername(UUID.randomUUID().toString());

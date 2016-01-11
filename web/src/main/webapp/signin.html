@@ -44,14 +44,13 @@
 
                     <h5><strong th:utext="${#config.welcomeMessage}">欢迎来到3K!</strong></h5>
                     <ul th:remove="all-but-first">
-                        <li th:each="message:${#config.welcomeFeatures}" th:text="${message}">
-                            <i class="fa fa-arrow-circle-o-right mr5"></i> Fully Responsive Layout
+                        <li th:each="message:${#config.welcomeFeatures}">
+                            <i class="fa fa-arrow-circle-o-right mr5"></i> <span th:text="${message}">Fully Responsive Layout</span>
                         </li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> Fully Responsive Layout</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> HTML5/CSS3 Valid</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> Retina Ready</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> WYSIWYG CKEditor</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> and much more...</li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> <span>HTML5/CSS3 Valid</span></li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> <span>Retina Ready</span></li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> <span>WYSIWYG CKEditor</span></li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> <span>and much more...</span></li>
                     </ul>
                     <div class="mb20"></div>
                     <strong>还没有帐号? <a href="signup.html">请注册</a></strong>

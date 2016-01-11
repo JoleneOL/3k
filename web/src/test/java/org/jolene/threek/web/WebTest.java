@@ -11,6 +11,7 @@ import org.jolene.threek.entity.User;
 import org.jolene.threek.feature.MutableTransferable;
 import org.jolene.threek.repository.EmailContentRepository;
 import org.jolene.threek.repository.EmailRepository;
+import org.jolene.threek.service.AppService;
 import org.jolene.threek.service.LoginService;
 import org.jolene.threek.service.ResourceService;
 import org.jolene.threek.test.LocalTestConfig;
@@ -51,6 +52,8 @@ public abstract class WebTest extends SpringWebTest {
     protected EmailRepository emailRepository;
     @Autowired
     protected EmailContentRepository emailContentRepository;
+    @Autowired
+    protected AppService appService;
 
     /**
      * 初始化逻辑页面
