@@ -73,23 +73,23 @@
     </script>
     <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
     <script th:if="${successMessage!=null}" th:inline="javascript">
-        var title = /*[[${successMessage}]]*/ 'This is a danger notice!';
+        var title = /*[[${successMessage}]]*/ 'This is a success notice!';
         $(function () {
-            showSuccess('错误', title);
+            showSuccess('成功', title);
         });
     </script>
     <!--/*@thymesVar id="infoMessage" type="java.lang.String"*/-->
     <script th:if="${infoMessage!=null}" th:inline="javascript">
-        var title = /*[[${infoMessage}]]*/ 'This is a danger notice!';
+        var title = /*[[${infoMessage}]]*/ 'This is a info notice!';
         $(function () {
-            showInfo('错误', title);
+            showInfo('信息', title);
         });
     </script>
     <!--/*@thymesVar id="warningMessage" type="java.lang.String"*/-->
     <script th:if="${warningMessage!=null}" th:inline="javascript">
-        var title = /*[[${warningMessage}]]*/ 'This is a danger notice!';
+        var title = /*[[${warningMessage}]]*/ 'This is a warning notice!';
         $(function () {
-            showWarning('错误', title);
+            showWarning('警告', title);
         });
     </script>
 </div>
