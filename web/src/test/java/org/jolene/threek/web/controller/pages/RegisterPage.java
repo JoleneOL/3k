@@ -5,6 +5,7 @@ import org.jolene.threek.web.pages.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -60,6 +61,9 @@ public class RegisterPage extends AbstractPage {
 
     public void registerWithIllegalCode(RegisterInfo info) {
         fillFormAndSubmit(info);
+        System.out.println(webDriver.getPageSource());
+        PageFactory.initElements(webDriver, this);
+
         assertThat(getDangerAlertMessage("邀请码错误的错误警告"))
                 .contains("邀请码");
     }
@@ -74,13 +78,21 @@ public class RegisterPage extends AbstractPage {
 
     public void registerWithBadPassword(RegisterInfo info) {
         fillFormAndSubmit(info);
-        assertThat(validateLabelFor(password).isDisplayed())
+        assertThat(validateLabelFor(password2).isDisplayed())
                 .isTrue();
-        assertThat(validateLabelFor(password).getText())
-                .contains("密码");
+        assertThat(validateLabelFor(password2).getText())
+                .contains("相同");
     }
 
     public IndexPage registerSuccess(RegisterInfo info) {
         return null;
+    }
+
+    public void registerWithoutPassword(RegisterInfo info) {
+        fillFormAndSubmit(info);
+        assertThat(validateLabelFor(password).isDisplayed())
+                .isTrue();
+        assertThat(validateLabelFor(password).getText())
+                .contains("必填");
     }
 }

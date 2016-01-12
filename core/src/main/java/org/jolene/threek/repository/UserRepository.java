@@ -16,4 +16,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return 列表, 输入用户的直接下线用户并且未被查看过.
      */
     List<User> findByGuideAndGuideKnowMeFalse(User user);
+
+    /**
+     * 根据邀请码获取指定用户
+     *
+     * @param code 邀请码
+     * @return 用户或者null
+     */
+    User findByCode(String code);
 }

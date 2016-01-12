@@ -85,7 +85,7 @@ public class LoginControllerTest extends WebTest {
 
         info.setPassword("");
         info.setPassword2("");
-        registerPage.registerWithBadPassword(info);
+        registerPage.registerWithoutPassword(info);
 
         info.setPassword(UUID.randomUUID().toString());
         info.setPassword2(UUID.randomUUID().toString());

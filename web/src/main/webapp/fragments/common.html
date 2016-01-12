@@ -6,6 +6,8 @@
 </head>
 <body>
 
+<!--这个组件可以增加一个可任意调用的javascriptFunction用于打开一个界面友好的Alert-->
+<!--并且会根据当前的上下文环境自动打开一个alert-->
 <div th:fragment="alertFunctions">
     <script src="../js/jquery.gritter.min.js" th:src="@{/js/jquery.gritter.min.js}"></script>
     <script src="../js/jquery.util.js" th:src="@{/js/jquery.util.js}"></script>
@@ -61,6 +63,34 @@
                 time: time ? time : ''
             });
         }
+    </script>
+    <!--/*@thymesVar id="dangerMessage" type="java.lang.String"*/-->
+    <script th:if="${dangerMessage!=null}" th:inline="javascript">
+        var title = /*[[${dangerMessage}]]*/ 'This is a danger notice!';
+        $(function () {
+            showDanger('错误', title);
+        });
+    </script>
+    <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
+    <script th:if="${successMessage!=null}" th:inline="javascript">
+        var title = /*[[${successMessage}]]*/ 'This is a danger notice!';
+        $(function () {
+            showSuccess('错误', title);
+        });
+    </script>
+    <!--/*@thymesVar id="infoMessage" type="java.lang.String"*/-->
+    <script th:if="${infoMessage!=null}" th:inline="javascript">
+        var title = /*[[${infoMessage}]]*/ 'This is a danger notice!';
+        $(function () {
+            showInfo('错误', title);
+        });
+    </script>
+    <!--/*@thymesVar id="warningMessage" type="java.lang.String"*/-->
+    <script th:if="${warningMessage!=null}" th:inline="javascript">
+        var title = /*[[${warningMessage}]]*/ 'This is a danger notice!';
+        $(function () {
+            showWarning('错误', title);
+        });
     </script>
 </div>
 
