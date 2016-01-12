@@ -53,6 +53,14 @@ $(document).ready(function () {
             return false;
         }
     }, "输入的值必须小于");
+
+    $.validator.addMethod("mobile", function (value, element) {
+        if (/^1[1-9][0-9]{9}$/.test(value)) {
+            return true;
+        } else {
+            return false;
+        }
+    }, "请输入合法的手机号码");
 });
 /**通用自定义验证方法**/
 

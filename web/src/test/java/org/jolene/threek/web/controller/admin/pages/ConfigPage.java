@@ -8,6 +8,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -165,7 +166,7 @@ public class ConfigPage extends AbstractPage {
         webDriver.navigate().refresh();
         PageFactory.initElements(webDriver, this);
         try {
-            msg = webDriver.findElement(By.cssSelector("#gritter-notice-wrapper"));
+            webDriver.findElement(By.cssSelector("#gritter-notice-wrapper"));
             assertThat(true).isTrue();
         } catch (NoSuchElementException ignored) {
         }

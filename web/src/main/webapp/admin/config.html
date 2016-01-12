@@ -320,7 +320,7 @@
                                 <label class="col-sm-3 control-label">标题 <span class="asterisk">*</span></label>
 
                                 <div class="col-sm-6">
-                                    <input name="title" type="text" th:value="*{title}" value="3K"
+                                    <input name="title" title="标题" type="text" th:value="*{title}" value="3K"
                                            class="form-control"/>
                                 </div>
                             </div>
@@ -350,6 +350,24 @@
 
                                 <div class="col-sm-7">
                                     <input name="tags" id="tags" class="form-control" value="安全,稳定,利益丰富"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">注册页欢迎信息</label>
+
+                                <div class="col-sm-7">
+                                <textarea name="indexTopNotice" th:value="*{indexTopNotice}"
+                                          placeholder="首页头部富文本" class="form-control" rows="5"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">是否只允许邀请注册 </label>
+
+                                <div class="col-sm-7">
+                                <textarea name="" th:value="*{indexTopNotice}"
+                                          placeholder="首页头部富文本" class="form-control" rows="5"></textarea>
                                 </div>
                             </div>
 
@@ -661,6 +679,7 @@
 //        $('input[name=maxLots]').spinner({min: 1});
 
         $("#configForm").validate({
+            ignoreTitle: true,
             highlight: function (element) {
                 $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
             },

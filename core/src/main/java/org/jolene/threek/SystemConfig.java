@@ -27,6 +27,8 @@ public class SystemConfig {
     public static final String URL = "org.jolene.3k.url";
     public static final String WELCOME_MESSAGE = "org.jolene.3k.welcomeMessage";
     public static final String WELCOME_FEATURES = "org.jolene.3k.welcomeFeatures";
+    public static final String REGISTER_WELCOME_MESSAGE = "org.jolene.3k.regWelcomeMessage";
+    public static final String ONLY_INVITE = "org.jolene.3k.onlyInvite";
     public static final String STOCK = "org.jolene.3k.stock";
     public static final String RATE = "org.jolene.3k.rate";
     public static final String MAX_LOTS = "org.jolene.3k.maxLots";
@@ -60,6 +62,17 @@ public class SystemConfig {
      * 欢迎消息
      */
     private String welcomeMessage = "欢迎来到 3K";
+
+    /**
+     * 注册页欢迎信息
+     */
+    private String regWelcomeMessage = "欢迎注册";
+
+    /**
+     * 是否只允许邀请注册
+     */
+    private boolean onlyInvite = true;
+
     @SuppressWarnings("MismatchedReadAndWriteOfArray")
     private String[] welcomeFeatures = new String[]{
             "安全稳定",
