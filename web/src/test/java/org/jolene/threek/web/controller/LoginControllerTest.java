@@ -93,7 +93,9 @@ public class LoginControllerTest extends WebTest {
         info.setPassword(info.getPassword2());
 
         IndexPage indexPage = registerPage.registerSuccess(info);
-        System.out.println(driver.getPageSource());
+
+        assertThat(indexPage.getSuccessAlertMessage("成功注册以后的消息"))
+                .contains("注册");
 
         User newUser = (User) loginRepository.findByUsername(info.getMobile());
         assertThat(newUser)
@@ -101,8 +103,6 @@ public class LoginControllerTest extends WebTest {
         assertThat(newUser.getGuide())
                 .isEqualTo(user);
 
-        assertThat(indexPage.getSuccessAlertMessage("成功注册以后的消息"))
-                .contains("注册");
     }
 
     @Test
