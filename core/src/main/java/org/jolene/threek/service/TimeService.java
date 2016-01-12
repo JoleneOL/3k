@@ -37,11 +37,11 @@ public class TimeService {
     }
 
     public LocalDateTime nowDateTime() {
-        return LocalDateTime.from(nowInstant());
+        return LocalDateTime.ofInstant(nowInstant(), nowClock().getZone());
     }
 
     public LocalDate nowDate() {
-        return LocalDate.from(nowInstant());
+        return LocalDate.from(nowDateTime());
     }
 
     public Clock nowClock() {
@@ -57,7 +57,7 @@ public class TimeService {
     }
 
     public LocalTime nowTime() {
-        return LocalTime.from(nowInstant());
+        return LocalTime.from(nowDateTime());
     }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.WebRequestInterceptor;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 
 /**
  * 很多跟app相关的服务
@@ -18,7 +19,7 @@ public interface AppService extends WebRequestInterceptor,UserDetailsService {
 
     @PostConstruct
     @Transactional
-    void init();
+    void init() throws IOException;
 
     /**
      * @return 总是返回唯一不变的SystemConfig实例

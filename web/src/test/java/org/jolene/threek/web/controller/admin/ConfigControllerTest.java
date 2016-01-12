@@ -28,7 +28,7 @@ public class ConfigControllerTest extends WebTest {
     public void firstConfig() throws Exception {
         appService.currentSystemConfig().setConfigRequired(true);
         driver.get("http://localhost");
-        ConfigPage configPage = ConfigPage.at(driver);
+        ConfigPage configPage = initPage(ConfigPage.class);
         // 修改其中的数据,然后从数据库中重新获取配置 并且获得正确的结果
         doRandomConfig(configPage);
     }

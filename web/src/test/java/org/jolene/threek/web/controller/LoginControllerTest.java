@@ -6,6 +6,7 @@ import org.jolene.threek.service.LoginService;
 import org.jolene.threek.web.WebTest;
 import org.jolene.threek.web.controller.pages.IndexPage;
 import org.jolene.threek.web.controller.pages.LoginPage;
+import org.jolene.threek.web.controller.pages.RegisterPage;
 import org.jolene.threek.web.pages.AbstractPage;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -53,15 +54,39 @@ public class LoginControllerTest extends WebTest {
     }
 
     @Test
+    public void register() {
+        driver.get("http://localhost");
+        LoginPage page = initPage(LoginPage.class);
+
+        RegisterPage registerPage = page.clickRegister();
+
+        assertThat(registerPage)
+                .isNotNull();
+    }
+
+    @Test
     public void testLogin() throws Exception {
 
         driver.get("http://localhost");
-        LoginPage page = LoginPage.at(driver);
+        LoginPage page = initPage(LoginPage.class);
 
-        System.out.println(driver.getPageSource());
         // 页面应该没有弹出的信息或者错误
         assertThat(page)
                 .matches(AbstractPage::isClean, "页面应该清爽");
+
+        appService.currentSystemConfig().setTitle(UUID.randomUUID().toString());
+        page.refresh();
+        assertThat(driver.getTitle()).contains(appService.currentSystemConfig().getTitle());
+        page.logoContains(appService.currentSystemConfig().getTitle());
+
+        String[] strings = new String[random.nextInt(5) + 1];
+        for (int i = 0; i < strings.length; i++) {
+            strings[i] = UUID.randomUUID().toString();
+        }
+        appService.currentSystemConfig().setWelcomeFeatures(strings);
+        page.refresh();
+        page.assertFeatures(strings);
+
 
         User user = new User();
         user.setUsername(UUID.randomUUID().toString());
@@ -87,6 +112,19 @@ public class LoginControllerTest extends WebTest {
             user.setAccountNonLocked(true);
             loginRepository.save(user);
             IndexPage indexPage = page.assertLoginSuccess(user.getUsername(), rawPassword);
+
+            // 看到自己的logo和名字 以及登出的link
+            indexPage.seeLoginAs(user);
+
+            page = indexPage.logout();
+
+            assertThat(page.getInfoAlertMessage("登出消息")).contains("欢迎");
+
+            //再次访问首页
+            driver.get("http://localhost");
+            page = initPage(LoginPage.class);
+            assertThat(page)
+                    .matches(AbstractPage::isClean, "页面应该清爽");
 
         } finally {
             loginRepository.delete(user);

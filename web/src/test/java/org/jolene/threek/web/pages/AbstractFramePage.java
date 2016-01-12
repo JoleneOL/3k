@@ -1,13 +1,27 @@
 package org.jolene.threek.web.pages;
 
+import org.assertj.core.api.AbstractBooleanAssert;
+import org.assertj.core.api.AbstractCharSequenceAssert;
+import org.jolene.threek.entity.Email;
+import org.jolene.threek.entity.Login;
+import org.jolene.threek.entity.User;
+import org.jolene.threek.web.controller.pages.LoginPage;
+import org.jolene.threek.web.dialect.process.EmailHrefProcessor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.thymeleaf.util.NumberUtils;
+import org.thymeleaf.util.StringUtils;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,6 +40,12 @@ public abstract class AbstractFramePage extends AbstractPage {
     private WebElement labelForBalance;
     @FindBy(css = "h4[about=ticketCount]")
     private WebElement labelForTicketCount;
+//    /**
+//     * 左侧用户信息栏 小屏幕专用
+//     *
+//     */
+//    @FindBy(css = "visible-xs")
+//    private WebElement leftUserInfoPanel;
 
     public AbstractFramePage(WebDriver driver) {
         super(driver);
@@ -73,30 +93,10 @@ public abstract class AbstractFramePage extends AbstractPage {
     }
 
     /**
-     * 看到新的直接下线用户
-     *
-     * @param count 0
-     */
-    public void seeExceptNewUsers(int count) {
-        WebElement newUserGroup = findGroup("glyphicon-user");
-        assertThat(newUserGroup)
-                .isNotNull();
-
-        assert newUserGroup != null;
-        assertThat(newUserGroup.isDisplayed())
-                .as("看到新下线用户logo")
-                .isTrue();
-
-        assertThat(newUserGroup.findElement(By.className("badge")).getText())
-                .isEqualTo(NumberUtils.format(count, 0, Locale.CHINA));
-
-    }
-
-    /**
      * 从所有的&lt;div class="btn-group"/&gt>中寻找含有指定class的div
      *
-     * @param className
-     * @return
+     * @param className 指定class
+     * @return 相关div
      */
     private WebElement findGroup(String className) {
         for (WebElement group : webDriver.findElements(By.cssSelector("div[class=btn-group]"))) {
@@ -108,5 +108,202 @@ public abstract class AbstractFramePage extends AbstractPage {
             }
         }
         return null;
+    }
+
+    /**
+     * 页面header中出现的展开式信息通知栏测试
+     *
+     * @param newNotices            需要看到的通知集合
+     * @param className             该通知所出现按钮的class
+     * @param groupDisplayAssertion 校验该div是否存在的校验器消耗者
+     * @param h5TextAssertion       校验该div包括的h5元素的校验器消耗者
+     * @param showAllLinkAssertion  最终总是会有一个显示所有的a 这个就是它的校验者
+     * @param eachLiAssertion       每一个li元素最终都可以解释为一个通知 兼任校验的工作
+     * @param <T>                   通知类型 比如用户,邮件,订单
+     */
+    protected <T> void seeDropdownGroupInHeader(Collection<T> newNotices, String className
+            , Consumer<AbstractBooleanAssert> groupDisplayAssertion
+            , Consumer<AbstractCharSequenceAssert<?, String>> h5TextAssertion, Consumer<WebElement> showAllLinkAssertion
+            , Function<WebElement, T> eachLiAssertion) {
+
+        WebElement newNoticeGroup = findGroup(className);
+        assertThat(newNoticeGroup)
+                .isNotNull();
+
+        assert newNoticeGroup != null;
+
+        AbstractBooleanAssert booleanAssert = assertThat(newNoticeGroup.isDisplayed());
+        groupDisplayAssertion.accept(booleanAssert);
+        booleanAssert.isTrue();
+
+        assertThat(newNoticeGroup.findElement(By.className("badge")).getText())
+                .isEqualTo(NumberUtils.format(newNotices.size(), 0, Locale.CHINA));
+
+        WebElement h5 = newNoticeGroup.findElement(By.tagName("h5"));
+        WebElement toggle = newNoticeGroup.findElement(By.tagName("button"));
+
+        if (!h5.isDisplayed()) {
+            toggle.click();
+        }
+        assertThat(h5.isDisplayed())
+                .isTrue();
+        h5TextAssertion.accept(assertThat(h5.getText()));
+        //element element	div p	Selects all <p> elements inside <div> elements
+        // 获取 div 里面所有的p
+        //element>element	div > p	Selects all <p> elements where the parent is a <div> element
+        // 获取 div 里面所有的直接子代p
+        //element+element	div + p	Selects all <p> elements that are placed immediately after <div> elements
+        // 获取 div 贴着的p
+        //element1~element2	p ~ ul	Selects every <ul> element that are preceded by a <p> element
+        // 获取 p  以后所有的ul
+        List<WebElement> userUIs = newNoticeGroup.findElements(By.cssSelector("ul > li"));
+
+        // 最后一个是所有用户的连接
+        WebElement allUsersLinkLI = userUIs.remove(userUIs.size() - 1);
+        // 验证链接
+        // showAllLinkAssertion 暂时不用~
+
+        Collection<T> cloneNotices = new ArrayList<>(newNotices);
+        for (WebElement userUI : userUIs) {
+            // div a img
+            T notice = eachLiAssertion.apply(userUI);
+            cloneNotices.remove(notice);
+        }
+        assertThat(cloneNotices.isEmpty())
+                .as("所有通知都已经找到了")
+                .isTrue();
+
+    }
+
+    /**
+     * 看到新的直接下线用户
+     *
+     * @param newUsers 新的下线用户
+     */
+    public void seeExceptNewUsers(Collection<User> newUsers) throws IOException {
+        seeDropdownGroupInHeader(newUsers, "glyphicon-user", assertion -> assertion.as("看到新下线用户logo")
+                , assertion -> assertion.isEqualTo("" + newUsers.size() + "个新的直接下线"), null, li -> {
+                    WebElement logo = li.findElement(By.tagName("img"));
+                    WebElement link = li.findElement(By.cssSelector("h5 > a"));
+                    User nowUser = newUsers.stream().filter(user -> user.getHumanReadName().equals(link.getText())).findAny().get();
+                    try {
+                        assertThat(logo.getAttribute("src"))
+                                .isEqualTo(resourceService.getResource(nowUser.getLogoPath()).getURI().toString());
+                    } catch (IOException ignored) {
+
+                    }
+                    return nowUser;
+                });
+    }
+
+    /**
+     * 看到新的未读邮件
+     *
+     * @param newEmails 未读邮件组
+     */
+    public void seeExceptNewEmails(Collection<Email> newEmails) {
+        seeDropdownGroupInHeader(newEmails, "glyphicon-envelope", assertion -> assertion.as("看到未读邮件logo")
+                , assertion -> assertion.isEqualTo("" + newEmails.size() + "个新邮件"), null, li -> {
+                    WebElement logo = li.findElement(By.tagName("img"));
+                    WebElement link = li.findElement(By.tagName("a"));
+                    WebElement name = li.findElement(By.className("name"));
+                    WebElement msg = li.findElement(By.className("msg"));
+
+                    // 通过连接获取邮件实体
+                    Long id = EmailHrefProcessor.emailIdFromHref(link.getAttribute("href"));
+                    Email email = newEmails.stream().filter(email1 -> id.equals(email1.getId()))
+                            .findAny().get();
+                    try {
+                        assertThat(logo.getAttribute("src"))
+                                .as("发件人头像")
+                                .isEqualTo(resourceService.getResource(email.getContent().getBelong().getLogoPath()).getURI().toString());
+                    } catch (IOException ignored) {
+
+                    }
+                    assertThat(name.getText())
+                            .as("发件人名称")
+                            .isEqualTo(StringUtils.abbreviate(email.getContent().getBelong().getHumanReadName(), 16));
+
+                    assertThat(msg.getText())
+                            .as("")
+                            .isEqualTo(StringUtils.abbreviate(email.getContent().getTitle(), 22));
+
+                    return email;
+                });
+    }
+
+    /**
+     * 查看当前页面,确认登录者是否为参数
+     *
+     * @param login login
+     */
+    public void seeLoginAs(Login login) {
+        WebElement userInfoGroup = findGroup("dropdown-menu-usermenu");
+        assertThat(userInfoGroup)
+                .isNotNull();
+
+        assert userInfoGroup != null;
+
+
+        WebElement logo = userInfoGroup.findElement(By.tagName("img"));
+        WebElement name = userInfoGroup.findElement(By.className("username"));
+
+        try {
+            assertThat(logo.getAttribute("src"))
+                    .isEqualTo(resourceService.getResource(login.getLogoPath()).getURI().toString());
+        } catch (IOException ignored) {
+
+        }
+
+        WebElement toggle = userInfoGroup.findElement(By.tagName("button"));
+
+        if (name.isDisplayed())
+            assertThat(name.getText())
+                    .isEqualTo(login.getHumanReadName());
+
+
+        List<WebElement> liList = userInfoGroup.findElements(By.cssSelector("ul > li"));
+        for (WebElement li : liList) {
+//            if (!li.isDisplayed()) {
+//                toggle.click();
+//            }
+//            assertThat(li.isDisplayed())
+//                    .isTrue();
+
+            List<WebElement> logoutElements = li.findElements(By.className("glyphicon-log-out"));
+
+            // todo check all menus under userInfo.
+
+        }
+
+    }
+
+    public LoginPage logout() {
+        WebElement userInfoGroup = findGroup("dropdown-menu-usermenu");
+        assertThat(userInfoGroup)
+                .isNotNull();
+
+        assert userInfoGroup != null;
+
+        List<WebElement> liList = userInfoGroup.findElements(By.cssSelector("ul > li"));
+        for (WebElement li : liList) {
+//            if (!li.isDisplayed()) {
+//                toggle.click();
+//            }
+//            assertThat(li.isDisplayed())
+//                    .isTrue();
+
+            List<WebElement> logoutElements = li.findElements(By.className("glyphicon-log-out"));
+
+            if (logoutElements.size() > 0) {
+                WebElement link = li.findElement(By.tagName("a"));
+//                System.out.println(link.getAttribute("href"));
+                webDriver.get(link.getAttribute("href"));
+//                System.out.println(webDriver.getPageSource());
+                return testInstance.initPage(LoginPage.class);
+            }
+
+        }
+        throw new AssertionError("Did not find logout link.");
     }
 }

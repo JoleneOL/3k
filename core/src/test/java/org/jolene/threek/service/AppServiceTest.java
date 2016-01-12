@@ -37,5 +37,10 @@ public class AppServiceTest extends CoreTest {
         assertThat(instant3)
                 .isEqualTo(instant);
 
+        System.out.println(timeService.nowClock());
+        System.out.println(timeService.nowDate());
+        System.out.println(timeService.nowDateTime());
+        System.out.println(timeService.nowTime());
+
     }
 }

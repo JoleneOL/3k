@@ -1,10 +1,14 @@
 package org.jolene.threek.web.controller.pages;
 
 import org.jolene.threek.web.pages.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,20 +22,24 @@ public class LoginPage extends AbstractPage {
     private WebElement password;
     @FindBy(css = "button[class~=btn-success]")
     private WebElement submitButton;
+    @FindBy(className = "logopanel")
+    private WebElement logoPanel;
 
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
-    public static LoginPage at(WebDriver driver) {
-        assertThat(driver.getCurrentUrl())
-                .contains("/login");
-        return PageFactory.initElements(driver, LoginPage.class);
+    @Override
+    public void validatePage() {
+//        assertThat(webDriver.getCurrentUrl())
+//                .contains("/login");
+        assertThat(webDriver.getTitle())
+                .contains("登录 ");
     }
 
     public IndexPage assertLoginSuccess(String username, String password) {
         doLogin(username, password);
-        return IndexPage.at(webDriver);
+        return testInstance.initPage(IndexPage.class);
     }
 
     private void doLogin(String username, String password) {
@@ -44,7 +52,7 @@ public class LoginPage extends AbstractPage {
 
     public LoginPage assertLoginWithBadUsername(String username, String password) {
         doLogin(username, password);
-        LoginPage loginPage = LoginPage.at(webDriver);
+        LoginPage loginPage = testInstance.initPage(LoginPage.class);
 
         assertThat(loginPage.getDangerAlertMessage("错误警告"))
                 .contains("未找到");
@@ -54,7 +62,7 @@ public class LoginPage extends AbstractPage {
 
     public LoginPage assertLoginWithBadPassword(String username, String password) {
         doLogin(username, password);
-        LoginPage loginPage = LoginPage.at(webDriver);
+        LoginPage loginPage = testInstance.initPage(LoginPage.class);
 
         assertThat(loginPage.getDangerAlertMessage("错误警告"))
                 .contains("密码错误");
@@ -64,7 +72,7 @@ public class LoginPage extends AbstractPage {
 
     public LoginPage assertLoginWithDisabled(String username, String password) {
         doLogin(username, password);
-        LoginPage loginPage = LoginPage.at(webDriver);
+        LoginPage loginPage = testInstance.initPage(LoginPage.class);
 
         assertThat(loginPage.getDangerAlertMessage("错误警告"))
                 .contains("禁用");
@@ -75,11 +83,50 @@ public class LoginPage extends AbstractPage {
     public LoginPage assertLoginWithLocked(String username, String password) {
         // TODO 被锁定的账户需求可能会发生变化
         doLogin(username, password);
-        LoginPage loginPage = LoginPage.at(webDriver);
+        LoginPage loginPage = testInstance.initPage(LoginPage.class);
 
         assertThat(loginPage.getDangerAlertMessage("错误警告"))
                 .contains("锁定");
 
         return loginPage;
+    }
+
+    /**
+     * 页面包含标题
+     *
+     * @param title 标题内容
+     */
+    public void logoContains(String title) {
+        assertThat(logoPanel.getText()).contains(title);
+    }
+
+    /**
+     * 页面包含功能
+     *
+     * @param messages 功能
+     */
+    public void assertFeatures(String[] messages) {
+        List<WebElement> liList = webDriver.findElements(By.cssSelector("ul > li"));
+        List<String> strings = new ArrayList<>(Arrays.asList(messages));
+        for (WebElement li : liList) {
+            WebElement span = li.findElement(By.tagName("span"));
+            String text = strings.stream().filter(msg -> msg.equals(span.getText())).findAny().get();
+            assertThat(text).isNotNull();
+            strings.remove(text);
+        }
+        assertThat(strings.isEmpty())
+                .isTrue();
+    }
+
+    public RegisterPage clickRegister() {
+        List<WebElement> links = webDriver.findElements(By.tagName("a"));
+
+        for (WebElement link : links) {
+            if (link.getText().contains("注册")) {
+                link.click();
+                return testInstance.initPage(RegisterPage.class);
+            }
+        }
+        return null;
     }
 }

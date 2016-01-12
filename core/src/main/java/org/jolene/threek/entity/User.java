@@ -23,6 +23,12 @@ import java.util.Map;
 @Setter
 @Getter
 public class User extends Login implements MutableTransferable {
+
+    /**
+     * 默认使用的logo Path
+     */
+    public static final String DEFAULT_LOGO_PATH = "images/photo/user.png";
+
     /**
      * 余额
      */

@@ -2,13 +2,16 @@ package org.jolene.threek.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.jolene.threek.entity.support.MatchingStatus;
 import org.jolene.threek.feature.Transferable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 
 /**
  * 匹配单
@@ -29,6 +32,17 @@ public class MatchingOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private MatchingStatus matchingStatus;
+    /**
+     * 上传的凭证资源,如果不为空就是需要收款方确认了
+     */
+    @Column(length = 60)
+    private String voucherPath;
+    @Column(columnDefinition = "datetime")
+    private LocalDateTime uploadedTime;
+    @Column(columnDefinition = "datetime")
+    private LocalDateTime confirmTime;
 
     @ManyToOne
     private ProvideOrder provideOrder;

@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <link rel="shortcut icon" href="images/favicon.png" type="image/png"/>
+    <link rel="shortcut icon" href="images/favicon.png" th:href="@{/images/favicon.png}" type="image/png"/>
 
     <title th:text="${'登录 '+#config.title}">登录 3k</title>
 
-    <link href="css/style.default.css" rel="stylesheet"/>
+    <link href="css/style.default.css" th:href="@{/css/style.default.css}" rel="stylesheet"/>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -44,17 +44,16 @@
 
                     <h5><strong th:utext="${#config.welcomeMessage}">欢迎来到3K!</strong></h5>
                     <ul th:remove="all-but-first">
-                        <li th:each="message:${#config.welcomeFeatures}" th:text="${message}">
-                            <i class="fa fa-arrow-circle-o-right mr5"></i> Fully Responsive Layout
+                        <li th:each="message:${#config.welcomeFeatures}">
+                            <i class="fa fa-arrow-circle-o-right mr5"></i> <span th:text="${message}">Fully Responsive Layout</span>
                         </li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> Fully Responsive Layout</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> HTML5/CSS3 Valid</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> Retina Ready</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> WYSIWYG CKEditor</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> and much more...</li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> <span>HTML5/CSS3 Valid</span></li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> <span>Retina Ready</span></li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> <span>WYSIWYG CKEditor</span></li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> <span>and much more...</span></li>
                     </ul>
                     <div class="mb20"></div>
-                    <strong>还没有帐号? <a href="signup.html">请注册</a></strong>
+                    <strong>还没有帐号? <a href="signup.html" th:href="@{/register}">请注册</a></strong>
                 </div><!-- signin0-info -->
 
             </div><!-- col-sm-7 -->
@@ -92,16 +91,16 @@
 </section>
 
 
-<script src="js/jquery-1.10.2.min.js"></script>
-<script src="js/jquery-migrate-1.2.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/modernizr.min.js"></script>
-<script src="js/retina.min.js"></script>
-<script src="js/toggles.min.js"></script>
-<script src="js/jquery.sparkline.min.js"></script>
-<script src="js/jquery.cookies.js"></script>
+<script src="js/jquery-1.10.2.min.js" th:src="@{/js/jquery-1.10.2.min.js}"></script>
+<script src="js/jquery-migrate-1.2.1.min.js" th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
+<script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="js/modernizr.min.js" th:src="@{/js/modernizr.min.js}"></script>
+<script src="js/retina.min.js" th:src="@{/js/retina.min.js}"></script>
+<script src="js/toggles.min.js" th:src="@{/js/toggles.min.js}"></script>
+<script src="js/jquery.sparkline.min.js" th:src="@{/js/jquery.sparkline.min.js}"></script>
+<script src="js/jquery.cookies.js" th:src="@{/js/jquery.cookies.js}"></script>
 
-<script src="js/custom.js"></script>
+<script src="js/custom.js" th:src="@{/js/custom.js}"></script>
 
 <div th:if="${'error'==#httpServletRequest.getParameter('type')}">
     <div
@@ -123,7 +122,7 @@
     </div>
 </div>
 
-<div th:if="${#httpServletRequest.getRequestURI().endsWith('logout')}">
+<div th:if="${#httpServletRequest.getParameter('logout')!=null}">
     <div
             th:replace="fragments/common::alert ('成功登出','欢迎下次再来','growl-info',null,null,false)">
         <script src="js/jquery.gritter.min.js"></script>
