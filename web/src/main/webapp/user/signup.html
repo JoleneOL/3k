@@ -82,7 +82,7 @@
 
                     <div class="mb10">
                         <label class="control-label">邀请码</label>
-                        <input name="code" type="text" class="form-control"/>
+                        <input name="code" type="text" class="form-control" title="邀请码"/>
                     </div>
 
                     <div class="mb10">
@@ -153,7 +153,16 @@
                         $(element).valid();
                     },
                     rules: {
-                        code: 'required'
+                        code: 'required',
+                        mobile: {
+                            required: true,
+                            mobile: true
+                        },
+                        password: 'required',
+                        password2: {
+                            required: true,
+                            equalTo: "input[name=password]"
+                        }
                     }
                 }
         );
