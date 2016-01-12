@@ -143,11 +143,13 @@
     $(function () {
         $('form').validate(
                 {
+                    ignoreTitle: true,
                     highlight: function (element) {
                         $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
                     },
                     success: function (element) {
                         $(element).closest('.form-group').removeClass('has-error');
+                        $(element).remove();
                     },
                     onfocusout: function (element) {
                         $(element).valid();
