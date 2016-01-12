@@ -22,4 +22,9 @@ public class LoginController {
         return "signin";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/register")
+    public String registerPage() {
+        return "user/signup";
+    }
+
 }

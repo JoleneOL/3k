@@ -6,6 +6,7 @@ import org.jolene.threek.service.LoginService;
 import org.jolene.threek.web.WebTest;
 import org.jolene.threek.web.controller.pages.IndexPage;
 import org.jolene.threek.web.controller.pages.LoginPage;
+import org.jolene.threek.web.controller.pages.RegisterPage;
 import org.jolene.threek.web.pages.AbstractPage;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -50,6 +51,17 @@ public class LoginControllerTest extends WebTest {
                         .session((MockHttpSession) session)
         )
                 .andDo(print());
+    }
+
+    @Test
+    public void register() {
+        driver.get("http://localhost");
+        LoginPage page = initPage(LoginPage.class);
+
+        RegisterPage registerPage = page.clickRegister();
+
+        assertThat(registerPage)
+                .isNotNull();
     }
 
     @Test

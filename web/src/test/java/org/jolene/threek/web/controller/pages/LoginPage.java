@@ -117,4 +117,16 @@ public class LoginPage extends AbstractPage {
         assertThat(strings.isEmpty())
                 .isTrue();
     }
+
+    public RegisterPage clickRegister() {
+        List<WebElement> links = webDriver.findElements(By.tagName("a"));
+
+        for (WebElement link : links) {
+            if (link.getText().contains("注册")) {
+                link.click();
+                return testInstance.initPage(RegisterPage.class);
+            }
+        }
+        return null;
+    }
 }

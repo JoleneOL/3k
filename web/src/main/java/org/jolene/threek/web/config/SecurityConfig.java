@@ -67,8 +67,9 @@ public class SecurityConfig {
             http
                     .authorizeRequests()
                     .antMatchers(
-                            "/config",
-                            "/login"
+                            "/config"
+                            , "/register"
+                            , "/login"
                             // 这里加入安全系统可见但允许所有操作的uri
 //                            "/_resources/**",
 //                            "/getGoodDetails/**"
