@@ -3,12 +3,14 @@ package org.jolene.threek.web.controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jolene.threek.entity.User;
+import org.jolene.threek.event.UserRegisterEvent;
 import org.jolene.threek.repository.LoginRepository;
 import org.jolene.threek.repository.UserRepository;
 import org.jolene.threek.service.LoginService;
 import org.jolene.threek.web.MVCUtils;
 import org.jolene.threek.web.model.RegisterInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.context.HttpRequestResponseHolder;
@@ -31,6 +33,8 @@ import java.util.Locale;
 public class LoginController {
 
     private static final Log log = LogFactory.getLog(LoginController.class);
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -78,6 +82,7 @@ public class LoginController {
         context.setAuthentication(new UsernamePasswordAuthenticationToken(user,info.getPassword(),user.getAuthorities()));
         httpSessionSecurityContextRepository.saveContext(context, holder.getRequest(), holder.getResponse());
 
+        applicationEventPublisher.publishEvent(new UserRegisterEvent(user));
         MVCUtils.addSuccessMessage(model, "恭喜,您已经成功注册!");
 
         return "redirect:/";
