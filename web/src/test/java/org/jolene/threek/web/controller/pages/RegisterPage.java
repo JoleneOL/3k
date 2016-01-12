@@ -21,6 +21,7 @@ public class RegisterPage extends AbstractPage {
     private WebElement password2;
     @FindBy(className = "btn-success")
     private WebElement button;
+
     public RegisterPage(WebDriver driver) {
         super(driver);
     }
@@ -33,19 +34,27 @@ public class RegisterPage extends AbstractPage {
 
     private void fillFormAndSubmit(RegisterInfo info) {
         code.clear();
-        code.sendKeys(info.getCode());
+        if (info.getCode() != null)
+            code.sendKeys(info.getCode());
         mobile.clear();
-        mobile.sendKeys(info.getMobile());
+        if (info.getMobile() != null)
+            mobile.sendKeys(info.getMobile());
         password.clear();
-        password.sendKeys(info.getPassword());
+        if (info.getPassword() != null)
+            password.sendKeys(info.getPassword());
         password2.clear();
-        password2.sendKeys(info.getPassword2());
+        if (info.getPassword2() != null)
+            password2.sendKeys(info.getPassword2());
+
+        button.click();
     }
 
     public void registerWithoutCode(RegisterInfo info) {
         fillFormAndSubmit(info);
-        assertThat(getDangerAlertMessage("没有邀请码的错误警告"))
-                .contains("邀请码");
+        assertThat(validateLabelFor(code).isDisplayed())
+                .isTrue();
+        assertThat(validateLabelFor(code).getText())
+                .contains("必填");
     }
 
 
@@ -57,13 +66,17 @@ public class RegisterPage extends AbstractPage {
 
     public void registerWithIllegalMobile(RegisterInfo info) {
         fillFormAndSubmit(info);
-        assertThat(getDangerAlertMessage("手机号码错误的错误警告"))
+        assertThat(validateLabelFor(mobile).isDisplayed())
+                .isTrue();
+        assertThat(validateLabelFor(mobile).getText())
                 .contains("手机");
     }
 
     public void registerWithBadPassword(RegisterInfo info) {
         fillFormAndSubmit(info);
-        assertThat(getDangerAlertMessage("密码有问题的错误警告"))
+        assertThat(validateLabelFor(password).isDisplayed())
+                .isTrue();
+        assertThat(validateLabelFor(password).getText())
                 .contains("密码");
     }
 

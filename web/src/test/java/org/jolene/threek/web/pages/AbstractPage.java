@@ -71,6 +71,30 @@ public abstract class AbstractPage {
     }
 
     /**
+     * 获取验证信息,该验证信息来源于jQuery的validate插件
+     *
+     * @param inputElement HTML input Element
+     * @return HTML Label Element,null如果不存在
+     */
+    public WebElement validateLabelFor(WebElement inputElement) {
+        return validateLabelFor(inputElement.getAttribute("name"));
+    }
+
+    /**
+     * 获取验证信息,该验证信息来源于jQuery的validate插件
+     *
+     * @param name 要验证的字段的名字(name)
+     * @return HTML Label Element,null如果不存在
+     */
+    public WebElement validateLabelFor(String name) {
+        try {
+            return webDriver.findElement(By.id(name + "-error"));
+        } catch (NotFoundException ex) {
+            return null;
+        }
+    }
+
+    /**
      * 刷新当前页面,跟浏览器刷新是一致的,并在完成之后调用验证
      */
     public void refresh() {
@@ -127,15 +151,14 @@ public abstract class AbstractPage {
     }
 
     private String getAlertMessage(WebElement alert, String message) {
-        assertThat(alert.isDisplayed())
-                .as(message)
-                .isTrue();
-
         try {
+            assertThat(alert.isDisplayed())
+                    .as(message)
+                    .isTrue();
             WebElement p = alert.findElement(By.cssSelector("p"));
             return p.getText();
         } catch (NotFoundException ex) {
-            throw new AssertionError(message);
+            throw new AssertionError(message, ex);
         }
     }
 
