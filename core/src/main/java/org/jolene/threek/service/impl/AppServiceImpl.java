@@ -76,7 +76,7 @@ public class AppServiceImpl implements AppService {
         systemValueService.asDouble(systemConfig::setRate, SystemConfig.RATE);
         systemValueService.asTexts(systemConfig::setWelcomeFeatures, SystemConfig.WELCOME_FEATURES);
         systemValueService.asText(systemConfig::setRegWelcomeMessage, SystemConfig.REGISTER_WELCOME_MESSAGE);
-        systemValueService.asBoolean(systemConfig::setOnlyInvite, SystemConfig.IS_ONLY_INVITE);
+        systemValueService.asBoolean(systemConfig::setOnlyInvite, SystemConfig.ONLY_INVITE);
 
         systemValueService.asInt(systemConfig::setMaxOperateHours, SystemConfig.MAX_OPERATE_HOURS);
         systemValueService.asInt(systemConfig::setMaxOrders, SystemConfig.MAX_ORDERS);

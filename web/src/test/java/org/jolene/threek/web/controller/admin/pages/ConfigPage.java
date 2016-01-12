@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,10 @@ public class ConfigPage extends AbstractPage {
     private WebElement url;
     @FindBy(css = "textarea[name='welcomeMessage']")
     private WebElement welcomeMessage;
+    @FindBy(css = "textarea[name='regWelcomeMessage']")
+    private WebElement regWelcomeMessage;
+    @FindBy(css = "input[name=chkOnlyInvite]")
+    private WebElement chkOnlyInvite;
     @FindBy(css = "input[name='tags']")
     private WebElement tags;
     @FindBy(css = "#tags_tagsinput")
@@ -90,6 +95,16 @@ public class ConfigPage extends AbstractPage {
         url.sendKeys(systemConfig.getUrl());
         welcomeMessage.clear();
         welcomeMessage.sendKeys(systemConfig.getWelcomeMessage());
+        regWelcomeMessage.clear();
+        regWelcomeMessage.sendKeys(systemConfig.getRegWelcomeMessage());
+
+        //设置为选中状态
+        if (StringUtils.isEmpty(chkOnlyInvite.getAttribute("checked"))) {
+            chkOnlyInvite.click();
+        }
+        if (!systemConfig.isOnlyInvite()) {
+            chkOnlyInvite.click();
+        }
 
         String[] welcomeFeatures = systemConfig.getWelcomeFeatures();
         String welcomeFeatureStr = "";

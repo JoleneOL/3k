@@ -55,6 +55,8 @@ public class ConfigControllerTest extends WebTest {
             strings[i] = UUID.randomUUID().toString();
         }
         model.setWelcomeFeatures(strings);
+        model.setRegWelcomeMessage(UUID.randomUUID().toString());
+        model.setOnlyInvite(true);
 
         model.setStock(random.nextInt(1000) + 1);
         model.setRate(randomDouble(0.1, 0.9, 2));

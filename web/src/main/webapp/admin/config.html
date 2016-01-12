@@ -328,7 +328,7 @@
                                 <label class="col-sm-3 control-label">网址 <span class="asterisk">*</span></label>
 
                                 <div class="col-sm-6">
-                                    <input id="url" name="url" type="text" th:value="*{url}" value="http://www.baidu.com"
+                                    <input title="网址" id="url" name="url" type="text" th:value="*{url}" value="http://www.baidu.com"
                                            class="form-control"/>
                                     <span class="help-block">运营的地址</span>
                                 </div>
@@ -349,7 +349,7 @@
                                 <label class="col-sm-3 control-label">功能特点</label>
 
                                 <div class="col-sm-7">
-                                    <input name="tags" id="tags" class="form-control" value="安全,稳定,利益丰富"/>
+                                    <input title="功能特点" name="tags" id="tags" class="form-control" value="安全,稳定,利益丰富"/>
                                 </div>
                             </div>
 
@@ -357,8 +357,8 @@
                                 <label class="col-sm-3 control-label">注册页欢迎信息</label>
 
                                 <div class="col-sm-7">
-                                <textarea name="indexTopNotice" th:value="*{indexTopNotice}"
-                                          placeholder="首页头部富文本" class="form-control" rows="5"></textarea>
+                                <textarea name="regWelcomeMessage" th:value="*{regWelcomeMessage}"
+                                          placeholder="注册页欢迎信息" title="注册页欢迎信息" class="form-control" rows="5"></textarea>
                                 </div>
                             </div>
 
@@ -366,8 +366,8 @@
                                 <label class="col-sm-3 control-label">是否只允许邀请注册 </label>
 
                                 <div class="col-sm-7">
-                                <textarea name="" th:value="*{indexTopNotice}"
-                                          placeholder="首页头部富文本" class="form-control" rows="5"></textarea>
+                                    <input type="checkbox" checked="checked" th:checked="*{onlyInvite}" title="是否只允许邀请注册" name="chkOnlyInvite"/>
+                                    <input type="hidden" name="onlyInvite" value="true" th:checked="*{onlyInvite}" title="是否只允许邀请注册"/>
                                 </div>
                             </div>
 
@@ -670,6 +670,7 @@
 
         jQuery('textarea[name=indexTopNotice]').wysihtml5({color: true, html: true});
         jQuery('textarea[name=indexBottomNotice]').wysihtml5({color: true, html: true});
+        $('textarea[name=regWelcomeMessage]').wysihtml5({color: true, html: true});
 
         // Textarea Autogrow
 //        jQuery('#autoResizeTA').autogrow();
@@ -685,6 +686,7 @@
             },
             success: function (element) {
                 $(element).closest('.form-group').removeClass('has-error');
+                $(element).remove();
             },
             onfocusout: function (element) {
                 $(element).valid();
@@ -736,6 +738,14 @@
                 }
             }
         });
+
+        $("input[name=chkOnlyInvite]").change(function () {
+            var onlyInvite = false;
+            if ($(this).attr("checked")) {
+                onlyInvite = true;
+            }
+            $("input[name=onlyInvite]").val(onlyInvite);
+        })
     });
 
 
