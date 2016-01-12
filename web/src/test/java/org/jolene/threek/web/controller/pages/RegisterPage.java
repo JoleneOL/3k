@@ -61,7 +61,7 @@ public class RegisterPage extends AbstractPage {
 
     public void registerWithIllegalCode(RegisterInfo info) {
         fillFormAndSubmit(info);
-        System.out.println(webDriver.getPageSource());
+//        System.out.println(webDriver.getPageSource());
         PageFactory.initElements(webDriver, this);
 
         assertThat(getDangerAlertMessage("邀请码错误的错误警告"))
@@ -85,7 +85,8 @@ public class RegisterPage extends AbstractPage {
     }
 
     public IndexPage registerSuccess(RegisterInfo info) {
-        return null;
+        fillFormAndSubmit(info);
+        return testInstance.initPage(IndexPage.class);
     }
 
     public void registerWithoutPassword(RegisterInfo info) {

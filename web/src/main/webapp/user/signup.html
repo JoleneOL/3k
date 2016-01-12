@@ -30,6 +30,7 @@
 <section>
 
     <div class="signuppanel">
+        <!--/*@thymesVar id="info" type="org.jolene.threek.web.model.RegisterInfo"*/-->
 
         <div class="row">
 
@@ -82,24 +83,28 @@
 
                     <div class="mb10">
                         <label class="control-label">邀请码</label>
-                        <input name="code" type="text" class="form-control" title="邀请码"/>
+                        <input name="code" type="text" class="form-control" title="邀请码"
+                               th:value="${info!=null?(info.code?:''):''}"/>
                     </div>
 
                     <div class="mb10">
                         <label class="control-label">手机号码</label>
-                        <input name="mobile" type="text" class="form-control" title="手机号码"/>
+                        <input name="mobile" type="text" class="form-control" title="手机号码"
+                               th:value="${info!=null?(info.mobile?:''):''}"/>
                     </div>
                     <div class="mb10"><span class="alert-warning">手机号码是你在平台的唯一登录凭据.</span></div>
 
                     <div class="mb10">
                         <label class="control-label">密码</label>
-                        <input type="password" class="form-control" title="密码" name="password"/>
+                        <input type="password" class="form-control" title="密码" name="password"
+                               th:value="${info!=null?(info.password?:''):''}"/>
                     </div>
 
 
                     <div class="mb10">
                         <label class="control-label">确认密码</label>
-                        <input type="password" class="form-control" title="确认密码" name="password2"/>
+                        <input type="password" class="form-control" title="确认密码" name="password2"
+                               th:value="${info!=null?(info.password2?:''):''}"/>
                     </div>
 
                     <br/>

@@ -3,7 +3,9 @@ package org.jolene.threek.web.controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jolene.threek.entity.User;
+import org.jolene.threek.repository.LoginRepository;
 import org.jolene.threek.repository.UserRepository;
+import org.jolene.threek.service.LoginService;
 import org.jolene.threek.web.MVCUtils;
 import org.jolene.threek.web.model.RegisterInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,10 @@ public class LoginController {
     private static final Log log = LogFactory.getLog(LoginController.class);
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private LoginService loginService;
+    @Autowired
+    private LoginRepository loginRepository;
 
     @RequestMapping(method = RequestMethod.GET, value = "/login")
     public String login(Locale locale) {
@@ -47,6 +53,18 @@ public class LoginController {
             MVCUtils.addDangerMessage(model, "您输入的邀请码无效.");
             return "redirect:/register";
         }
+        if (loginRepository.findByUsername(info.getMobile()) != null) {
+            model.addFlashAttribute("info", info);
+            MVCUtils.addDangerMessage(model, "这个手机号码已经被人注册.");
+            return "redirect:/register";
+        }
+
+        User user = new User();
+        user.setGuide(guide);
+        user.setUsername(info.getMobile());
+        loginService.changeLoginWithRawPassword(user, info.getPassword());
+
+        MVCUtils.addSuccessMessage(model, "恭喜,您已经成功注册!");
 
         return "redirect:/";
     }

@@ -77,7 +77,7 @@ public class LoginControllerTest extends WebTest {
 
         //创建一个用户
         User user = addNewUserUnder(null, 1).stream().findAny().get();
-        ;
+
         info.setCode(user.getCode());
         info.setMobile(UUID.randomUUID().toString());
         registerPage.registerWithIllegalMobile(info);
@@ -93,10 +93,16 @@ public class LoginControllerTest extends WebTest {
         info.setPassword(info.getPassword2());
 
         IndexPage indexPage = registerPage.registerSuccess(info);
+        System.out.println(driver.getPageSource());
 
         User newUser = (User) loginRepository.findByUsername(info.getMobile());
+        assertThat(newUser)
+                .isNotNull();
         assertThat(newUser.getGuide())
                 .isEqualTo(user);
+
+        assertThat(indexPage.getSuccessAlertMessage("成功注册以后的消息"))
+                .contains("注册");
     }
 
     @Test
