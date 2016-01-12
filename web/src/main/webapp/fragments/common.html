@@ -6,6 +6,64 @@
 </head>
 <body>
 
+<div th:fragment="alertFunctions">
+    <script src="../js/jquery.gritter.min.js" th:src="@{/js/jquery.gritter.min.js}"></script>
+    <script src="../js/jquery.util.js" th:src="@{/js/jquery.util.js}"></script>
+    <link href="../css/jquery.gritter.css" rel="stylesheet" th:href="@{/css/jquery.gritter.css}"/>
+    <script>
+        function showPrimary(title, text, image, time) {
+            jQuery.gritter.add({
+                title: title,
+                text: text,
+                class_name: 'growl-primary',
+                image: image,
+                sticky: false,
+                time: time ? time : ''
+            });
+        }
+        function showSuccess(title, text, image, time) {
+            jQuery.gritter.add({
+                title: title,
+                text: text,
+                class_name: 'growl-success',
+                image: image,
+                sticky: false,
+                time: time ? time : ''
+            });
+        }
+        function showWarning(title, text, image, time) {
+            jQuery.gritter.add({
+                title: title,
+                text: text,
+                class_name: 'growl-warning',
+                image: image,
+                sticky: false,
+                time: time ? time : ''
+            });
+        }
+        function showDanger(title, text, image, time) {
+            jQuery.gritter.add({
+                title: title,
+                text: text,
+                class_name: 'growl-danger',
+                image: image,
+                sticky: false,
+                time: time ? time : ''
+            });
+        }
+        function showInfo(title, text, image, time) {
+            jQuery.gritter.add({
+                title: title,
+                text: text,
+                class_name: 'growl-info',
+                image: image,
+                sticky: false,
+                time: time ? time : ''
+            });
+        }
+    </script>
+</div>
+
 <div th:fragment="alert (title,text,clazz,image,time,sticky)">
     <script src="../js/jquery.gritter.min.js" th:src="@{/js/jquery.gritter.min.js}"></script>
     <link href="../css/jquery.gritter.css" rel="stylesheet" th:href="@{/css/jquery.gritter.css}"/>

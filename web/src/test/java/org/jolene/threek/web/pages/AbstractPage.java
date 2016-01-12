@@ -29,6 +29,12 @@ public abstract class AbstractPage {
     protected WebElement dangerAlert;
     @FindBy(className = "growl-info")
     protected WebElement infoAlert;
+    @FindBy(className = "growl-warning")
+    protected WebElement warningAlert;
+    @FindBy(className = "growl-success")
+    protected WebElement successAlert;
+    @FindBy(className = "growl-primary")
+    protected WebElement primaryAlert;
 
     public AbstractPage(WebDriver driver) {
         this.webDriver = driver;
@@ -85,17 +91,39 @@ public abstract class AbstractPage {
      */
     public String getDangerAlertMessage(String message) {
         return getAlertMessage(dangerAlert, message);
-
     }
 
     /**
      * @param message 如果没有显示使用的错误信息
      * @return 获取危险提示框显示的文字
-     * @see #dangerAlert
+     * @see #infoAlert
      */
     public String getInfoAlertMessage(String message) {
         return getAlertMessage(infoAlert, message);
+    }
 
+    /**
+     * @param message 如果没有显示使用的错误信息
+     * @return 主要信息显示的文字
+     */
+    public String getPrimaryAlertMessage(String message) {
+        return getAlertMessage(primaryAlert, message);
+    }
+
+    /**
+     * @param message 如果没有显示使用的错误信息
+     * @return 成功信息显示的文字
+     */
+    public String getSuccessAlertMessage(String message) {
+        return getAlertMessage(successAlert, message);
+    }
+
+    /**
+     * @param message 如果没有显示使用的错误信息
+     * @return 警告信息显示的文字
+     */
+    public String getWarningAlertMessage(String message) {
+        return getAlertMessage(warningAlert, message);
     }
 
     private String getAlertMessage(WebElement alert, String message) {

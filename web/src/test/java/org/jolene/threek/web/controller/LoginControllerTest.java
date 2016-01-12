@@ -7,6 +7,7 @@ import org.jolene.threek.web.WebTest;
 import org.jolene.threek.web.controller.pages.IndexPage;
 import org.jolene.threek.web.controller.pages.LoginPage;
 import org.jolene.threek.web.controller.pages.RegisterPage;
+import org.jolene.threek.web.model.RegisterInfo;
 import org.jolene.threek.web.pages.AbstractPage;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -62,6 +63,40 @@ public class LoginControllerTest extends WebTest {
 
         assertThat(registerPage)
                 .isNotNull();
+
+        RegisterInfo info = new RegisterInfo();
+
+        info.setMobile(randomMobile());
+        info.setPassword(UUID.randomUUID().toString());
+        info.setPassword2(info.getPassword());
+
+        registerPage.registerWithoutCode(info);
+
+        info.setCode(UUID.randomUUID().toString());
+        registerPage.registerWithIllegalCode(info);
+
+        //创建一个用户
+        User user = addNewUserUnder(null, 1).stream().findAny().get();
+        ;
+        info.setCode(user.getCode());
+        info.setMobile(UUID.randomUUID().toString());
+        registerPage.registerWithIllegalMobile(info);
+        info.setMobile(randomMobile());
+
+        info.setPassword("");
+        info.setPassword2("");
+        registerPage.registerWithBadPassword(info);
+
+        info.setPassword(UUID.randomUUID().toString());
+        info.setPassword2(UUID.randomUUID().toString());
+        registerPage.registerWithBadPassword(info);
+        info.setPassword(info.getPassword2());
+
+        IndexPage indexPage = registerPage.registerSuccess(info);
+
+        User newUser = (User) loginRepository.findByUsername(info.getMobile());
+        assertThat(newUser.getGuide())
+                .isEqualTo(user);
     }
 
     @Test

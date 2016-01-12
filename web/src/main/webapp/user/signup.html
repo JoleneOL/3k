@@ -74,7 +74,7 @@
 
             <div class="col-md-6">
 
-                <form method="post" action="../investment/index.html">
+                <form method="post" action="../investment/index.html" th:action="@{/register}">
 
                     <h3 class="nomargin">注册</h3>
 
@@ -82,7 +82,7 @@
 
                     <div class="mb10">
                         <label class="control-label">邀请码</label>
-                        <input name="code" type="text" class="form-control" title="邀请码"/>
+                        <input name="code" type="text" class="form-control"/>
                     </div>
 
                     <div class="mb10">
@@ -132,9 +132,33 @@
 <script src="../js/toggles.min.js" th:src="@{/js/toggles.min.js}"></script>
 <script src="../js/jquery.sparkline.min.js" th:src="@{/js/jquery.sparkline.min.js}"></script>
 <script src="../js/jquery.cookies.js" th:src="@{/js/jquery.cookies.js}"></script>
+<script src="../js/jquery.validate.min13.js" th:src="@{/js/jquery.validate.min13.js}"></script>
+<script src="../js/msgresource/jquery.validation.message-zh_cn.js"
+        th:src="@{/js/msgresource/jquery.validation.message-zh_cn.js}"></script>
 
 <!--<script src="js/chosen.jquery.min.js"></script>-->
 <script src="../js/custom.js" th:src="@{/js/custom.js}"></script>
+
+<script>
+    $(function () {
+        $('form').validate(
+                {
+                    highlight: function (element) {
+                        $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                    },
+                    success: function (element) {
+                        $(element).closest('.form-group').removeClass('has-error');
+                    },
+                    onfocusout: function (element) {
+                        $(element).valid();
+                    },
+                    rules: {
+                        code: 'required'
+                    }
+                }
+        );
+    });
+</script>
 
 </body>
 </html>
