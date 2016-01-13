@@ -26,6 +26,7 @@ public class SystemConfig {
     public static final String TITLE = "org.jolene.3k.title";
     public static final String URL = "org.jolene.3k.url";
     public static final String WELCOME_MESSAGE = "org.jolene.3k.welcomeMessage";
+    public static final String USER_HELP_MESSAGE = "org.jolene.3k.userHelpMessage";
     public static final String WELCOME_FEATURES = "org.jolene.3k.welcomeFeatures";
     public static final String REGISTER_WELCOME_MESSAGE = "org.jolene.3k.regWelcomeMessage";
     public static final String ONLY_INVITE = "org.jolene.3k.onlyInvite";
@@ -67,6 +68,11 @@ public class SystemConfig {
      * 注册页欢迎信息
      */
     private String regWelcomeMessage = "欢迎注册";
+
+    /**
+     * 帮助信息
+     */
+    private String userHelpMessage = "恭喜发财";
 
     /**
      * 是否只允许邀请注册

@@ -5,6 +5,7 @@ import org.jolene.threek.service.InformationService;
 import org.jolene.threek.web.AuthenticatedWebTest;
 import org.jolene.threek.web.LoginAs;
 import org.jolene.threek.web.LoginType;
+import org.jolene.threek.web.controller.pages.HelpPage;
 import org.jolene.threek.web.controller.pages.ProfilePage;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -59,6 +60,7 @@ public class UserControllerTest extends AuthenticatedWebTest {
 
     @Test
     public void testUserHelp() {
-
+        HelpPage page = indexPage.clickHelp();
+        System.out.println(driver.getPageSource());
     }
 }

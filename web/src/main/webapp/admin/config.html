@@ -372,6 +372,15 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">用户帮助信息 </label>
+
+                                <div class="col-sm-7">
+                                <textarea id="userHelpMessage" name="userHelpMessage" th:value="*{userHelpMessage}"
+                                          placeholder="首页头部富文本" class="form-control" rows="5"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">首页头部内容 </label>
 
                                 <div class="col-sm-7">
@@ -668,6 +677,7 @@
         // Tags Input
         jQuery('#tags').tagsInput({width: 'auto'});
 
+        jQuery('textarea[name=userHelpMessage]').wysihtml5({color: true, html: true});
         jQuery('textarea[name=indexTopNotice]').wysihtml5({color: true, html: true});
         jQuery('textarea[name=indexBottomNotice]').wysihtml5({color: true, html: true});
         $('textarea[name=regWelcomeMessage]').wysihtml5({color: true, html: true});

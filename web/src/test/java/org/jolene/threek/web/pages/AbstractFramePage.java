@@ -5,6 +5,7 @@ import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.jolene.threek.entity.Email;
 import org.jolene.threek.entity.Login;
 import org.jolene.threek.entity.User;
+import org.jolene.threek.web.controller.pages.HelpPage;
 import org.jolene.threek.web.controller.pages.LoginPage;
 import org.jolene.threek.web.controller.pages.ProfilePage;
 import org.jolene.threek.web.dialect.process.EmailHrefProcessor;
@@ -332,5 +333,16 @@ public abstract class AbstractFramePage extends AbstractPage {
         WebElement link = findLinkInUserMenu("glyphicon-user");
         webDriver.get(link.getAttribute("href"));
         return testInstance.initPage(ProfilePage.class);
+    }
+
+    /**
+     * 点击  「帮助」
+     *
+     * @return 新开的帮助页面
+     */
+    public HelpPage clickHelp() {
+        WebElement link = findLinkInUserMenu("glyphicon-question-sign");
+        webDriver.get(link.getAttribute("href"));
+        return testInstance.initPage(HelpPage.class);
     }
 }

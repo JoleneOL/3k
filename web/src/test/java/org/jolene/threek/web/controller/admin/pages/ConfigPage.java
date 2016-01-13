@@ -37,6 +37,8 @@ public class ConfigPage extends AbstractPage {
     private WebElement tagsInputDiv;
     @FindBy(css = "#tags_tag")
     private WebElement tagsInput;
+    @FindBy(css = "textarea[name='userHelpMessage']")
+    private WebElement userHelpMessage;
     @FindBy(css = "textarea[name='indexTopNotice']")
     private WebElement indexTopNotice;
     @FindBy(css = "textarea[name='indexBottomNotice']")
@@ -126,8 +128,10 @@ public class ConfigPage extends AbstractPage {
         assertThat(welcomeFeatures[0])
                 .isEqualTo(tagsSpan.get(0).findElement(By.tagName("span")).getText().trim());
         assertThat(tags.getAttribute("value").trim())
-                .isEqualTo(welcomeFeatureStr.toString().substring(0, welcomeFeatureStr.length() - 1));
+                .isEqualTo(welcomeFeatureStr.substring(0, welcomeFeatureStr.length() - 1));
 
+        userHelpMessage.clear();
+        userHelpMessage.sendKeys(systemConfig.getUserHelpMessage());
         indexTopNotice.clear();
         indexTopNotice.sendKeys(systemConfig.getIndexTopNotice());
         indexBottomNotice.clear();

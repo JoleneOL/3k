@@ -114,6 +114,8 @@ public class ConfigControllerTest extends WebTest {
             interestReward.setRate(randomDouble(0.1, 0.9, 2));
         }
 
+        model.setUserHelpMessage(UUID.randomUUID().toString());
+
         // 提交配置
         configPage.submit(model);
 

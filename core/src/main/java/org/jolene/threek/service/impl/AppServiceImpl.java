@@ -97,6 +97,8 @@ public class AppServiceImpl implements AppService {
                         , Integer.parseInt(values[1]), Integer.parseInt(values[2])));
             }
         }, SystemConfig.INTEREST_REWARDS);
+
+        systemValueService.asText(systemConfig::setUserHelpMessage, SystemConfig.USER_HELP_MESSAGE);
         return systemConfig;
     }
 
@@ -128,6 +130,8 @@ public class AppServiceImpl implements AppService {
             interestRewardStrings[i - 1] = String.format("%s,%d,%d", reward.getRate(), reward.getReach(), reward.getMax());
         }
         systemValueService.asTexts(interestRewardStrings, SystemConfig.INTEREST_REWARDS);
+
+        systemValueService.asText(systemConfig.getUserHelpMessage(), SystemConfig.USER_HELP_MESSAGE);
     }
 
     @Override
