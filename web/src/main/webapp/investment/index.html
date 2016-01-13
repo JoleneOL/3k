@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <!--/*@thymesVar id="#config" type="org.jolene.threek.SystemConfig"*/-->
 <!--/*@thymesVar id="#user" type="org.jolene.threek.entity.User"*/-->
+<!--/*@thymesVar id="#isEndUser" type="java.lang.Boolean"*/-->
 <head>
     <meta charset="UTF-8" content="text/html"/>
     <title th:text="${#config.title}">3K 主面板</title>
@@ -497,8 +498,9 @@
 </script>
 <script th:inline="javascript">
     $(function () {
+        // #user was only work in case of #isEndUser is true.
         var investLot = $('input[name=investLot]');
-        var balance = /*[[${#user.balance}]]*/0;
+        var balance = 0;
         var maxLots = /*[[${#config.maxLots}]]*/10;
         investLot.spinner({
             min: 1,

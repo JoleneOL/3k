@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.test.web.servlet.htmlunit.webdriver.WebConnectionHtmlUnitDriver;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -150,8 +151,12 @@ public class ConfigPage extends AbstractPage {
         assertThat(tags.getAttribute("value").trim())
                 .isEqualTo(welcomeFeatureStr.substring(0, welcomeFeatureStr.length() - 1));
 
-        userHelpMessage.clear();
-        userHelpMessage.sendKeys(systemConfig.getUserHelpMessage());
+        WebConnectionHtmlUnitDriver webConnectionHtmlUnitDriver = (WebConnectionHtmlUnitDriver) webDriver;
+        webConnectionHtmlUnitDriver.executeScript("configHandler.richEdit('#userHelpMessage_panel','"
+                + systemConfig.getUserHelpMessage() + "')");
+//        userHelpMessage.clear();
+//        userHelpMessage.sendKeys("");
+
         WebElement indexTopNotice_panel = form.findElement(By.id("indexTopNotice_panel"));
 //        indexTopNotice_panel.findElement()
         indexTopNotice.clear();

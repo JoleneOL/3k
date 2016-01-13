@@ -22,6 +22,13 @@ $(function () {
 });
 
 var configHandler = {
+    /**
+     * @param selector textarea所在元素的css选择器
+     * @param text 要输入的文本内容
+     */
+    richEdit: function (selector, text) {
+        $('body', $(selector + ' iframe').contents()).html(text);
+    },
     pageInit: function () {
         // Tags Input
         jQuery('#tags').tagsInput({width: 'auto'});
