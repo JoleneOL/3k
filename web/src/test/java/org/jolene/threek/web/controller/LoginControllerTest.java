@@ -59,8 +59,12 @@ public class LoginControllerTest extends WebTest {
         driver.get("http://localhost");
         LoginPage page = initPage(LoginPage.class);
 
+        //先模拟不允许 不输入邀请码
+        appService.currentSystemConfig().setOnlyInvite(true);
+
         RegisterPage registerPage = page.clickRegister();
 
+        //从登录页面点击注册
         assertThat(registerPage)
                 .isNotNull();
 
@@ -102,6 +106,36 @@ public class LoginControllerTest extends WebTest {
                 .isNotNull();
         assertThat(newUser.getGuide())
                 .isEqualTo(user);
+
+        //退出登录 再模拟可以不输入邀请码
+        appService.currentSystemConfig().setOnlyInvite(false);
+        registerPage = indexPage.logout().clickRegister();
+        //这个时候不输入邀请码就是可以的
+        info.setCode("");
+        //其他则照旧
+        info.setMobile(UUID.randomUUID().toString());
+        registerPage.registerWithIllegalMobile(info);
+        info.setMobile(randomMobile());
+
+        info.setPassword("");
+        info.setPassword2("");
+        registerPage.registerWithoutPassword(info);
+
+        info.setPassword(UUID.randomUUID().toString());
+        info.setPassword2(UUID.randomUUID().toString());
+        registerPage.registerWithBadPassword(info);
+        info.setPassword(info.getPassword2());
+
+        indexPage = registerPage.registerSuccess(info);
+
+        assertThat(indexPage.getSuccessAlertMessage("成功注册以后的消息"))
+                .contains("注册");
+
+        newUser = (User) loginRepository.findByUsername(info.getMobile());
+        assertThat(newUser)
+                .isNotNull();
+        assertThat(newUser.getGuide())
+                .isNull();
 
     }
 

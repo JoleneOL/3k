@@ -143,8 +143,11 @@
 
 <!--<script src="js/chosen.jquery.min.js"></script>-->
 <script src="../js/custom.js" th:src="@{/js/custom.js}"></script>
+<script th:inline="javascript">
 
-<script>
+</script>
+<script th:inline="javascript">
+    var codeRequired = /*[[${#config.onlyInvite}]]*/true;
     $(function () {
         $('form').validate(
                 {
@@ -160,7 +163,9 @@
                         $(element).valid();
                     },
                     rules: {
-                        code: 'required',
+                        code: {
+                            required: codeRequired
+                        },
                         mobile: {
                             required: true,
                             mobile: true

@@ -6,6 +6,7 @@ import org.jolene.threek.entity.User;
 import org.jolene.threek.event.UserRegisterEvent;
 import org.jolene.threek.repository.LoginRepository;
 import org.jolene.threek.repository.UserRepository;
+import org.jolene.threek.service.AppService;
 import org.jolene.threek.service.LoginService;
 import org.jolene.threek.web.MVCUtils;
 import org.jolene.threek.web.model.RegisterInfo;
@@ -18,6 +19,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -41,6 +43,8 @@ public class LoginController {
     private LoginService loginService;
     @Autowired
     private LoginRepository loginRepository;
+    @Autowired
+    private AppService appService;
 
     private SecurityContextRepository httpSessionSecurityContextRepository = new HttpSessionSecurityContextRepository();
 
@@ -60,12 +64,22 @@ public class LoginController {
             return "redirect:/register";
         }
 
-        User guide = userRepository.findByCode(info.getCode());
-        if (guide == null) {
+        User guide;
+        if (!StringUtils.isEmpty(info.getCode())) {
+            guide = userRepository.findByCode(info.getCode());
+            if (guide == null) {
+                model.addFlashAttribute("info", info);
+                MVCUtils.addDangerMessage(model, "您输入的邀请码无效.");
+                return "redirect:/register";
+            }
+        } else if (appService.currentSystemConfig().isOnlyInvite()) {
             model.addFlashAttribute("info", info);
-            MVCUtils.addDangerMessage(model, "您输入的邀请码无效.");
+            MVCUtils.addDangerMessage(model, "您必须接受现有会员的邀请才可以加入.");
             return "redirect:/register";
+        } else {
+            guide = null;
         }
+
         if (loginRepository.findByUsername(info.getMobile()) != null) {
             model.addFlashAttribute("info", info);
             MVCUtils.addDangerMessage(model, "这个手机号码已经被人注册.");
