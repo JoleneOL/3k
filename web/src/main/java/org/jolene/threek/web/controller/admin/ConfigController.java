@@ -49,6 +49,16 @@ public class ConfigController {
             throw new ForbiddenException();
     }
 
+    /**
+     * 保存配置信息
+     *
+     * @param login
+     * @param requestConfig
+     * @param tags
+     * @param rewardSerialization
+     * @param request
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/config")
     @Transactional
     public String change(@AuthenticationPrincipal Login login,
@@ -74,6 +84,7 @@ public class ConfigController {
         systemConfig.setUrl(requestConfig.getUrl());
         systemConfig.setWelcomeMessage(requestConfig.getWelcomeMessage());
         systemConfig.setWelcomeFeatures(tags.split(","));
+        systemConfig.setUserHelpMessage(requestConfig.getUserHelpMessage());
         systemConfig.setIndexTopNotice(requestConfig.getIndexTopNotice());
         systemConfig.setIndexBottomNotice(requestConfig.getIndexBottomNotice());
         systemConfig.setStock(requestConfig.getStock());
@@ -82,17 +93,20 @@ public class ConfigController {
         systemConfig.setQueueDays(requestConfig.getQueueDays());
         systemConfig.setRate(requestConfig.getRate());
         systemConfig.setMaxOperateHours(requestConfig.getMaxOperateHours());
+        systemConfig.setOnlyInvite(requestConfig.isOnlyInvite());
+        systemConfig.setRegWelcomeMessage(requestConfig.getRegWelcomeMessage());
         systemConfig.setInspectStartDayOfMonth(requestConfig.getInspectStartDayOfMonth());
         systemConfig.setInspectEndDayOfMonth(requestConfig.getInspectEndDayOfMonth());
         String[] interestRewardsInfo = rewardSerialization.split("\\|");
         Map<Integer, InterestReward> interestRewardMap = new HashMap<>();
-        for (int i = 1; i <= interestRewardsInfo.length; i++) {
+
+        for (int i = 0; i < interestRewardsInfo.length; i++) {
             String[] rewordDetail = interestRewardsInfo[i].split(",");
             InterestReward interestReward = new InterestReward();
             interestReward.setRate(Double.parseDouble(rewordDetail[0]));
             interestReward.setReach(Integer.parseInt(rewordDetail[1]));
             interestReward.setMax(Integer.parseInt(rewordDetail[2]));
-            interestRewardMap.put(i, interestReward);
+            interestRewardMap.put(i + 1, interestReward);
         }
         systemConfig.setLeaderStopRecommends(requestConfig.getLeaderStopRecommends());
         systemConfig.setLeaderStopMembers(requestConfig.getLeaderStopMembers());

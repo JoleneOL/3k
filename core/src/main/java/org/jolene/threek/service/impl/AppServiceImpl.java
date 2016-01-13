@@ -6,11 +6,7 @@ import org.jolene.threek.entity.Login;
 import org.jolene.threek.entity.User;
 import org.jolene.threek.exception.ConfigRequiredException;
 import org.jolene.threek.repository.LoginRepository;
-import org.jolene.threek.service.AppService;
-import org.jolene.threek.service.ResourceService;
-import org.jolene.threek.service.SystemValueService;
-import org.jolene.threek.service.TimeService;
-import org.jolene.threek.service.VersionService;
+import org.jolene.threek.service.*;
 import org.jolene.threek.support.InterestReward;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -114,6 +110,8 @@ public class AppServiceImpl implements AppService {
         systemValueService.asInt(systemConfig.getStock(), SystemConfig.STOCK);
         systemValueService.asDouble(systemConfig.getRate(), SystemConfig.RATE);
         systemValueService.asTexts(systemConfig.getWelcomeFeatures(), SystemConfig.WELCOME_FEATURES);
+        systemValueService.asText(systemConfig.getRegWelcomeMessage(), SystemConfig.REGISTER_WELCOME_MESSAGE);
+        systemValueService.asBoolean(systemConfig.isOnlyInvite(), SystemConfig.ONLY_INVITE);
 
         systemValueService.asInt(systemConfig.getMaxOperateHours(), SystemConfig.MAX_OPERATE_HOURS);
         systemValueService.asInt(systemConfig.getMaxOrders(), SystemConfig.MAX_ORDERS);

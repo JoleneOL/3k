@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <!--/*@thymesVar id="#config" type="org.jolene.threek.SystemConfig"*/-->
+<!--/*@thymesVar id="#user" type="org.jolene.threek.entity.User"*/-->
 <head>
     <meta charset="UTF-8" content="text/html"/>
     <title th:text="${#config.title}">3K 主面板</title>
@@ -405,6 +406,7 @@
                     <div>提供帮助金额：<span id="stock" th:text="${#config.stock}">6000</span>
                         *<input style="width: 75px;" name="investLot" value="1" title="手数"/>=<span
                                 id="totalInvest">6000</span>人民币
+                        <input type="hidden" name=""/>
                     </div>
                     <div style="height: 44px;">将获取利息<span>999</span>人民币</div>
                 </div>
@@ -496,13 +498,27 @@
 <script th:inline="javascript">
     $(function () {
         var investLot = $('input[name=investLot]');
+        var balance = /*[[${#user.balance}]]*/0;
         var maxLots = /*[[${#config.maxLots}]]*/10;
         investLot.spinner({
             min: 1,
             max: maxLots
         });
         //TODO 自动修改#totalInvest根据#stock*investLot
+
+        $("#")
+
+        $("#provideForm")
     });
+
+    var investmentHandler = {
+        doProvider: function () {
+
+        },
+        doAccept: function () {
+            if ()
+                    }
+    }
 </script>
 
 <div th:replace="fragments/common::alertFunctions">

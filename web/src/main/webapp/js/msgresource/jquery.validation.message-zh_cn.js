@@ -39,7 +39,7 @@ $(document).ready(function () {
     }, "请输入已百为单位的正整数");
 
     $.validator.addMethod("maxTo", function (value, element, param) {
-        if (value > $(param).val()) {
+        if (parseInt(value) > parseInt($(param).val())) {
             return true;
         } else {
             return false;
@@ -47,7 +47,7 @@ $(document).ready(function () {
     }, "输入的值必须大于");
 
     $.validator.addMethod("minTo", function (value, element, param) {
-        if (value < $(param).val()) {
+        if (parseInt(value) < parseInt($(param).val())) {
             return true;
         } else {
             return false;

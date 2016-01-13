@@ -88,6 +88,26 @@ public class ConfigPage extends AbstractPage {
                 .contains("/config");
     }
 
+    /**
+     * 页面初始化完成以后验证表单
+     *
+     * @param systemConfig
+     */
+    public void validateForm(SystemConfig systemConfig) {
+        //验证rewardSerialization
+        String rewardSerialization = "";
+        for (Map.Entry<Integer, InterestReward> entry : systemConfig.getInterestRewards().entrySet()) {
+            double interestRate = entry.getValue().getRate();
+            int interestReach = entry.getValue().getReach();
+            int interestMax = entry.getValue().getMax();
+            rewardSerialization += interestRate + "," + interestReach + "," + interestMax + "|";
+        }
+        rewardSerialization = rewardSerialization.substring(0, rewardSerialization.length() - 1);
+        String fromRewardSerialization = form.findElement(By.cssSelector("input[name=rewardSerialization]")).getAttribute("value");
+        assertThat(fromRewardSerialization)
+                .isEqualTo(rewardSerialization);
+    }
+
     public void submit(SystemConfig systemConfig) {
         title.clear();
         title.sendKeys(systemConfig.getTitle());
@@ -132,6 +152,8 @@ public class ConfigPage extends AbstractPage {
 
         userHelpMessage.clear();
         userHelpMessage.sendKeys(systemConfig.getUserHelpMessage());
+        WebElement indexTopNotice_panel = form.findElement(By.id("indexTopNotice_panel"));
+//        indexTopNotice_panel.findElement()
         indexTopNotice.clear();
         indexTopNotice.sendKeys(systemConfig.getIndexTopNotice());
         indexBottomNotice.clear();
@@ -177,6 +199,8 @@ public class ConfigPage extends AbstractPage {
         leaderRate.sendKeys(String.valueOf(systemConfig.getLeaderRate()));
 
         submitButton.click();
+
+
         List<WebElement> errors = webDriver.findElements(By.className("error"));
 
         assertThat(errors)
@@ -185,6 +209,7 @@ public class ConfigPage extends AbstractPage {
         System.out.println(webDriver.getPageSource());
 
 //        PageFactory.initElements(webDriver, this);
+//        validateForm(systemConfig);
 //        WebElement msg = webDriver.findElement(By.cssSelector("#gritter-notice-wrapper p"));
 //        assertThat(msg.getText())
 //                .isEqualTo("保存成功");

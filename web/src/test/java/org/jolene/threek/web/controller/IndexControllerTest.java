@@ -21,6 +21,7 @@ public class IndexControllerTest extends AuthenticatedWebTest {
 
     @Autowired
     private AppService appService;
+
     /**
      * 普通用户
      *

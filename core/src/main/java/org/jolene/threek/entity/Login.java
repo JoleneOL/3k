@@ -4,16 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -38,9 +29,21 @@ public abstract class Login implements UserDetails {
     private String username;
     @Column(length = 100)
     private String password;
+    /**
+     * 账户是否失效
+     */
     private boolean accountNonExpired = true;
+    /**
+     * 账户是否锁定
+     */
     private boolean accountNonLocked = true;
+    /**
+     * 证书是否过期
+     */
     private boolean credentialsNonExpired = true;
+    /**
+     * 账户是否可用
+     */
     private boolean enabled = true;
 
     /**
