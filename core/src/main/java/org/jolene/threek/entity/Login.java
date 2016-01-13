@@ -14,6 +14,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.time.LocalDateTime;
 
 /**
  * 所有可以登录的人都是Login
@@ -51,6 +52,22 @@ public abstract class Login implements UserDetails {
     private String logoPath;
     @Column(length = 100)
     private String nickName;
+
+    /**
+     * 此登录创建时间
+     */
+    @Column(columnDefinition = "datetime")
+    private LocalDateTime createdTime;
+    /**
+     * 如果非空表示到该时间前账户处于锁定状态
+     */
+    @Column(columnDefinition = "datetime")
+    private LocalDateTime lockUntilTime;
+    /**
+     * 此登录最后登录时间
+     */
+    @Column(columnDefinition = "datetime")
+    private LocalDateTime lastLoginTime;
 
     /**
      * @return 可阅读名字

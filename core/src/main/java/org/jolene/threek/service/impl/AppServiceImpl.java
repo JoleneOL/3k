@@ -2,12 +2,14 @@ package org.jolene.threek.service.impl;
 
 import org.jolene.threek.K3Version;
 import org.jolene.threek.SystemConfig;
+import org.jolene.threek.entity.Login;
 import org.jolene.threek.entity.User;
 import org.jolene.threek.exception.ConfigRequiredException;
 import org.jolene.threek.repository.LoginRepository;
 import org.jolene.threek.service.AppService;
 import org.jolene.threek.service.ResourceService;
 import org.jolene.threek.service.SystemValueService;
+import org.jolene.threek.service.TimeService;
 import org.jolene.threek.service.VersionService;
 import org.jolene.threek.support.InterestReward;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,8 @@ public class AppServiceImpl implements AppService {
     private VersionService versionService;
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private TimeService timeService;
 
     @Override
     @PostConstruct
@@ -149,9 +153,10 @@ public class AppServiceImpl implements AppService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDetails userDetails = loginRepository.findByUsername(username);
+        Login userDetails = loginRepository.findByUsername(username);
         if (userDetails == null)
             throw new UsernameNotFoundException("没有找到用户:" + username);
+        userDetails.setLastLoginTime(timeService.nowDateTime());
         return userDetails;
     }
 }

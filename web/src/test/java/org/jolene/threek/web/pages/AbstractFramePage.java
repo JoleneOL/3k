@@ -6,6 +6,7 @@ import org.jolene.threek.entity.Email;
 import org.jolene.threek.entity.Login;
 import org.jolene.threek.entity.User;
 import org.jolene.threek.web.controller.pages.LoginPage;
+import org.jolene.threek.web.controller.pages.ProfilePage;
 import org.jolene.threek.web.dialect.process.EmailHrefProcessor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NotFoundException;
@@ -278,32 +279,44 @@ public abstract class AbstractFramePage extends AbstractPage {
 
     }
 
-    public LoginPage logout() {
+    /**
+     * 在头部用户头像 下方菜单中选择连接
+     *
+     * @param className 该菜单的class
+     * @return 相应的链接元素
+     */
+    private WebElement findLinkInUserMenu(String className) {
         WebElement userInfoGroup = findGroup("dropdown-menu-usermenu");
         assertThat(userInfoGroup)
                 .isNotNull();
-
         assert userInfoGroup != null;
 
         List<WebElement> liList = userInfoGroup.findElements(By.cssSelector("ul > li"));
         for (WebElement li : liList) {
-//            if (!li.isDisplayed()) {
-//                toggle.click();
-//            }
-//            assertThat(li.isDisplayed())
-//                    .isTrue();
-
-            List<WebElement> logoutElements = li.findElements(By.className("glyphicon-log-out"));
+            List<WebElement> logoutElements = li.findElements(By.className(className));
 
             if (logoutElements.size() > 0) {
-                WebElement link = li.findElement(By.tagName("a"));
-//                System.out.println(link.getAttribute("href"));
-                webDriver.get(link.getAttribute("href"));
-//                System.out.println(webDriver.getPageSource());
-                return testInstance.initPage(LoginPage.class);
+                return li.findElement(By.tagName("a"));
             }
 
         }
         throw new AssertionError("Did not find logout link.");
+    }
+
+    public LoginPage logout() {
+        WebElement link = findLinkInUserMenu("glyphicon-log-out");
+        webDriver.get(link.getAttribute("href"));
+        return testInstance.initPage(LoginPage.class);
+    }
+
+    /**
+     * 点击「关于我」
+     *
+     * @return 新开的profile页面
+     */
+    public ProfilePage clickMyProfile() {
+        WebElement link = findLinkInUserMenu("glyphicon-user");
+        webDriver.get(link.getAttribute("href"));
+        return testInstance.initPage(ProfilePage.class);
     }
 }

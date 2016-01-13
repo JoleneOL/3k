@@ -5,6 +5,7 @@ import org.jolene.threek.entity.Login;
 import org.jolene.threek.entity.User;
 import org.jolene.threek.repository.LoginRepository;
 import org.jolene.threek.service.LoginService;
+import org.jolene.threek.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public class LoginServiceImpl implements LoginService {
     private LoginRepository loginRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private TimeService timeService;
 
     @Override
     @Transactional
@@ -31,6 +34,9 @@ public class LoginServiceImpl implements LoginService {
         }
         if (login.getLogoPath() == null)
             login.setLogoPath(User.DEFAULT_LOGO_PATH);
+        if (login.getCreatedTime() == null) {
+            login.setCreatedTime(timeService.nowDateTime());
+        }
         return loginRepository.save(login);
     }
 }
