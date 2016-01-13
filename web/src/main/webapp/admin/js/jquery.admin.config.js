@@ -27,6 +27,7 @@ var configHandler = {
         jQuery('#tags').tagsInput({width: 'auto'});
 
         //富文本初始化
+        jQuery('textarea[name=userHelpMessage]').wysihtml5({color: true, html: true});
         jQuery('textarea[name=indexTopNotice]').wysihtml5({color: true, html: true});
         jQuery('textarea[name=indexBottomNotice]').wysihtml5({color: true, html: true});
         $('textarea[name=regWelcomeMessage]').wysihtml5({color: true, html: true});
@@ -59,7 +60,7 @@ var configHandler = {
                 maxLots: commonRules.rangeDigits(1, null),
                 queueDays: {
                     required: true,
-                    digits: true,
+                    digits: true
                 },
                 rate: commonRules.rangeNumber(0, 1),
                 maxOperateHours: commonRules.rangeDigits(1, null),
@@ -108,4 +109,4 @@ var configHandler = {
         }
         $("input[name=rewardSerialization]").val(rewardSerialization);
     }
-}
+};

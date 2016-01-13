@@ -61,7 +61,7 @@
                     <li><a href="../profile.html"><i class="fa fa-user"></i> <span>Profile</span></a></li>
                     <li><a href=""><i class="fa fa-cog"></i> <span>Account Settings2</span></a></li>
                     <li><a href=""><i class="fa fa-question-circle"></i> <span>Help</span></a></li>
-                    <li><a href="../signout.html"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>
+                    <li><a href="../signin.html"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>
                 </ul>
             </div>
 
@@ -374,9 +374,9 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">用户帮助信息 </label>
 
-                                <div class="col-sm-7">
+                                <div class="col-sm-7" id="userHelpMessage_panel">
                                 <textarea id="userHelpMessage" name="userHelpMessage" th:value="*{userHelpMessage}"
-                                          placeholder="首页头部富文本" class="form-control" rows="5"></textarea>
+                                          placeholder="用户帮助富文本" class="form-control" rows="5"></textarea>
                                 </div>
                             </div>
 
