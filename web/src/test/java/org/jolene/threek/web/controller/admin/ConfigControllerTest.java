@@ -1,14 +1,17 @@
 package org.jolene.threek.web.controller.admin;
 
 import org.jolene.threek.SystemConfig;
+import org.jolene.threek.entity.Manager;
 import org.jolene.threek.service.AppService;
 import org.jolene.threek.support.InterestReward;
 import org.jolene.threek.web.WebTest;
 import org.jolene.threek.web.controller.admin.pages.ConfigPage;
+import org.jolene.threek.web.controller.pages.LoginPage;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.HashSet;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,6 +27,41 @@ public class ConfigControllerTest extends WebTest {
     @Autowired
     private AppService appService;
 
+    /**
+     * 再次配置,此时是需要管理员权限即 ROOT
+     */
+    @Test
+    public void reConfig() {
+        appService.currentSystemConfig().setConfigRequired(false);
+        driver.get("http://localhost");
+
+        // 建立一个管理员
+        Manager manager = new Manager();
+        manager.setUsername(UUID.randomUUID().toString());
+        manager.setRoles(new HashSet<>());
+        manager.getRoles().add("ROOT");
+
+        String rawPassword = UUID.randomUUID().toString();
+        manager = loginService.changeLoginWithRawPassword(manager, rawPassword);
+
+        LoginPage page = initPage(LoginPage.class);
+        page.assertLoginSuccess(manager.getUsername(), rawPassword);
+
+        // TODO goto config page via IndexPage
+        driver.navigate().to("http://localhost/config");
+
+        ConfigPage configPage = initPage(ConfigPage.class);
+        // 修改其中的数据,然后从数据库中重新获取配置 并且获得正确的结果
+        doRandomConfig(configPage);
+
+        // TODO login with other Login & assert the 403 response
+    }
+
+    /**
+     * 首次运行时必须配置 此时无需登录即可完成配置
+     *
+     * @throws Exception
+     */
     @Test
     public void firstConfig() throws Exception {
         appService.currentSystemConfig().setConfigRequired(true);
