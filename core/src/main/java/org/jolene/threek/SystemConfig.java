@@ -160,6 +160,14 @@ public class SystemConfig {
         interestRewards.put(10, new InterestReward(0.01, 5, 0));
     }
 
+    public String welcomeFeaturesStr() {
+        String welcomeFeaturesStr = "";
+        for (String welcomeFeature : welcomeFeatures) {
+            welcomeFeaturesStr += welcomeFeature + ",";
+        }
+        return welcomeFeaturesStr.substring(0, welcomeFeaturesStr.length() - 1);
+    }
+
     public String getHtmlTitle() {
         return "<span>[</span> " + title + " <span>]</span>";
     }

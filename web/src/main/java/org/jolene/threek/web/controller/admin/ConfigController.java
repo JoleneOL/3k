@@ -59,6 +59,11 @@ public class ConfigController {
     ) {
         // 不进行校验 直接投入到系统中去
         SystemConfig systemConfig = appService.currentSystemConfig();
+
+        if (!systemConfig.isConfigRequired() && login == null) {
+            return "redirect:/";
+        }
+
         systemConfig.setConfigRequired(false);
 
         systemConfig.setTitle(requestConfig.getTitle());
@@ -96,8 +101,7 @@ public class ConfigController {
         request.getSession().setAttribute("saveResult", 1);
         request.getSession().setAttribute("saveMsg", "保存成功");
 
-        if (login == null)
-            return "redirect:/";
+
         return "redirect:/config";
     }
 }

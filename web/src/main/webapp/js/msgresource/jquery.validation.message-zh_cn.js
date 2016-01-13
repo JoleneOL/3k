@@ -70,6 +70,12 @@ var commonRules = {
      * 区间范围内的数字
      */
     rangeNumber: function (min, max) {
+        if (min == null && max == null) {
+            return {
+                required: true,
+                number: true
+            }
+        }
         if (min == null) {
             return {
                 required: true,
@@ -82,12 +88,6 @@ var commonRules = {
                 required: true,
                 number: true,
                 min: min
-            }
-        }
-        if (min == null && max == null) {
-            return {
-                required: true,
-                number: true
             }
         }
         return {
@@ -97,6 +97,12 @@ var commonRules = {
         }
     },
     rangeDigits: function (min, max) {
+        if (min == null && max == null) {
+            return {
+                required: true,
+                digits: true
+            }
+        }
         if (min == null) {
             return {
                 required: true,
@@ -109,12 +115,6 @@ var commonRules = {
                 required: true,
                 digits: true,
                 min: min
-            }
-        }
-        if (min == null && max == null) {
-            return {
-                required: true,
-                digits: true
             }
         }
         return {
