@@ -84,9 +84,9 @@ public class ConfigControllerTest extends WebTest {
         model.setDirectRewardRate2(randomDouble(0.1, 0.9, 2));
         model.setIndexBottomNotice(UUID.randomUUID().toString());
         model.setIndexTopNotice(UUID.randomUUID().toString());
-        model.setInspectEndDayOfMonth(random.nextInt(10) + 1);
         model.setInspectStartDayOfMonth(random.nextInt(10) + 1);
-        model.setUrl(UUID.randomUUID().toString());
+        model.setInspectEndDayOfMonth(random.nextInt(10) + 1 + model.getInspectStartDayOfMonth());
+        model.setUrl(randomHttpURL());
         model.setWelcomeMessage(UUID.randomUUID().toString());
         String[] strings = new String[random.nextInt(10) + 1];
         for (int i = 0; i < strings.length; i++) {
@@ -94,9 +94,9 @@ public class ConfigControllerTest extends WebTest {
         }
         model.setWelcomeFeatures(strings);
         model.setRegWelcomeMessage(UUID.randomUUID().toString());
-        model.setOnlyInvite(true);
+        model.setOnlyInvite(random.nextBoolean());
 
-        model.setStock(random.nextInt(1000) + 1);
+        model.setStock((random.nextInt(1000) + 1) * 100);
         model.setRate(randomDouble(0.1, 0.9, 2));
         model.setMaxLots(random.nextInt(88) + 1);
         model.setQueueDays(random.nextInt(9) + 1);

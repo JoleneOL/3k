@@ -72,17 +72,6 @@ public abstract class WebTest extends SpringWebTest {
     }
 
     /**
-     * @return 随机email 地址
-     */
-    protected String randomEmailAddress() {
-        return RandomStringUtils.randomAscii(random.nextInt(5) + 3)
-                + "@"
-                + RandomStringUtils.randomAscii(random.nextInt(5) + 3)
-                + "."
-                + RandomStringUtils.randomAscii(random.nextInt(2) + 2);
-    }
-
-    /**
      * 模拟一套支付方式出来
      *
      * @param transferable 可更新支付方式的受支付者

@@ -64,6 +64,10 @@ public class ConfigController {
             return "redirect:/";
         }
 
+        if (!systemConfig.isConfigRequired() && login.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ROOT"))) {
+            return "redirect:/";
+        }
+
         systemConfig.setConfigRequired(false);
 
         systemConfig.setTitle(requestConfig.getTitle());

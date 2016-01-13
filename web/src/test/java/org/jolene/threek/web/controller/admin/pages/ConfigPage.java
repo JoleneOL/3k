@@ -173,6 +173,12 @@ public class ConfigPage extends AbstractPage {
         leaderRate.sendKeys(String.valueOf(systemConfig.getLeaderRate()));
 
         submitButton.click();
+        List<WebElement> errors = webDriver.findElements(By.className("error"));
+
+        assertThat(errors)
+                .isEmpty();
+        // FindsByLinkText
+        System.out.println(webDriver.getPageSource());
 
 //        PageFactory.initElements(webDriver, this);
 //        WebElement msg = webDriver.findElement(By.cssSelector("#gritter-notice-wrapper p"));
