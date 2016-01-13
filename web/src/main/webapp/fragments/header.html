@@ -38,12 +38,14 @@
                         <h5 class="title" th:text="${#newUsers.size()+'个新的直接下线'}">直接下线用户</h5>
                         <ul class="dropdown-list user-list">
                             <li class="new" th:each="newUser:${#newUsers}">
-                                <div class="thumb"><a href=""><img src="../images/photos/user1.png"
-                                                                   k3:resourceHref="src=${newUser.logoPath}"
-                                                                   alt=""/></a>
+                                <div class="thumb"><a href="" k3:userProfileHref="href=${newUser}"><img
+                                        src="../images/photos/user1.png"
+                                        k3:resourceHref="src=${newUser.logoPath}"
+                                        alt=""/></a>
                                 </div>
                                 <div class="desc">
-                                    <h5><a href="" th:text="${newUser.humanReadName}">Draniem Daamul
+                                    <h5><a href="" k3:userProfileHref="href=${newUser}"
+                                           th:text="${newUser.humanReadName}">Draniem Daamul
                                         (@draniem)</a> <span
                                             class="badge badge-success">new</span></h5>
                                 </div>

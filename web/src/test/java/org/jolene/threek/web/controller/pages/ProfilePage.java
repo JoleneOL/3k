@@ -19,9 +19,6 @@ public class ProfilePage extends AbstractFramePage {
         super(driver);
     }
 
-    public WebElement getMobile() {
-        return mobile;
-    }
 
     @Override
     public void validatePage() {
@@ -30,5 +27,9 @@ public class ProfilePage extends AbstractFramePage {
                 .isTrue();
         assertThat(logo.getText())
                 .contains("个人信息");
+    }
+
+    public String getUserMobileText() {
+        return mobile.getText();
     }
 }

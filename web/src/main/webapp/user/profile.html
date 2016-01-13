@@ -308,7 +308,7 @@
                 <div class="profile-location" th:if="${#httpServletRequest.requestURI.endsWith('profile')}">
                     <i class="fa fa-mobile-phone"></i> <span th:text="*{username}">18812341234</span></div>
                 <div class="profile-location" th:if="${!#httpServletRequest.requestURI.endsWith('profile')}">
-                    <i class="fa fa-mobile-phone2"></i> <span th:text="${@informationService.mosaic(user.username)}">188****1234</span>
+                    <i class="fa fa-mobile-phone"></i> <span th:text="${@informationService.mosaic(user.username)}">188****1234</span>
                 </div>
 
                 <div class="mb20"></div>

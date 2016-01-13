@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -182,6 +183,16 @@ public abstract class AbstractFramePage extends AbstractPage {
      * @param newUsers 新的下线用户
      */
     public void seeExceptNewUsers(Collection<User> newUsers) throws IOException {
+        seeExceptNewUsers(newUsers, null);
+    }
+
+    /**
+     * 看到新的直接下线用户
+     *
+     * @param newUsers 新的下线用户
+     * @param consumer 确定一个用户以后还可以进行的一次操作,第二个参数是li
+     */
+    public void seeExceptNewUsers(Collection<User> newUsers, BiConsumer<User, WebElement> consumer) throws IOException {
         seeDropdownGroupInHeader(newUsers, "glyphicon-user", assertion -> assertion.as("看到新下线用户logo")
                 , assertion -> assertion.isEqualTo("" + newUsers.size() + "个新的直接下线"), null, li -> {
                     WebElement logo = li.findElement(By.tagName("img"));
@@ -192,6 +203,9 @@ public abstract class AbstractFramePage extends AbstractPage {
                                 .isEqualTo(resourceService.getResource(nowUser.getLogoPath()).getURI().toString());
                     } catch (IOException ignored) {
 
+                    }
+                    if (consumer != null) {
+                        consumer.accept(nowUser, li);
                     }
                     return nowUser;
                 });
