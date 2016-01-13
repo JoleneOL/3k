@@ -4,6 +4,7 @@ import org.jolene.threek.entity.User;
 import org.jolene.threek.service.InformationService;
 import org.jolene.threek.web.AuthenticatedWebTest;
 import org.jolene.threek.web.LoginAs;
+import org.jolene.threek.web.LoginType;
 import org.jolene.threek.web.controller.pages.ProfilePage;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -18,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Jolene
  */
-@LoginAs("user")
+@LoginAs(LoginType.user)
 public class UserControllerTest extends AuthenticatedWebTest {
 
     @Autowired
@@ -54,5 +55,10 @@ public class UserControllerTest extends AuthenticatedWebTest {
                     .isEqualTo(informationService.mosaic(user.getUsername()));
 
         });
+    }
+
+    @Test
+    public void testUserHelp() {
+
     }
 }

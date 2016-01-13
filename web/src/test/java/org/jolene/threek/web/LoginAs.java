@@ -21,6 +21,6 @@ public @interface LoginAs {
     /**
      * @return role name
      */
-    String[] value();
+    LoginType[] value();
 
 }

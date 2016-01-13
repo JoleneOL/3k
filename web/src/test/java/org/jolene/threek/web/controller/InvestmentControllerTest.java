@@ -7,6 +7,7 @@ import org.jolene.threek.repository.ProvideOrderRepository;
 import org.jolene.threek.service.AppService;
 import org.jolene.threek.web.AuthenticatedWebTest;
 import org.jolene.threek.web.LoginAs;
+import org.jolene.threek.web.LoginType;
 import org.jolene.threek.web.model.ProvideInfo;
 import org.jolene.threek.web.model.RequirementInfo;
 import org.junit.Test;
@@ -18,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Jolene
  */
-@LoginAs("USER")
+@LoginAs(LoginType.user)
 public class InvestmentControllerTest extends AuthenticatedWebTest {
 
     @Autowired

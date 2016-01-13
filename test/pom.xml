@@ -22,6 +22,12 @@
             <groupId>org.luffy.lib</groupId>
             <artifactId>libspringtest</artifactId>
             <version>${luffy.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>asm</artifactId>
+                    <groupId>asm</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

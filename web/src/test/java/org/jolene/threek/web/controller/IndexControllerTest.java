@@ -6,6 +6,7 @@ import org.jolene.threek.entity.User;
 import org.jolene.threek.service.AppService;
 import org.jolene.threek.web.AuthenticatedWebTest;
 import org.jolene.threek.web.LoginAs;
+import org.jolene.threek.web.LoginType;
 import org.junit.Test;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class IndexControllerTest extends AuthenticatedWebTest {
      * @throws Exception
      */
     @Test
-    @LoginAs("USER")
+    @LoginAs(LoginType.user)
     public void normal() throws Exception {
         appService.currentSystemConfig().setTitle("中文");
         System.out.println(driver.getPageSource());

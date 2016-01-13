@@ -1,7 +1,11 @@
 package org.jolene.threek.service;
 
+import org.luffy.libs.libseext.IOUtils;
+import org.luffy.libs.libseext.StringProcesser;
+import org.pegdown.PegDownProcessor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -11,6 +15,23 @@ import java.util.Arrays;
  */
 @Service
 public class InformationService {
+
+    private PegDownProcessor pegDownProcessor = new PegDownProcessor();
+
+    public String markdownClassPath(String classPath) throws IOException {
+        org.objectweb.asm.tree.ClassNode classNode;
+        org.objectweb.asm.ClassVisitor classVisitor;
+        StringBuilder stringBuilder = new StringBuilder();
+        IOUtils.processString(Thread.currentThread().getContextClassLoader().getResourceAsStream(classPath), "UTF-8", new StringProcesser() {
+            @Override
+            public boolean processString(String str) {
+                stringBuilder.append(str);
+                stringBuilder.append("\n");
+                return false;
+            }
+        });
+        return pegDownProcessor.markdownToHtml(stringBuilder.toString());
+    }
 
     /**
      * 马赛克下手机号码

@@ -2,6 +2,7 @@ package org.jolene.threek.web;
 
 import org.jolene.threek.entity.Email;
 import org.jolene.threek.entity.Login;
+import org.jolene.threek.entity.Manager;
 import org.jolene.threek.entity.Ticket;
 import org.jolene.threek.entity.User;
 import org.jolene.threek.service.TicketService;
@@ -18,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.UUID;
 
 /**
@@ -49,13 +51,20 @@ public abstract class AuthenticatedWebTest extends WebTest {
     private TicketService ticketService;
 
     @Before
-    public void authenticate() {
+    public void authenticate() throws IllegalAccessException, InstantiationException {
         if (currentLogin == null) {
             throw new IllegalStateException("使用AuthenticatedWebTest作为测试基类那么需要使用@LoginAs标注声明所登录的角色.");
         }
         driver.manage().deleteAllCookies();
 
-        currentUser = new User();
+        currentUser = currentLogin.value()[0].getType().newInstance();
+
+        if (currentUser instanceof Manager) {
+            ((Manager) currentUser).setRoles(new HashSet<>());
+            for (LoginType type : currentLogin.value()) {
+                ((Manager) currentUser).getRoles().add(type.getRole());
+            }
+        }
 
         currentUser.setUsername(UUID.randomUUID().toString());
         String rawPassword = UUID.randomUUID().toString();

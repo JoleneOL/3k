@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class IndexController {
 
+    @RequestMapping(method = RequestMethod.GET, value = {"/help"}, produces = MediaType.TEXT_HTML_VALUE)
+    public String help() {
+        return "user/help";
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = {"", "/"}, produces = MediaType.TEXT_HTML_VALUE)
     public String index() {
         return "investment/index";
