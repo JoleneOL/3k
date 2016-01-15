@@ -27,7 +27,9 @@ var configHandler = {
      * @param text 要输入的文本内容
      */
     richEdit: function (selector, text) {
-        $('body', $(selector + ' iframe').contents()).html(text);
+        var target = $('body', $(selector + ' iframe').contents());
+        target.html(text);
+        return target.html();
     },
     pageInit: function () {
         // Tags Input
